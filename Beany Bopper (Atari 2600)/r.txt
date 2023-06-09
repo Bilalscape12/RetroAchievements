@@ -1,0 +1,92 @@
+[Option 1/Option 2]
+baby one line, busy bad cheevo, badges bad, titles bad, LB wip, rp idk
+
+levels:
+level 0 - 0 points - 
+level 1 - 1k points - 
+level 2 - 2k points - 
+level 3 - 5k points - 
+level 4 - 10k points - 
+level 5 - 20k points - 
+level 6 - 30k points - 
+level 7 - 50k points -
+
+objects:
+0 get a bomb
+3k get an airplane
+10k get a paratrooper
+20k get a skydiver
+50k get a face
+get an orange eye
+
+score challenge:
+75k points - 10 points
+100k points - 50 points
+
+deathless score:
+get 25k, 50k points without losing a life
+
+extras:
+gain an extra life by bopping 4 meany beanys
+collect 20 objects without any reaching the bottom of the screen. resetif 49 = 4c (more than 2), resetif 44 < delta, check specific value aka count when 06 = fe, 
+while no meanies are on the screen. 
+
+
+
+0x0037 = level from 00 01 02 03 04 05 06 07, 12 at 95k
+0x004a = meanys killed - starts from 4 counts down to 3, 2, 1, and back to 4
+4d may be placeholder for 0
+0x004e = mode select: mode 1 is 00-79 and mode 2 is 80+
+0x0051 = playing/main menu: 0x80 during menu and 0x00 during play
+0x0052 = background color/invisible walls: scrolls through colors, 0x01 is for invisible walls during stage 12
+
+0x0003 = direction faced
+0x0004 = fd when facing down otherwise fc
+0x0006 = fd, fe when dead or picking up an object/
+0x0009 = horizontal pos
+0x000c = vertical pos
+0x0025 horizontal
+0x0026 vertical
+
+find object type - 47
+find player position
+find life gained-4a,3b,44
+find despawn-49
+
+3b-orange eyes spawn
+45-tracks points
+46-tracks points increases after 45 increases
+47-tracks points, changes object type, increases after 46 increases
+48-tracks points and resets at 100k
+49-type of objects on screen, mean(4c) bc 1c 0f ff 0f oe(28), rapidly alternates if two different types are on screen/
+
+0x0001 = length of weapon input
+0x0007 = vertical pos of bullet?
+0x000b = horizontal pos?
+0x0003 = vertical pos?
+0x0027 horizontal
+0x0028 vertical
+
+if fast moving, one of the two values would be fe or 02 instead of ff or 01
+0x0011
+0x0012
+0x0017 = horiztonal direction of object 1: left ff right 01
+0x0018 = vertical direction of object 1: down 01 up ff
+0x001c = vertical direction of object 2: down 01 up ff
+0x001d = horizontal direction of object 2: left fe right 02
+0x0022
+0x0023
+0x001a horizontal pos
+0x001b vertical pos
+0x001e vertical pos
+0x001f horizontal pos
+
+
+
+1  fd  fd (0)
+2  fe  fd +1(1)
+3  fe  fd +1(2)
+4  fe  fd +1(3)
+5  fe  fd +1(4)
+6  fe  fd +1(5)
+7  fd  fd (5)
