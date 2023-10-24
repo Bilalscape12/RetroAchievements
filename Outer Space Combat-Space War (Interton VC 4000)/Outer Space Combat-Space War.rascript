@@ -27,7 +27,7 @@ function ingame() => byte(0x00056D)
 function wrapping(hundred)
 {
     measured((hundred * 100 + bcd(score())), when=repeated(hundred, ingame() == 1 && prev(score())
-                   >= 144 && score() <= 16))
+                   >= 144 && score() <= 16)) && never(timer() == 153)
 }
 
 achievement(
@@ -66,7 +66,7 @@ achievement(
     description = "Earn 21 points in Space Docking without crashing",
     id = 325349, badge = "363067", published = "6/6/2023 10:24:20 AM", modified = "6/6/2023 10:24:20 AM",
     trigger = modeType() == 2 && trigger_when((ingame() == 1 && bcd(score()) >= 21)) && 
-              disable_when(ingame() == 1 && score() < prev(score()), until=timer() == 153)
+              disable_when(ingame() == 1 && score() < prev(score()), until=(score() == 0 && timer() == 153)
 )
 
 achievement(
