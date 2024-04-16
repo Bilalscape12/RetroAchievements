@@ -1,4 +1,4 @@
-# Godzilla" Save the Earth (Playstation 2)
+# Godzilla: Save the Earth (Playstation 2)
 ![Original achievement set badge](Art/steicon.png)
 ## Game Site
 https://retroachievements.org/game/20849
