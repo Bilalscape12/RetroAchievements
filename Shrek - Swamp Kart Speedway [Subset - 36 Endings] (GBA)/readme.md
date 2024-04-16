@@ -1,5 +1,5 @@
 # Shrek: Swamp Kart Speedway [Subset - 36 Endings] (Gameboy Advance)
-// ![Original achievement set badge](Art/shreksubseticon.png)
+![Original achievement set badge](Art/shreksubseticon.png)
 ## Game Site
 https://retroachievements.org/game/25605
 ## Overview
