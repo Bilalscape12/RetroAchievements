@@ -658,9 +658,9 @@ achievement(
 	trigger = Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
 )
 
-// AirStrike
+// AirStrike Atari AirStrike, Pick up an AirStrike power-up, 1, Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
 
-// G-Cells
+// G-Cells MacGuffin, Collect 5 G-Cells in a single stage, 1, Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
 
 function ProgressionWin(CharId) {
 	return Demo() && Cheats() && gameType() == 5 && 
@@ -674,31 +674,31 @@ function ProgressionWin(CharId) {
 function Progression(Title, Name, Points, CharId) {
 	achievement(
 		title = Title, 
-		description = "Complete Action mode using " + Name, 
+		description = "Complete Action Mode using " + Name, 
 		points = Points, 
 		trigger = ProgressionWin(CharId)
 	)
 }
 
 // Progression
-Progression("Millenium", "Godzilla 2000", 5, Godzilla2000Id)
-Progression("Millenium", "Godzilla 90's", 5, Godzilla90Id)
-Progression("Millenium", "Gigan", 5, GiganId)
-Progression("Millenium", "Anguirus", 5, AnguirusId)
-Progression("Millenium", "Megalon", 5, MegalonId)
-Progression("Millenium", "Rodan", 5, RodanId)
-Progression("Millenium", "King Ghidorah", 5, GhidorahId)
-Progression("Millenium", "Mechagodzilla 2", 5, Mechagodzilla2Id)
-Progression("Millenium", "Destoroyah", 5, DestoroyahId)
-Progression("Millenium", "Megaguirus", 5, MegaguirusId)
-Progression("Millenium", "Orga", 5, OrgaId)
-Progression("Millenium", "Mecha-King Ghidorah", 5, MechaghidorahId)
-Progression("Millenium", "Baragon", 5, BaragonId)
-Progression("Millenium", "Mothra", 5, MothraId)
-Progression("Millenium", "Mechagodzilla 3", 5, Mechagodzilla3Id)
-Progression("Millenium", "Jet Jaguar", 5, JetjaguarId)
-Progression("Millenium", "Moguera 2", 5, Moguera2Id)
-Progression("Millenium", "Space Godzilla", 5, SpacegodzillaId)
+Progression("Awoken Monster", "Godzilla 2000", 5, Godzilla2000Id)
+Progression("Nuked Dinosaur", "Godzilla 90's", 5, Godzilla90Id)
+Progression("We're Best Friends Now, Right? You Guys?", "Gigan", 5, GiganId)
+Progression("Spikey Guy", "Anguirus", 5, AnguirusId)
+Progression("I've Never Touched a Woman, I Have No Hands", "Megalon", 5, MegalonId)
+Progression("Rodey the Pterodactyl", "Rodan", 5, RodanId)
+Progression("Bad Boy Attitude", "King Ghidorah", 5, GhidorahId)
+Progression("Super Shiny Redesign", "Mechagodzilla 2", 5, Mechagodzilla2Id)
+Progression("DESTOROYAH", "Destoroyah", 5, DestoroyahId)
+Progression("Dragonfly From Hell", "Megaguirus", 5, MegaguirusId)
+Progression("Hey, I'm in a Video Game", "Orga", 5, OrgaId)
+Progression("ZAP! ZAP! ZAP!", "Mecha-King Ghidorah", 5, MechaghidorahId)
+Progression("Subterranean Cow Eater", "Baragon", 5, BaragonId)
+Progression("Divine Moth", "Mothra", 5, MothraId)
+Progression("From the Bones of Gojira", "Mechagodzilla 3", 5, Mechagodzilla3Id)
+Progression("Walmart Ultraman", "Jet Jaguar", 5, JetjaguarId)
+Progression("I'm Moguera, Hello", "Moguera 2", 5, Moguera2Id)
+Progression("Jedi Master", "Space Godzilla", 5, SpacegodzillaId)
 
 function ActionWinDifficulty(CharId, Difficulty) {
 	trigger =  Demo() && Cheats() && gameType() == 5 && actionDifficulty() == Difficulty && 
@@ -716,36 +716,38 @@ function ActionWinDifficulty(CharId, Difficulty) {
 function ActionHard(Title, Name, Points, CharId) {
 	achievement(
 		title = Title, 
-		description = "Complete Action mode using " + Name + " on Hard difficulty", 
+		description = "Complete Action Mode using " + Name + " on Hard difficulty", 
 		points = Points, 
 		trigger = ActionWinDifficulty(CharId, 2)
 	)
 }
 
 // Beat Action on Hard
-ActionHard("King of the Monsters", "Godzilla 2000", 10, Godzilla2000Id)
-ActionHard("King of the Monsters", "Godzilla 90's", 10, Godzilla90Id)
-ActionHard("King of the Monsters", "Gigan", 10, GiganId)
-ActionHard("King of the Monsters", "Anguirus", 10, AnguirusId)
-ActionHard("King of the Monsters", "Megalon", 10, MegalonId)
-ActionHard("King of the Monsters", "Rodan", 10, RodanId)
-ActionHard("King of the Monsters", "King Ghidorah", 10, GhidorahId)
-ActionHard("King of the Monsters", "Mechagodzilla 2", 10, Mechagodzilla2Id)
-ActionHard("King of the Monsters", "Destoroyah", 10, DestoroyahId)
-ActionHard("King of the Monsters", "Megaguirus", 10, MegaguirusId)
-ActionHard("King of the Monsters", "Orga", 10, OrgaId)
-ActionHard("King of the Monsters", "Mecha-King Ghidorah", 10, MechaghidorahId)
-ActionHard("King of the Monsters", "Baragon", 10, BaragonId)
-ActionHard("King of the Monsters", "Mothra", 10, MothraId)
-ActionHard("King of the Monsters", "Mechagodzilla 3", 10, Mechagodzilla3Id)
-ActionHard("King of the Monsters", "Jet Jaguar", 10, JetjaguarId)
-ActionHard("King of the Monsters", "Moguera 2", 10, Moguera2Id)
-ActionHard("King of the Monsters", "Space Godzilla", 10, SpacegodzillaId)
+ActionHard("Millennium King", "Godzilla 2000", 10, Godzilla2000Id)
+ActionHard("Heisei King", "Godzilla 90's", 10, Godzilla90Id)
+ActionHard("Hey Everyone, Do the Gigan!", "Gigan", 10, GiganId)
+ActionHard("Godzilla's Best Friend", "Anguirus", 10, AnguirusId)
+ActionHard("Aleutian Guardian", "Megalon", 10, MegalonId)
+ActionHard("Fire Power", "Rodan", 10, RodanId)
+ActionHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId)
+ActionHard("Mechanized Baby Protector", "Mechagodzilla 2", 10, Mechagodzilla2Id)
+ActionHard("Dark Lord of the Sith", "Destoroyah", 10, DestoroyahId)
+ActionHard("Meganulon Queen", "Megaguirus", 10, MegaguirusId)
+ActionHard("Dasypeltis Monster", "Orga", 10, OrgaId)
+ActionHard("Future Weapon of Mass Destruction", "Mecha-King Ghidorah", 10, MechaghidorahId)
+ActionHard("Guardian of the Earth", "Baragon", 10, BaragonId)
+ActionHard("Queen of the Monsters", "Mothra", 10, MothraId)
+ActionHard("Kiryu-Chan", "Mechagodzilla 3", 10, Mechagodzilla3Id)
+ActionHard("Punch! Punch! Punch!", "Jet Jaguar", 10, JetjaguarId)
+ActionHard("Mysterian Mechanisms, Hello", "Moguera 2", 10, Moguera2Id)
+ActionHard("Candy Corn Shoulders", "Space Godzilla", 10, SpacegodzillaId)
 
 // 1CC
 function Deathless () {
 
 }
+
+// Check difficulty round amounts, RP, pointers, badges, multihash
 
 function LarvaeOnly(Difficulty) {
 	trigger =  Cheats() && gameType() == 5 && actionDifficulty() == Difficulty && 
@@ -768,8 +770,8 @@ function LarvaeOnly(Difficulty) {
 }
 
 achievement(
-	title = "Mothra Larvae stuff", 
-	description = "Complete action only using the Mothra Larvae excluding challenge stages", 
+	title = "Larval Liberator", 
+	description = "Complete Action Mode only using Mothra Larvae during fighting stages", 
 	points = 50, 
 	trigger = LarvaeOnly(2)
 )
@@ -777,7 +779,7 @@ achievement(
 function ActionScore(Title, Points, Score) {
 	achievement(
 		title = Title, 
-		description = "Complete Action mode with a score of " + Score + " or higher", 
+		description = "Complete Action Mode with a score of " + Score + " or higher", 
 		points = Points, 
 		trigger = Demo() && Cheats() && gameType() == 5 && 
 		actionModeScore() > prev(actionModeScore()) && 
@@ -789,7 +791,7 @@ function ActionScore(Title, Points, Score) {
 }
 
 // Action score
-ActionScore("High Score", 25, 155000)
+ActionScore("Vortaak Vanquisher", 25, 160000)
 
 function ActionScoreLB(Name, CharId) {
 	leaderboard(
@@ -831,7 +833,7 @@ function SurvivalWin() {
 function Survival(Title, Points) {
 	achievement(
 		title = Title, 
-		description = "Complete Survival mode on any difficulty",
+		description = "Complete Survival Mode on any difficulty",
 		points = Points,  
 		trigger = SurvivalWin()
 	)
@@ -849,31 +851,31 @@ function SurvivalWinDifficulty(CharId, Difficulty) {
 function SurvivalHard(Title, Name, Points, CharId) {
 	achievement(
 		title = Title, 
-		description = "Complete Survival mode using " + Name + " on Hard difficulty",
+		description = "Complete Survival Mode using " + Name + " on Hard difficulty",
 		points = Points,  
 		trigger = SurvivalWinDifficulty(CharId, 2)
 	)
 }
 
 // Beat Survival on Hard
-SurvivalHard("King of the Monsters", "Godzilla 2000", 10, Godzilla2000Id)
-SurvivalHard("King of the Monsters", "Godzilla 90's", 10, Godzilla90Id)
-SurvivalHard("King of the Monsters", "Gigan", 10, GiganId)
-SurvivalHard("King of the Monsters", "Anguirus", 10, AnguirusId)
-SurvivalHard("King of the Monsters", "Megalon", 10, MegalonId)
-SurvivalHard("King of the Monsters", "Rodan", 10, RodanId)
-SurvivalHard("King of the Monsters", "King Ghidorah", 10, GhidorahId)
-SurvivalHard("King of the Monsters", "Mechagodzilla 2", 10, Mechagodzilla2Id)
-SurvivalHard("King of the Monsters", "Destoroyah", 10, DestoroyahId)
-SurvivalHard("King of the Monsters", "Megaguirus", 10, MegaguirusId)
-SurvivalHard("King of the Monsters", "Orga", 10, OrgaId)
-SurvivalHard("King of the Monsters", "Mecha-King Ghidorah", 10, MechaghidorahId)
-SurvivalHard("King of the Monsters", "Baragon", 10, BaragonId)
-SurvivalHard("King of the Monsters", "Mothra", 10, MothraId)
-SurvivalHard("King of the Monsters", "Mechagodzilla 3", 10, Mechagodzilla3Id)
-SurvivalHard("King of the Monsters", "Jet Jaguar", 10, JetjaguarId)
-SurvivalHard("King of the Monsters", "Moguera 2", 10, Moguera2Id)
-SurvivalHard("King of the Monsters", "Space Godzilla", 10, SpacegodzillaId)
+SurvivalHard("Millennium Survivor", "Godzilla 2000", 10, Godzilla2000Id)
+SurvivalHard("Heisei Survivor", "Godzilla 90's", 10, Godzilla90Id)
+SurvivalHard("I Am a MONSTER", "Gigan", 10, GiganId)
+SurvivalHard("Bark Bark Woof Woof", "Anguirus", 10, AnguirusId)
+SurvivalHard("Drilling Deep for Survival", "Megalon", 10, MegalonId)
+SurvivalHard("Here Comes Rodan, Giant Pterosaur", "Rodan", 10, RodanId)
+SurvivalHard("Big, Strong Abs", "King Ghidorah", 10, GhidorahId)
+SurvivalHard("Metallic Endurance", "Mechagodzilla 2", 10, Mechagodzilla2Id)
+SurvivalHard("Large, Enormous, Sinister, Big, Intelligent and Nasty Superbeing", "Destoroyah", 10, DestoroyahId)
+SurvivalHard("Black Hole Survivor", "Megaguirus", 10, MegaguirusId)
+SurvivalHard("Head-Sized Knuckles", "Orga", 10, OrgaId)
+SurvivalHard("Cybernetic Reign", "Mecha-King Ghidorah", 10, MechaghidorahId)
+SurvivalHard("A Little Soft in the Tummy Area", "Baragon", 10, BaragonId)
+SurvivalHard("Wings of Resilience", "Mothra", 10, MothraId)
+SurvivalHard("Tokyo S.O.S.", "Mechagodzilla 3", 10, Mechagodzilla3Id)
+SurvivalHard("Friend of Justice", "Jet Jaguar", 10, JetjaguarId)
+SurvivalHard("Monster Plan B, Hello", "Moguera 2", 10, Moguera2Id)
+SurvivalHard("Kyber Crystal Wielder", "Space Godzilla", 10, SpacegodzillaId)
 
 function SurvivalName(Name, Difficulty) {
 	trigger = "Survival: "
@@ -995,7 +997,7 @@ achievement(
 )
 
 achievement(
-	title = "Monster Island Buddies", 
+	title = "Monster Island Buddies RAWWRR", 
 	description = "Playing as Godzilla 90's, win a round against Jet Jaguar, Rodan, and Mothra in a Free for All on Hard difficulty with 5 minute or greater rounds", 
 	points = 4, 
 	trigger = MIB()
@@ -1034,28 +1036,28 @@ achievement(
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Monsters I", 
 	description = "Purchase Monster Pack 1", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(monsterPack1()) == 1 && monsterPack1() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Monsters II", 
 	description = "Purchase Monster Pack 2", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(monsterPack2()) == 1 && monsterPack2() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Monsters III", 
 	description = "Purchase Monster Pack 3", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(monsterPack3()) == 1 && monsterPack3() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Monsters IV", 
 	description = "Purchase all monsters", 
 	points = 5, 
 	trigger = Demo() && Cheats() && sum_of(Monsters, m => prev(m)) == 2 && 
@@ -1063,28 +1065,28 @@ achievement(
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Arenas I", 
 	description = "Purchase Arena Pack 1", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(arenaPack1()) == 1 && arenaPack1() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Arenas II", 
 	description = "Purchase Arena Pack 2", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(arenaPack2()) == 1 && arenaPack2() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Arenas III", 
 	description = "Purchase Arena Pack 3", 
 	points = 3, 
 	trigger = Demo() && Cheats() && prev(arenaPack3()) == 1 && arenaPack3() == 0
 )
 
 achievement(
-	title = "Operation: Final War", 
+	title = "Arenas IV", 
 	description = "Purchase all arenas", 
 	points = 5, 
 	trigger = Demo() && Cheats() && sum_of(Arenas, m => prev(m)) == 1 && 
