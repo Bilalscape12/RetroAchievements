@@ -729,13 +729,13 @@ function Progression(Title, Name, Points, CharId) {
 }
 
 // Progression
-Progression("Awoken Monster", "Godzilla 2000", 5, Godzilla2000Id)
+Progression("Force of Nature", "Godzilla 2000", 5, Godzilla2000Id)
 Progression("Nuked Dinosaur", "Godzilla 90's", 5, Godzilla90Id)
 Progression("We're Best Friends Now, Right? You Guys?", "Gigan", 5, GiganId)
 Progression("Spikey Guy", "Anguirus", 5, AnguirusId)
 Progression("Aleutian Guardian", "Megalon", 5, MegalonId)
 Progression("Rodey the Pterodactyl", "Rodan", 5, RodanId)
-Progression("Bad Boy Attitude", "King Ghidorah", 5, GhidorahId)
+Progression("Big, Strong Abs", "King Ghidorah", 5, GhidorahId)
 Progression("Shiny Redesign", "Mechagodzilla 2", 5, Mechagodzilla2Id)
 Progression("DESTOROYAH", "Destoroyah", 5, DestoroyahId)
 Progression("Dragonfly From Hell", "Megaguirus", 5, MegaguirusId)
@@ -777,7 +777,7 @@ ActionHard("Hey Everyone, Do the Gigan!", "Gigan", 10, GiganId)
 ActionHard("Godzilla's Best Friend", "Anguirus", 10, AnguirusId)
 ActionHard("I've Never Touched a Woman, I Have No Hands", "Megalon", 10, MegalonId)
 ActionHard("Fire Power", "Rodan", 10, RodanId)
-ActionHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId)
+ActionHard("Bad Boy Attitude", "King Ghidorah", 10, GhidorahId)
 ActionHard("Mechanized Baby Protector", "Mechagodzilla 2", 10, Mechagodzilla2Id)
 ActionHard("Dark Lord of the Sith", "Destoroyah", 10, DestoroyahId)
 ActionHard("Meganulon Queen", "Megaguirus", 10, MegaguirusId)
@@ -1000,7 +1000,7 @@ achievement(
 		(StringCompare(p1CharacterAscii(), SpacegodzillaId) && actionSurvivalRounds() == 3))
 )
 achievement(
-	title = "Millenian", 
+	title = "Millennian", 
 	description = "Complete Mothership", 
 	points = 25, 
 	trigger = Demo() && Cheats() && mothershipWin() == 8 && 
@@ -1046,7 +1046,7 @@ SurvivalHard("I Am a MONSTER", "Gigan", 10, GiganId)
 SurvivalHard("Bark Bark Woof Woof", "Anguirus", 10, AnguirusId)
 SurvivalHard("Drilling Deep for Survival", "Megalon", 10, MegalonId)
 SurvivalHard("Here Comes Rodan, Giant Pterosaur", "Rodan", 10, RodanId)
-SurvivalHard("Big, Strong Abs", "King Ghidorah", 10, GhidorahId)
+SurvivalHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId)
 SurvivalHard("Metallic Endurance", "Mechagodzilla 2", 10, Mechagodzilla2Id)
 SurvivalHard("Large, Enormous, Sinister, Big, Intelligent and Nasty Superbeing", "Destoroyah", 10, DestoroyahId)
 SurvivalHard("Black Hole Survivor", "Megaguirus", 10, MegaguirusId)
@@ -1200,7 +1200,7 @@ function FinalWarsCount() {
 }
 
 achievement(
-	title = "Kaiju Art Collector", 
+	title = "Monster Menagerie", 
 	description = "Purchase all Gallery art", 
 	points = 2, 
 	trigger = Demo() && Cheats() && prev(GalleryCount()) == 1 &&
