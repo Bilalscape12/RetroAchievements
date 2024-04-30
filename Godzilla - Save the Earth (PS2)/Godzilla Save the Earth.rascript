@@ -1,9 +1,6 @@
 // Godzilla: Save the Earth
 // #ID = 20849
 
-// $691440: demo = 0 [32-bit] backup
-function demo() => dword(0x691440)
-
 // $696D34: Game type [32-bit]
 //          1 = Versus
 //          2 = Team battle
@@ -219,7 +216,7 @@ function versusResetArenas() => dword(0x6A6BDC)
 // $6A6BE0: Melee play to wins [32-bit]
 function meleePlayToWins() => dword(0x6A6BE0)
 
-// $6A6BE4: Melee difficulty [32-bit]
+// $6A6BE4: Free for all difficulty [32-bit]
 function meleeDifficulty() => dword(0x6A6BE4)
 
 // $6A6BE8: Melee round length [32-bit]
@@ -227,6 +224,12 @@ function meleeRoundLength() => dword(0x6A6BE8)
 
 // $6A6BEC: Melee reset areas [32-bit]
 function meleeResetAreas() => dword(0x6A6BEC)
+
+// $6A6BF4: Team Battle difficulty [32-bit]
+function teamDifficulty() => dword(0x6A6BF4)
+
+// $6A6BF8: Team Battle round length [32-bit]
+function teamLength() => dword(0x6A6BF8)
 
 // $6A6C24: Survival difficulty [32-bit]
 function survivalDifficulty() => dword(0x6A6C24)
@@ -258,6 +261,9 @@ function meleeSurvivalP1CurrentScore() => dword(0x6B0758)
 // $6B0790: Action mode round loss flag [32-bit]
 //          Challenges are always a win even if failed
 function actionRoundWin() => dword(0x6B0790)
+
+// $6B081C: Mothership won = 8 [32-bit]
+function mothershipWin() => dword(0x6B081C)
 
 // $6C588C: Action/Survival rounds [32-bit]
 //          Action: updates after the first menu of the end of a round
@@ -561,6 +567,7 @@ Roundup = [0x43,0x68,0x61,0x6c,0x6c,0x65,0x6e,0x67,0x65,0x50,0x65,0x6e,0x75,0x70
 ReplicatorDay = [0x52,0x65,0x70,0x6c,0x69,0x63,0x61,0x74,0x6f,0x72,0x5f,0x44,0x41,0x59]
 Replicator = [0x52,0x65,0x70,0x6c,0x69,0x63,0x61,0x74,0x6f,0x72]
 Mothership = [0x4d,0x53,0x4d,0x6f,0x74,0x68,0x65,0x72,0x73,0x68,0x69,0x70]
+// Checking these 3 allows you to check if a player is in a challenge map
 Chal1 = [0x43,0x68,0x61,0x6c]
 Repl = [0x52,0x65,0x70,0x6c]
 Mothers = [0x4d,0x53,0x4d,0x6f]
@@ -586,6 +593,40 @@ Mechagodzilla3Id = [0x6d,0x65,0x63,0x68,0x61,0x67,0x6f,0x64,0x7a,0x69,0x6c,0x6c,
 JetjaguarId = [0x6a,0x65,0x74,0x6a,0x61,0x67,0x75,0x61,0x72]
 Moguera2Id = [0x6d,0x6f,0x67,0x75,0x65,0x72,0x61,0x32]
 SpacegodzillaId = [0x73,0x70,0x61,0x63,0x65,0x67,0x6f,0x64,0x7a,0x69,0x6c,0x6c,0x61]
+
+ChallengeArray = [
+	Battleships, 
+	Basketball, 
+	OsakaCrunch, 
+	Bowling, 
+	Demolition, 
+	UFO, 
+	Clone, 
+	Roundup, 
+	Replicator
+]
+
+PlayableChars = [
+	Godzilla2000Id, 
+	Godzilla90Id, 
+	GiganId, 
+	AnguirusId, 
+	MegalonId, 
+	RodanId, 
+	GhidorahId, 
+	Mechagodzilla2Id, 
+	DestoroyahId, 
+	MegaguirusId, 
+	OrgaId, 
+	MechaghidorahId, 
+	BaragonId, 
+	MothraLarvaeId, 
+	MothFormId, 
+	Mechagodzilla3Id, 
+	JetjaguarId, 
+	Moguera2Id, 
+	SpacegodzillaId
+]
 
 Monsters = [
     godzilla2000(), 
@@ -637,7 +678,6 @@ function Cheats() {
 }
 
 function Demo() {
-//  return demo() != 0
     return mainMenuState() != 0
 }
 
@@ -651,16 +691,24 @@ function StringPrev(address, string)
     return all_of(range(0, length(string) - 1), i => prev(byte(address + i)) == string[i])
 }
 
+// RP display conditions
+//for monsterp1 in PlayableChars {
+//	for x in range(0,14) {
+//		achievement(
+//			title="monsterp1", 
+//			description="m" + x, 
+//			points=1, 
+//			trigger = gameType() == 5 && StringCompare(p1CharacterAscii(), monsterp1) && actionSurvivalRounds() == x
+//		)
+//	}
+//}
+
 achievement(
 	title = "RAAAGGEE!", 
 	description = "Pick up a Rage power-up", 
 	points = 1, 
 	trigger = Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
 )
-
-// AirStrike Atari AirStrike, Pick up an AirStrike power-up, 1, Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
-
-// G-Cells MacGuffin, Collect 5 G-Cells in a single stage, 1, Demo() && Cheats() && prev(p1Rage()) == 0 && p1Rage() == 1
 
 function ProgressionWin(CharId) {
 	return Demo() && Cheats() && gameType() == 5 && 
@@ -685,18 +733,18 @@ Progression("Awoken Monster", "Godzilla 2000", 5, Godzilla2000Id)
 Progression("Nuked Dinosaur", "Godzilla 90's", 5, Godzilla90Id)
 Progression("We're Best Friends Now, Right? You Guys?", "Gigan", 5, GiganId)
 Progression("Spikey Guy", "Anguirus", 5, AnguirusId)
-Progression("I've Never Touched a Woman, I Have No Hands", "Megalon", 5, MegalonId)
+Progression("Aleutian Guardian", "Megalon", 5, MegalonId)
 Progression("Rodey the Pterodactyl", "Rodan", 5, RodanId)
 Progression("Bad Boy Attitude", "King Ghidorah", 5, GhidorahId)
-Progression("Super Shiny Redesign", "Mechagodzilla 2", 5, Mechagodzilla2Id)
+Progression("Shiny Redesign", "Mechagodzilla 2", 5, Mechagodzilla2Id)
 Progression("DESTOROYAH", "Destoroyah", 5, DestoroyahId)
 Progression("Dragonfly From Hell", "Megaguirus", 5, MegaguirusId)
 Progression("Hey, I'm in a Video Game", "Orga", 5, OrgaId)
 Progression("ZAP! ZAP! ZAP!", "Mecha-King Ghidorah", 5, MechaghidorahId)
 Progression("Subterranean Cow Eater", "Baragon", 5, BaragonId)
 Progression("Divine Moth", "Mothra", 5, MothraId)
-Progression("From the Bones of Gojira", "Mechagodzilla 3", 5, Mechagodzilla3Id)
-Progression("Walmart Ultraman", "Jet Jaguar", 5, JetjaguarId)
+Progression("Gojira's Rage", "Mechagodzilla 3", 5, Mechagodzilla3Id)
+Progression("Viva Jet Jaguar", "Jet Jaguar", 5, JetjaguarId)
 Progression("I'm Moguera, Hello", "Moguera 2", 5, Moguera2Id)
 Progression("Jedi Master", "Space Godzilla", 5, SpacegodzillaId)
 
@@ -727,7 +775,7 @@ ActionHard("Millennium King", "Godzilla 2000", 10, Godzilla2000Id)
 ActionHard("Heisei King", "Godzilla 90's", 10, Godzilla90Id)
 ActionHard("Hey Everyone, Do the Gigan!", "Gigan", 10, GiganId)
 ActionHard("Godzilla's Best Friend", "Anguirus", 10, AnguirusId)
-ActionHard("Aleutian Guardian", "Megalon", 10, MegalonId)
+ActionHard("I've Never Touched a Woman, I Have No Hands", "Megalon", 10, MegalonId)
 ActionHard("Fire Power", "Rodan", 10, RodanId)
 ActionHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId)
 ActionHard("Mechanized Baby Protector", "Mechagodzilla 2", 10, Mechagodzilla2Id)
@@ -737,27 +785,21 @@ ActionHard("Dasypeltis Monster", "Orga", 10, OrgaId)
 ActionHard("Future Weapon of Mass Destruction", "Mecha-King Ghidorah", 10, MechaghidorahId)
 ActionHard("Guardian of the Earth", "Baragon", 10, BaragonId)
 ActionHard("Queen of the Monsters", "Mothra", 10, MothraId)
-ActionHard("Kiryu-Chan", "Mechagodzilla 3", 10, Mechagodzilla3Id)
+ActionHard("KIRYU-CHAN!", "Mechagodzilla 3", 10, Mechagodzilla3Id)
 ActionHard("Punch! Punch! Punch!", "Jet Jaguar", 10, JetjaguarId)
 ActionHard("Mysterian Mechanisms, Hello", "Moguera 2", 10, Moguera2Id)
 ActionHard("Candy Corn Shoulders", "Space Godzilla", 10, SpacegodzillaId)
-
-// 1CC
-function Deathless () {
-
-}
-
-// Check difficulty round amounts, RP, pointers, badges, multihash
 
 function LarvaeOnly(Difficulty) {
 	trigger =  Cheats() && gameType() == 5 && actionDifficulty() == Difficulty && 
 		p1Exists() == 80 && trigger_when(actionModeScore() > prev(actionModeScore()))
 		if (Difficulty == 0)
 			trigger = trigger && trigger_when(actionSurvivalRounds() == 9)
+		// Mothra has a different amount of action mode stages  for medium/hard difficulty compared to other characters
 		if (Difficulty == 1)
-			trigger = trigger && trigger_when(actionSurvivalRounds() == 12)
+			trigger = trigger && trigger_when(actionSurvivalRounds() == 11)
 		if (Difficulty == 2)
-			trigger = trigger && trigger_when(actionSurvivalRounds() == 14)
+			trigger = trigger && trigger_when(actionSurvivalRounds() == 13)
 		trigger = trigger && StringCompare(p1CharacterAscii(), MothraId)
 		
 		// pauselock if going into moth form oustide of a challenge level
@@ -787,11 +829,11 @@ function ActionScore(Title, Points, Score) {
 		((actionDifficulty() == 0 && actionSurvivalRounds() == 9) || 
 		(actionDifficulty() == 1 && actionSurvivalRounds() == 12) || 
 		(actionDifficulty() == 2 && actionSurvivalRounds() == 14))
-        )
+    )
 }
 
 // Action score
-ActionScore("Vortaak Vanquisher", 25, 160000)
+ActionScore("Vortaak Vanquisher", 25, 165000)
 
 function ActionScoreLB(Name, CharId) {
 	leaderboard(
@@ -824,6 +866,146 @@ ActionScoreLB("Mechagodzilla 3", Mechagodzilla3Id)
 ActionScoreLB("Jet Jaguar", JetjaguarId)
 ActionScoreLB("Moguera 2", Moguera2Id)
 ActionScoreLB("Space Godzilla", SpacegodzillaId)
+
+// Minigames
+achievement(
+	title = "Battleship Breaker", 
+	description = "Complete Battleships on Hard difficulty in Action Mode", 
+	points = 3, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), AnguirusId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), MegalonId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), GhidorahId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), DestoroyahId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), JetjaguarId) && actionSurvivalRounds() == 3))
+)
+
+achievement(
+	title = "Monster Hoops", 
+	description = "Complete Vorillium Basketball in Action Mode", 
+	points = 5, 
+	trigger = Demo() && Cheats() && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		// Megalon has his second challenge be one stage later than most characters
+		((StringCompare(p1CharacterAscii(), MegalonId) && actionSurvivalRounds() == 8) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla2Id) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), DestoroyahId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla3Id) && actionSurvivalRounds() == 3))
+)
+achievement(
+	title = "Osaka Cruncher", 
+	description = "Complete Osaka Crunch on Hard difficulty in Action Mode", 
+	points = 5, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), AnguirusId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), GhidorahId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla2Id) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), OrgaId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), MechaghidorahId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), BaragonId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), JetjaguarId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), SpacegodzillaId) && actionSurvivalRounds() == 3))
+)
+achievement(
+	title = "Dodgeball", 
+	description = "Complete Monster Bowling in Action Mode", 
+	points = 3, 
+	trigger = Demo() && Cheats() && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), Godzilla90Id) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), RodanId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), MegaguirusId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), Moguera2Id) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), SpacegodzillaId) && actionSurvivalRounds() == 10))
+)
+achievement(
+	title = "Demolition Monster", 
+	description = "Complete Demolition on Hard difficulty in Action Mode", 
+	points = 5, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), Godzilla2000Id) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), GiganId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), RodanId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), GhidorahId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), OrgaId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), MothraId) && actionSurvivalRounds() == 4) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla3Id) && actionSurvivalRounds() == 3))
+)
+achievement(
+	title = "Star Falcon, Hello", 
+	description = "Complete Asteroid Field in Action Mode", 
+	points = 10, 
+	trigger = Demo() && Cheats() && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		StringCompare(p1CharacterAscii(), Moguera2Id) && actionSurvivalRounds() == 10
+)
+achievement(
+	title = "Destroy all UFOs", 
+	description = "Complete UFO Attack in Action Mode", 
+	points = 3, 
+	trigger = Demo() && Cheats() && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), Godzilla2000Id) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), Godzilla90Id) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), GiganId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla3Id) && actionSurvivalRounds() == 7))
+)
+achievement(
+	title = "JJ Geminis", 
+	description = "Complete Clone Attack on Hard difficulty in Action Mode", 
+	points = 10, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), GiganId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), AnguirusId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), MegaguirusId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), MechaghidorahId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), BaragonId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), Moguera2Id) && actionSurvivalRounds() == 7))
+)
+achievement(
+	title = "Monster Wrangler", 
+	description = "Complete Monster Roundup on Hard difficulty in Action Mode", 
+	points = 10, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), MegalonId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), RodanId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla2Id) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), MegaguirusId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), Mechagodzilla2Id) && actionSurvivalRounds() == 7))
+)
+achievement(
+	title = "Lobster Tail and Shark Fin Soup", 
+	description = "Complete Undersea Battle in Action Mode", 
+	points = 10, 
+	trigger = Demo() && Cheats() && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		StringCompare(p1CharacterAscii(), Godzilla2000Id) && actionSurvivalRounds() == 10
+)
+achievement(
+	title = "Replicator Ravager", 
+	description = "Complete Replicator on Hard difficulty in Action Mode", 
+	points = 5, 
+	trigger = Demo() && Cheats() && actionDifficulty() == 2 && gameType() == 5 && 
+		actionModeScore() > prev(actionModeScore()) && 
+		((StringCompare(p1CharacterAscii(), Godzilla90Id) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), DestoroyahId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), BaragonId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), MothraId) && actionSurvivalRounds() == 7) || 
+		(StringCompare(p1CharacterAscii(), JetjaguarId) && actionSurvivalRounds() == 10) || 
+		(StringCompare(p1CharacterAscii(), SpacegodzillaId) && actionSurvivalRounds() == 3))
+)
+achievement(
+	title = "Millenian", 
+	description = "Complete Mothership", 
+	points = 25, 
+	trigger = Demo() && Cheats() && mothershipWin() == 8 && 
+		StringCompare(mapArenaAscii(), Mothership)
+)
 
 function SurvivalWin() {
 	return Demo() && Cheats() && gameType() == 6 && 
@@ -874,7 +1056,7 @@ SurvivalHard("A Little Soft in the Tummy Area", "Baragon", 10, BaragonId)
 SurvivalHard("Wings of Resilience", "Mothra", 10, MothraId)
 SurvivalHard("Tokyo S.O.S.", "Mechagodzilla 3", 10, Mechagodzilla3Id)
 SurvivalHard("Friend of Justice", "Jet Jaguar", 10, JetjaguarId)
-SurvivalHard("Monster Plan B, Hello", "Moguera 2", 10, Moguera2Id)
+SurvivalHard("Monster Expert Robot, Hello", "Moguera 2", 10, Moguera2Id)
 SurvivalHard("Kyber Crystal Wielder", "Space Godzilla", 10, SpacegodzillaId)
 
 function SurvivalName(Name, Difficulty) {
@@ -956,11 +1138,9 @@ SurvivalScoreLB("Jet Jaguar", JetjaguarId, 2)
 SurvivalScoreLB("Moguera 2", Moguera2Id, 2)
 SurvivalScoreLB("Space Godzilla", SpacegodzillaId, 2)
 
-// Challenges
-
 // Versus/Melee
 function TwovTwo(P1, P2, P3, P4) {
-	return Demo() && Cheats() && meleeDifficulty() == 2 && meleeRoundLength() >= 4 && gameType() == 2 && 
+	return Demo() && Cheats() && meleeDifficulty() == 2 && teamLength() >= 4 && gameType() == 2 && 
 		prev(p1WonMostRecentRound()) == 0 && p1WonMostRecentRound() == 1 && 
 		p1Team() == 1 && p2Team() == 1 && p3Team() == 2 && p4Team() == 2 && 
 		StringCompare(p1CharacterAscii(), P1) && 
@@ -971,7 +1151,7 @@ function TwovTwo(P1, P2, P3, P4) {
 
 // Monster Island Buddies
 function MIB() {
-	return Demo() && Cheats() && meleeDifficulty() == 2 && meleeRoundLength() >= 4 && gameType() == 3 && 
+	return Demo() && Cheats() && teamDifficulty() == 2 && meleeRoundLength() >= 4 && gameType() == 3 && 
 		prev(p1WonMostRecentRound()) == 0 && p1WonMostRecentRound() == 1 && 
 		StringCompare(p1CharacterAscii(), Godzilla90Id) && 
 		((StringCompare(p2CharacterAscii(), JetjaguarId) && StringCompare(p3CharacterAscii(), RodanId) && StringCompare(p4CharacterAscii(), MothraId)) || 
@@ -985,21 +1165,21 @@ function MIB() {
 achievement(
 	title = "Dogs and Insects", 
 	description = "Playing as Anguirus, team up with P2 as Baragon on the blue team to win a round against P3 as Megaguirus and P4 as Mothra on the red team in a Melee Team Battle on Hard difficulty with 5 minute or greater rounds", 
-	points = 4, 
+	points = 3, 
 	trigger = TwovTwo(AnguirusId, BaragonId, MegaguirusId, MothraId)
 )
 
 achievement(
 	title = "The Old and the New", 
 	description = "Playing as Mechagodzilla 2, team up with P2 as Godzilla 90's on the blue team to win a round against P3 as Godzilla 2000 and P4 as Mechagodzilla 3 on the red team in a Melee Team Battle on Hard difficulty with 5 minute or greater rounds", 
-	points = 4, 
+	points = 3, 
 	trigger = TwovTwo(Mechagodzilla2Id, Godzilla90Id, Godzilla2000Id, Mechagodzilla3Id)
 )
 
 achievement(
-	title = "Monster Island Buddies RAWWRR", 
+	title = "Monster Island Buddies", 
 	description = "Playing as Godzilla 90's, win a round against Jet Jaguar, Rodan, and Mothra in a Free for All on Hard difficulty with 5 minute or greater rounds", 
-	points = 4, 
+	points = 3, 
 	trigger = MIB()
 )
 
