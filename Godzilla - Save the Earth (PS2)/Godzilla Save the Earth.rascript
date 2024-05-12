@@ -771,8 +771,8 @@ function ActionHard(Title, Name, Points, CharId) {
 }
 
 // Beat Action on Hard
-ActionHard("Millennium King", "Godzilla 2000", 10, Godzilla2000Id)
-ActionHard("Heisei King", "Godzilla 90's", 10, Godzilla90Id)
+ActionHard("Go, Godzilla, Go!", "Godzilla 2000", 10, Godzilla2000Id)
+ActionHard("Jurassic Lizard Superstar Hero", "Godzilla 90's", 10, Godzilla90Id)
 ActionHard("Hey Everyone, Do the Gigan!", "Gigan", 10, GiganId)
 ActionHard("Godzilla's Best Friend", "Anguirus", 10, AnguirusId)
 ActionHard("I've Never Touched a Woman, I Have No Hands", "Megalon", 10, MegalonId)
@@ -994,7 +994,7 @@ achievement(
 		actionModeScore() > prev(actionModeScore()) && 
 		((StringCompare(p1CharacterAscii(), Godzilla90Id) && actionSurvivalRounds() == 10) || 
 		(StringCompare(p1CharacterAscii(), DestoroyahId) && actionSurvivalRounds() == 10) || 
-		(StringCompare(p1CharacterAscii(), BaragonId) && actionSurvivalRounds() == 3) || 
+		(StringCompare(p1CharacterAscii(), BaragonId) && actionSurvivalRounds() == 7) || 
 		(StringCompare(p1CharacterAscii(), MothraId) && actionSurvivalRounds() == 7) || 
 		(StringCompare(p1CharacterAscii(), JetjaguarId) && actionSurvivalRounds() == 10) || 
 		(StringCompare(p1CharacterAscii(), SpacegodzillaId) && actionSurvivalRounds() == 3))
@@ -1040,8 +1040,8 @@ function SurvivalHard(Title, Name, Points, CharId) {
 }
 
 // Beat Survival on Hard
-SurvivalHard("Millennium Survivor", "Godzilla 2000", 10, Godzilla2000Id)
-SurvivalHard("Heisei Survivor", "Godzilla 90's", 10, Godzilla90Id)
+SurvivalHard("For the People", "Godzilla 2000", 10, Godzilla2000Id)
+SurvivalHard("For the Planet", "Godzilla 90's", 10, Godzilla90Id)
 SurvivalHard("I Am a MONSTER", "Gigan", 10, GiganId)
 SurvivalHard("Bark Bark Woof Woof", "Anguirus", 10, AnguirusId)
 SurvivalHard("Drilling Deep for Survival", "Megalon", 10, MegalonId)
