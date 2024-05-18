@@ -248,8 +248,8 @@ function pointCheat2() => dword(0x6A6C80)
 // $6A6C84: 200k point cheat [32-bit]
 function pointCheat3() => dword(0x6A6C84)
 
-// $6B0740: Survival rounds [32-bit] backup
-function survivalRoundsBackup() => dword(0x6B0740)
+// $6AF8FC: Survival Rounds [32-bit]
+function survivalRounds() => dword(0x6AF8FC)
 
 // $6B0754: Action mode round win flag [32-bit]
 //          Challenges are always a win even if failed
@@ -267,7 +267,7 @@ function mothershipWin() => dword(0x6B081C)
 
 // $6C588C: Action/Survival rounds [32-bit]
 //          Action: updates after the first menu of the end of a round
-//          Survival: updates after beating enemy
+//          Survival K.O.'s: updates after beating enemy
 function actionSurvivalRounds() => dword(0x6C588C)
 
 // $6C5894: Action mode score [32-bit]
@@ -494,15 +494,6 @@ function p4Health() => float(0x70C7DC)
 
 // $70C7E8: P4 energy [Float]
 function p4Energy() => float(0x70C7E8)
-
-// $1B5B3E0: Minutes left [8-bit ASCII]
-function minutesLeft() => byte(0x1B5B3E0)
-
-// $1B5B430: Tens of seconds left [8-bit ASCII]
-function tensOfSecondsLeft() => byte(0x1B5B430)
-
-// $1B5B600: Seconds left [8-bit ASCII]
-function secondsLeft() => byte(0x1B5B600)
 
 // ASCII strings of gametype
 AsteroidField = [0x66,0x70,0x6d,0x5f,0x30,0x31,0x2e,0x62,0x73,0x66]
@@ -838,7 +829,7 @@ ActionScore("Vortaak Vanquisher", 25, 165000)
 function ActionScoreLB(Name, CharId) {
 	leaderboard(
 		"Action: " + Name, 
-		"", 
+		"Earn the highest score", 
 		ProgressionWin(CharId), 
 		always_false(), 
 		always_true(), 
@@ -937,7 +928,7 @@ achievement(
 achievement(
 	title = "Star Falcon, Hello", 
 	description = "Complete Asteroid Field in Action Mode", 
-	points = 10, 
+	points = 5, 
 	trigger = Demo() && Cheats() && gameType() == 5 && 
 		actionModeScore() > prev(actionModeScore()) && 
 		StringCompare(p1CharacterAscii(), Moguera2Id) && actionSurvivalRounds() == 10
@@ -1009,7 +1000,7 @@ achievement(
 
 function SurvivalWin() {
 	return Demo() && Cheats() && gameType() == 6 && 
-		prev(actionSurvivalRounds()) == 15 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore())
+		survivalRounds() == 14 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore())
 }
 
 function Survival(Title, Points) {
@@ -1026,7 +1017,7 @@ Survival("Survivor", 5)
 
 function SurvivalWinDifficulty(CharId, Difficulty) {
 	return Demo() && Cheats() && gameType() == 6 && survivalDifficulty() == Difficulty && 
-		prev(actionSurvivalRounds()) == 15 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore()) && 
+		survivalRounds() == 14 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore()) && 
 		StringCompare(p1CharacterAscii(), CharId)
 }
 
@@ -1073,8 +1064,9 @@ function SurvivalName(Name, Difficulty) {
 function SurvivalScoreLB(Name, CharId, Difficulty) {
 	leaderboard(
 		SurvivalName(Name, Difficulty), 
-		"", 
-		SurvivalWinDifficulty(CharId, Difficulty), 
+		"Earn the highest score", 
+		mainMenuState() < prev(mainMenuState()) && Cheats() && gameType() == 6 && survivalDifficulty() == Difficulty && 
+		StringCompare(p1CharacterAscii(), CharId), 
 		always_false(), 
 		always_true(), 
 		meleeSurvivalP1CurrentScore(), 
@@ -1140,7 +1132,7 @@ SurvivalScoreLB("Space Godzilla", SpacegodzillaId, 2)
 
 // Versus/Melee
 function TwovTwo(P1, P2, P3, P4) {
-	return Demo() && Cheats() && meleeDifficulty() == 2 && teamLength() >= 4 && gameType() == 2 && 
+	return Demo() && Cheats() && teamDifficulty() == 2 && teamLength() >= 4 && gameType() == 2 && 
 		prev(p1WonMostRecentRound()) == 0 && p1WonMostRecentRound() == 1 && 
 		p1Team() == 1 && p2Team() == 1 && p3Team() == 2 && p4Team() == 2 && 
 		StringCompare(p1CharacterAscii(), P1) && 
@@ -1151,7 +1143,7 @@ function TwovTwo(P1, P2, P3, P4) {
 
 // Monster Island Buddies
 function MIB() {
-	return Demo() && Cheats() && teamDifficulty() == 2 && meleeRoundLength() >= 4 && gameType() == 3 && 
+	return Demo() && Cheats() && meleeDifficulty() == 2 && meleeRoundLength() >= 4 && gameType() == 3 && 
 		prev(p1WonMostRecentRound()) == 0 && p1WonMostRecentRound() == 1 && 
 		StringCompare(p1CharacterAscii(), Godzilla90Id) && 
 		((StringCompare(p2CharacterAscii(), JetjaguarId) && StringCompare(p3CharacterAscii(), RodanId) && StringCompare(p4CharacterAscii(), MothraId)) || 
