@@ -1,6 +1,12 @@
 // Godzilla: Destroy all Monsters Melee
 // #ID = 25444
 
+// $0000: Disk Serial [32-bit BE]
+//          US = 0x475a4445
+//          EU = 0x475a4450
+//          JP = 0x475a444a
+function diskSerial() => dword_be(0x0000)
+
 // $2089AC: Game Mode [32-bit BE]
 //          1 = Versus/Gallery/Options
 //          2 = Team Battle
@@ -8,24 +14,24 @@
 //          4 = Destruction
 //          5 = Adventure
 //          6 = Survival
-function gameMode() => dword_be(0x2089AC)
+function gameMode(offset) => dword_be(0x2089AC + offset)
 
 // $2089B0: Demo/Attract mode = 0x01 [8-bit]
-function demoAttractMode() => byte(0x2089B0)
+function demoAttractMode(offset) => byte(0x2089B0 + offset)
 
 // $2089B1: Game Mode [ASCII]
 //          Gallery
 //          Options
-function gameModeAscii() => 0x2089B1
+function gameModeAscii(offset) => 0x2089B1 + offset
 
 // $208ABC: Adventure round [32-bit BE]
 //          flickers a lot between rounds
 //          starts at 1 and story is completed at 9
-function adventureRound() => dword_be(0x208ABC)
+function adventureRound(offset) => dword_be(0x208ABC + offset)
 
 // $208AC0: Survival kills [32-bit BE]
 //          flickers a lot between rounds
-function survivalKills() => dword_be(0x208AC0)
+function survivalKills(offset) => dword_be(0x208AC0 + offset)
 
 // $208AD8: City [ASCII]
 //          add _Day at the end for day (LA uses lowercase day)
@@ -37,16 +43,16 @@ function survivalKills() => dword_be(0x208AC0)
 //          Osaka
 //          MonsterIsle
 //          MotherShip
-function cityAscii() => 0x208AD8
+function cityAscii(offset) => 0x208AD8 + offset
 
 // $208BDC: Current map number [32-bit BE]
 //          0 = (map) 1
 //          1 = (map) 2 north seattle, north SF, east osaka
 //          2 = (map) 3 south seattle, east SF, west osaka
-function currentMapNumber() => dword_be(0x208BDC)
+function currentMapNumber(offset) => dword_be(0x208BDC + offset)
 
 // $208C7C: Survival score [32-bit BE]
-function survivalScore() => dword_be(0x208C7C)
+function survivalScore(offset) => dword_be(0x208C7C + offset)
 
 // $208CC0: Character [ASCII]
 //          godzilla90s
@@ -60,21 +66,7 @@ function survivalScore() => dword_be(0x208C7C)
 //          mghidorah
 //          orga
 //          mechazilla
-function characterAscii() => 0x208CC0
-
-// $208DE8: P1 team [32-bit BE]
-//          1 = blue
-//          2 = red
-function p1Team() => dword_be(0x208DE8)
-
-// $208F84: P2 team [32-bit BE]
-function p2Team() => dword_be(0x208F84)
-
-// $209120: P3 team [32-bit BE]
-function p3Team() => dword_be(0x209120)
-
-// $2092BC: P4 team [32-bit BE]
-function p4Team() => dword_be(0x2092BC)
+function characterAscii(offset) => 0x208CC0 + offset
 
 // $2092ED: Cheats [Bitflags]
 //          Bit0 = DebugSoundLog (743816, doesn't do anything)
@@ -82,7 +74,7 @@ function p4Team() => dword_be(0x2092BC)
 //          Bit2 = Technicolor mode
 //          Bit3 = 12 continue Adventure
 //          Bit4 = Display version of game and time of completion in Options
-function cheats1() => byte(0x2092ED)
+function cheats1(offset) => byte(0x2092ED + offset)
 
 // $2092EE: Cheats [Bitflags]
 //          Bit0 = Unlock Orga
@@ -93,7 +85,7 @@ function cheats1() => byte(0x2092ED)
 //          Bit5 = P2 mini sized
 //          Bit6 = P3 mini sized
 //          Bit7 = P4 mini sized
-function cheats2() => byte(0x2092EE)
+function cheats2(offset) => byte(0x2092EE + offset)
 
 // $2092EF: Cheats [Bitflags]
 //          Bit0 = Unlock Gallery
@@ -104,7 +96,7 @@ function cheats2() => byte(0x2092EE)
 //          Bit5 = Unlock Destoroyah
 //          Bit6 = Unlock Mecha-King Ghidorah
 //          Bit7 = Unlock Mechagodzilla
-function cheats3() => byte(0x2092EF)
+function cheats3(offset) => byte(0x2092EF + offset)
 
 // $2092F1: Cheats [Bitflags]
 //          Bit0 = P2 invisible
@@ -115,7 +107,7 @@ function cheats3() => byte(0x2092EF)
 //          Bit5 = Player indicators always on
 //          Bit6 = Energy doesn't regenerate
 //          Bit7 = Energy weapons do 4x damage (No code for this)
-function cheats4() => byte(0x2092F1)
+function cheats4(offset) => byte(0x2092F1 + offset)
 
 // $2092F2: Cheats [Bitflags]
 //          Bit0 = No status HUD
@@ -126,7 +118,7 @@ function cheats4() => byte(0x2092F1)
 //          Bit5 = No Hedorah
 //          Bit6 = All levels have Hedorah
 //          Bit7 = P1 invisible
-function cheats5() => byte(0x2092F2)
+function cheats5(offset) => byte(0x2092F2 + offset)
 
 // $2092F3: Cheats [Bitflags]
 //          Bit0 = P1 invincible
@@ -137,7 +129,7 @@ function cheats5() => byte(0x2092F2)
 //          Bit5 = Player 2 deals 4x damage
 //          Bit6 = Player 3 deals 4x damage
 //          Bit7 = Player 4 deals 4x damage
-function cheats6() => byte(0x2092F3)
+function cheats6(offset) => byte(0x2092F3 + offset)
 
 // $2092F6: Cheats [Bitflags]
 //          Bit0 = No maser cannons (DAG-MB96)
@@ -145,7 +137,7 @@ function cheats6() => byte(0x2092F3)
 //          Bit2 = P2 permanent rage
 //          Bit3 = P3 permanent rage
 //          Bit4 = P4 permanent rage
-function cheats7() => byte(0x2092F6)
+function cheats7(offset) => byte(0x2092F6 + offset)
 
 // $2092F7: Cheats [Bitflags]
 //          Bit0 = P1 infinite energy
@@ -156,223 +148,136 @@ function cheats7() => byte(0x2092F6)
 //          Bit5 = No Mothra power-ups
 //          Bit6 = No energy power-ups
 //          Bit7 = No rage power-ups
-function cheats8() => byte(0x2092F7)
-
-// $2092F8: Cheat activated display [8 Bytes]
-function cheatActivatedDisplay() => byte(0x2092F8)
+function cheats8(offset) => byte(0x2092F7 + offset)
 
 // $20946C: Versus/Survival/Melee/Team Battle/Destruction P1 wins [32-bit BE]
-function versusSurvP1Wins() => dword_be(0x20946C)
+function versusSurvP1Wins(offset) => dword_be(0x20946C + offset)
 
 // $209480: Versus/Survival/Melee/Team Battle/Destruction P2 wins [32-bit BE]
-function versusSurvP2Wins() => dword_be(0x209480)
-
-// $209494: Versus/Melee/Team Battle/Destruction P3 wins [32-bit BE]
-function versusP3Wins() => dword_be(0x209494)
-
-// $2094A8: Versus/Melee/Team Battle/Destruction P4 wins [32-bit BE]
-function versusP4Wins() => dword_be(0x2094A8)
+function versusSurvP2Wins(offset) => dword_be(0x209480 + offset)
 
 // $2094BC: Versus/Survival/Melee/Team Battle/Destruction rounds completed [32-bit BE]
-function versusSurvRoundsCompleted() => dword_be(0x2094BC)
+function versusSurvRoundsCompleted(offset) => dword_be(0x2094BC + offset)
 
 // $282E38: Match total time [Float BE]
 //          updates on enemy defeat
-function matchTime() => float_be(0x2094C8)
-
-// $282EA8: Melee/Team Battle P1 kills [32-bit BE]
-function meleeTeamBattleP1Kills() => dword_be(0x282EA8)
+function matchTime(offset) => float_be(0x2094C8 + offset)
 
 // $282EC0: Melee/Team Battle/Destruction P1 score [32-bit BE]
-function meleeTeamBattleDestructionP1Score() => dword_be(0x282EC0)
-
-// $282EE8: Melee/Team Battle P2 kills [32-bit BE]
-function meleeTeamBattleP2Kills() => dword_be(0x282EE8)
+function meleeTeamBattleDestructionP1Score(offset) => dword_be(0x282EC0 + offset)
 
 // $282F00: Melee/Team Battle/Destruction P2 score [32-bit BE]
-function meleeTeamBattleDestructionP2Score() => dword_be(0x282F00)
-
-// $282F28: Melee/Team Battle P3 kills [32-bit BE]
-function meleeTeamBattleP3Kills() => dword_be(0x282F28)
+function meleeTeamBattleDestructionP2Score(offset) => dword_be(0x282F00 + offset)
 
 // $282F40: Melee/Team Battle/Destruction P3 score [32-bit BE]
-function meleeTeamBattleDestructionP3Score() => dword_be(0x282F40)
-
-// $282F68: Melee/Team Battle P4 kills [32-bit BE]
-function meleeTeamBattleP4Kills() => dword_be(0x282F68)
+function meleeTeamBattleDestructionP3Score(offset) => dword_be(0x282F40 + offset)
 
 // $282F80: Melee/Team Battle/Destruction P4 score [32-bit BE]
-function meleeTeamBattleDestructionP4Score() => dword_be(0x282F80)
+function meleeTeamBattleDestructionP4Score(offset) => dword_be(0x282F80 + offset)
 
 // $28420C: P1 health [Float BE]
-function p1Health() => float_be(0x28420C)
+function p1Health(offset) => float_be(0x28420C + offset)
 
 // $284230: P1 Rage timer [Float BE]
-function p1RageTimer() => float_be(0x284230)
-
-// $284234: P1 Rage active [8-bit]
-function p1Rage() => byte(0x284234)
+function p1RageTimer(offset) => float_be(0x284230 + offset)
 
 // $28C80C: P2 health [Float BE]
-function p2Health() => float_be(0x28C80C)
-
-// $294E0C: P3 health [Float BE]
-function p3Health() => float_be(0x294E0C)
-
-// $29D40C: P4 health [Float BE]
-function p4Health() => float_be(0x29D40C)
+function p2Health(offset) => float_be(0x28C80C + offset)
 
 // $316B2C: Difficulty [32-bit BE]
 //          0 = Easy
 //          1 = Medium
 //          2 = Hard
-function difficulty() => dword_be(0x316B2C)
+function difficulty(offset) => dword_be(0x316B2C + offset)
 
 // $316B30: Rounds [32-bit BE]
 //          3 = 3 rounds/default
 //          1 = 1 round
 //          5 = 5 rounds
-function rounds() => dword_be(0x316B30)
+function rounds(offset) => dword_be(0x316B30 + offset)
 
 // $316B34: Round Time [Float BE]
-function roundTime() => float_be(0x316B34)
-
-// $316B38: Reset Arenas [32-bit BE]
-//          0x01000000 = Yes
-//          0x00 = No
-function resetArenas() => dword_be(0x316B38)
-
-// $316B3C: Melee win condition [32-bit BE]
-//          0 = First to x wins
-//          1 = x minute K.O.-a-thon
-function meleeWinCondition() => dword_be(0x316B3C)
-
-// $316B40: Melee KOathon minutes [Float BE]
-function meleeKoathonMinutes() => float_be(0x316B40)
-
-// $316B44: Melee wins needed [32-bit BE]
-function meleeWinsNeeded() => dword_be(0x316B44)
-
-// $316B48: Team Battle win condition [32-bit BE]
-//          0 = First to x wins
-//          1 = x minute game
-function teamBattleWinCondition() => dword_be(0x316B48)
-
-// $316B4C: Team Battle x minute game [Float BE]
-function teamBattleXMinuteGame() => float_be(0x316B4C)
-
-// $316B50: Team Battle wins needed [32-bit BE]
-function teamBattleWinsNeeded() => dword_be(0x316B50)
+function roundTime(offset) => float_be(0x316B34 + offset)
 
 // $316B54: Destruction win condition [32-bit BE]
 //          0 = First to x wins
 //          1 = x minute game
-function destructionWinCondition() => dword_be(0x316B54)
+function destructionWinCondition(offset) => dword_be(0x316B54 + offset)
 
 // $316B58: Destruction wins needed [32-bit BE]
-function destructionWinsNeeded() => dword_be(0x316B58)
+function destructionWinsNeeded(offset) => dword_be(0x316B58 + offset)
 
 // $316B5C: Destruction x minute game [Float BE]
-function destructionXMinuteGame() => float_be(0x316B5C)
+function destructionXMinuteGame(offset) => float_be(0x316B5C + offset)
 
 // $317544: Gallery arts unlocked [32-bit BE]
-function galleryArtsUnlocked() => dword_be(0x317544)
-
-// $317549: Godzilla 2000 locked [8-bit]
-//          2 = hidden
-//          1 = locked
-//          0 = unlocked
-function godzilla2000Locked() => byte(0x317549)
-
-// $31754A: Ghidorah locked [8-bit]
-function ghidorahLocked() => byte(0x31754A)
-
-// $31754B: Mecha-King Ghidorah locked [8-bit]
-function mechaKingGhidorahLocked() => byte(0x31754B)
-
-// $31754C: Rodan locked [8-bit]
-function rodanLocked() => byte(0x31754C)
-
-// $31754D: Gigan locked [8-bit]
-function giganLocked() => byte(0x31754D)
-
-// $31754E: Megalon locked [8-bit]
-function megalonLocked() => byte(0x31754E)
-
-// $31754F: Destoroyah locked [8-bit]
-function destoroyahLocked() => byte(0x31754F)
+function galleryArtsUnlocked(offset) => dword_be(0x317544 + offset)
 
 // $317550: Orga locked [8-bit]
-function orgaLocked() => byte(0x317550)
-
-// $317551: Godzilla 90's locked [8-bit]
-function godzilla90SLocked() => byte(0x317551)
-
-// $317552: Anguirus locked [8-bit]
-function anguirusLocked() => byte(0x317552)
+function orgaLocked(offset) => byte(0x317550 + offset)
 
 // $317553: Mechagodzilla locked [8-bit]
-function mechagodzillaLocked() => byte(0x317553)
+function mechagodzillaLocked(offset) => byte(0x317553 + offset)
 
 // $317554: North San Francisco locked [8-bit]
-function northSanFranciscoLocked() => byte(0x317554)
+function northSanFranciscoLocked(offset) => byte(0x317554 + offset)
 
 // $317555: East San Francisco locked [8-bit]
-function eastSanFranciscoLocked() => byte(0x317555)
+function eastSanFranciscoLocked(offset) => byte(0x317555 + offset)
 
 // $317556: San Francisco locked [8-bit]
-function sanFranciscoLocked() => byte(0x317556)
+function sanFranciscoLocked(offset) => byte(0x317556 + offset)
 
 // $317557: East Osaka locked [8-bit]
-function eastOsakaLocked() => byte(0x317557)
+function eastOsakaLocked(offset) => byte(0x317557 + offset)
 
 // $317558: West Osaka locked [8-bit]
-function westOsakaLocked() => byte(0x317558)
+function westOsakaLocked(offset) => byte(0x317558 + offset)
 
 // $317559: Osaka locked [8-bit]
-function osakaLocked() => byte(0x317559)
+function osakaLocked(offset) => byte(0x317559 + offset)
 
 // $31755A: North Seattle locked [8-bit]
-function northSeattleLocked() => byte(0x31755A)
+function northSeattleLocked(offset) => byte(0x31755A + offset)
 
 // $31755B: South Seattle locked [8-bit]
-function southSeattleLocked() => byte(0x31755B)
+function southSeattleLocked(offset) => byte(0x31755B + offset)
 
 // $31755C: Seattle locked [8-bit]
-function seattleLocked() => byte(0x31755C)
+function seattleLocked(offset) => byte(0x31755C + offset)
 
 // $31755D: London 2 locked [8-bit]
-function london2Locked() => byte(0x31755D)
+function london2Locked(offset) => byte(0x31755D + offset)
 
 // $31755E: London 3 locked [8-bit]
-function london3Locked() => byte(0x31755E)
+function london3Locked(offset) => byte(0x31755E + offset)
 
 // $31755F: London locked [8-bit]
-function londonLocked() => byte(0x31755F)
+function londonLocked(offset) => byte(0x31755F + offset)
 
 // $317560: Tokyo 2 locked [8-bit]
-function tokyo2Locked() => byte(0x317560)
+function tokyo2Locked(offset) => byte(0x317560 + offset)
 
 // $317561: Tokyo 3 locked [8-bit]
-function tokyo3Locked() => byte(0x317561)
+function tokyo3Locked(offset) => byte(0x317561 + offset)
 
 // $317562: Tokyo locked [8-bit]
-function tokyoLocked() => byte(0x317562)
+function tokyoLocked(offset) => byte(0x317562 + offset)
 
 // $317563: Los Angeles 2 locked [8-bit]
-function losAngeles2Locked() => byte(0x317563)
+function losAngeles2Locked(offset) => byte(0x317563 + offset)
 
 // $317564: Los Angeles 3 locked [8-bit]
-function losAngeles3Locked() => byte(0x317564)
+function losAngeles3Locked(offset) => byte(0x317564 + offset)
 
 // $317565: Los Angeles locked [8-bit]
-function losAngelesLocked() => byte(0x317565)
+function losAngelesLocked(offset) => byte(0x317565 + offset)
 
 // $317568: Monster Island locked [8-bit]
-function monsterIslandLocked() => byte(0x317568)
+function monsterIslandLocked(offset) => byte(0x317568 + offset)
 
 // $317569: Mothership locked [8-bit]
-function mothershipLocked() => byte(0x317569)
+function mothershipLocked(offset) => byte(0x317569 + offset)
 
 Chars = [
     "godzilla90s", 
@@ -386,39 +291,101 @@ Chars = [
     "destoroyah", 
     "mechazilla", 
     "orga", 
-    "kiryu"
+    "mechazilla2k"
 ]
 
-Arenas = [
-    northSanFranciscoLocked(), 
-    eastSanFranciscoLocked(), 
-    sanFranciscoLocked(), 
-    eastOsakaLocked(), 
-    westOsakaLocked(), 
-    osakaLocked(), 
-    northSeattleLocked(), 
-    southSeattleLocked(), 
-    seattleLocked(), 
-    london2Locked(), 
-    london3Locked(), 
-    londonLocked(), 
-    tokyo2Locked(), 
-    tokyo3Locked(), 
-    tokyoLocked(), 
-    losAngeles2Locked(), 
-    losAngeles3Locked(), 
-    losAngelesLocked(), 
-    monsterIslandLocked(), 
-    mothershipLocked()
+ArenasUS = [
+    northSanFranciscoLocked(0), 
+    eastSanFranciscoLocked(0), 
+    sanFranciscoLocked(0), 
+    eastOsakaLocked(0), 
+    westOsakaLocked(0), 
+    osakaLocked(0), 
+    northSeattleLocked(0), 
+    southSeattleLocked(0), 
+    seattleLocked(0), 
+    london2Locked(0), 
+    london3Locked(0), 
+    londonLocked(0), 
+    tokyo2Locked(0), 
+    tokyo3Locked(0), 
+    tokyoLocked(0), 
+    losAngeles2Locked(0), 
+    losAngeles3Locked(0), 
+    losAngelesLocked(0), 
+    monsterIslandLocked(0), 
+    mothershipLocked(0)
 ]
 
-function Cheats() {
-    return bit3(0x2092ED) == 0 && cheats2() == 0 && cheats3() == 0 && cheats4() == 0 && 
-        cheats5() == 0 && cheats6() == 0 && cheats7() == 0 && cheats8() == 0
+ArenasEU = [
+    northSanFranciscoLocked(-1081344), 
+    eastSanFranciscoLocked(-1081344), 
+    sanFranciscoLocked(-1081344), 
+    eastOsakaLocked(-1081344), 
+    westOsakaLocked(-1081344), 
+    osakaLocked(-1081344), 
+    northSeattleLocked(-1081344), 
+    southSeattleLocked(-1081344), 
+    seattleLocked(-1081344), 
+    london2Locked(-1081344), 
+    london3Locked(-1081344), 
+    londonLocked(-1081344), 
+    tokyo2Locked(-1081344), 
+    tokyo3Locked(-1081344), 
+    tokyoLocked(-1081344), 
+    losAngeles2Locked(-1081344), 
+    losAngeles3Locked(-1081344), 
+    losAngelesLocked(-1081344), 
+    monsterIslandLocked(-1081344), 
+    mothershipLocked(-1081344)
+]
+
+ArenasJP = [
+    northSanFranciscoLocked(32000), 
+    eastSanFranciscoLocked(32000), 
+    sanFranciscoLocked(32000), 
+    eastOsakaLocked(32000), 
+    westOsakaLocked(32000), 
+    osakaLocked(32000), 
+    northSeattleLocked(32000), 
+    southSeattleLocked(32000), 
+    seattleLocked(32000), 
+    london2Locked(32000), 
+    london3Locked(32000), 
+    londonLocked(32000), 
+    tokyo2Locked(32000), 
+    tokyo3Locked(32000), 
+    tokyoLocked(32000), 
+    losAngeles2Locked(32000), 
+    losAngeles3Locked(32000), 
+    losAngelesLocked(32000), 
+    monsterIslandLocked(32000), 
+    mothershipLocked(32000)
+]
+
+function USHash() {
+    return diskSerial() == 1197098053
 }
 
-function Demo() {
-    return demoAttractMode() == 0
+function EUHash() {
+    return diskSerial() == 1197098064
+}
+
+function JPHash() {
+    return diskSerial() == 1197098058
+}
+
+function ContinueCheat(offset) {
+    return bit3(0x2092ED + offset)
+}
+
+function Cheats(offset) {
+    return ContinueCheat(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
+        cheats5(offset) == 0 && cheats6(offset) == 0 && cheats7(offset) == 0 && cheats8(offset) == 0
+}
+
+function Demo(offset) {
+    return demoAttractMode(offset) == 0
 }
 
 function Progression(Title, Name, ID) {
@@ -426,9 +393,13 @@ function Progression(Title, Name, ID) {
         title = Title, 
         description = "Complete Adventure Mode with " + Name + ".", 
         points = 5,
-        trigger = Demo() && Cheats() && gameMode() == 5 && 
-        prev(adventureRound()) == 8 && adventureRound() == 9 && 
-        ascii_string_equals(characterAscii(), Chars[ID])
+        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && 
+        prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9 && 
+        ascii_string_equals(characterAscii(15968), Chars[ID]))
     )
 }
 
@@ -439,9 +410,13 @@ function AdventureHard(Title, Name, ID) {
         title = Title, 
         description = "Complete Adventure Mode with " + Name + " on Hard.", 
         points = 10,
-        trigger = Demo() && Cheats() && gameMode() == 5 && difficulty() == 2 && 
-        prev(adventureRound()) == 8 && adventureRound() == 9 && 
-        ascii_string_equals(characterAscii(), Chars[ID])
+        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
+        prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9 && 
+        ascii_string_equals(characterAscii(15968), Chars[ID]))
     )
 }
 
@@ -451,13 +426,21 @@ function AdventureLB(Title, DiffID, ID) {
     leaderboard(
         "Adventure Mode: " + Title, 
         "Complete Adventure Mode in the fastest time", 
-        Demo() && Cheats() && gameMode() == 5 && difficulty() == DiffID && 
-        prev(adventureRound()) == 8 && adventureRound() == 9 && 
-        ascii_string_equals(characterAscii(), Chars[ID]), 
+        always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(0) == DiffID && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(-1081344) == DiffID && 
+        prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && difficulty(32000) == DiffID && 
+        prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9 && 
+        ascii_string_equals(characterAscii(15968), Chars[ID])), 
         always_false(), 
         always_true(), 
-        matchTime(), 
-        format = "FLOAT2", 
+        max_of(
+                 measured(matchTime(0), when=USHash()),
+                 measured(matchTime(0), when=EUHash()),
+                 measured(matchTime(15968), when=JPHash())
+             ), 
+        format = "SECS", 
         lower_is_better = true
     )
 }
@@ -469,8 +452,10 @@ function Survival(Title, Name, ID) {
         title = Title, 
         description = "Get 8 kills in Survival Mode.", 
         points = 5,
-        trigger = Demo() && Cheats() && gameMode() == 6 && 
-        prev(survivalKills()) == 7 && survivalKills() == 8
+        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && 
+        prev(survivalKills(0)) == 7 && survivalKills(0) == 8 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && 
+        prev(survivalKills(0)) == 7 && survivalKills(0) == 8 || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 6 && 
+        prev(survivalKills(15968)) == 7 && survivalKills(15968) == 8)
     )
 }
 
@@ -481,9 +466,13 @@ function SurvivalHard(Title, Name, ID) {
         title = Title, 
         description = "Get 8 kills in Survival Mode with " + Name + " on Hard.", 
         points = 10,
-        trigger = Demo() && Cheats() && gameMode() == 6 && difficulty() == 2 && 
-        prev(survivalKills()) == 7 && survivalKills() == 8 && 
-        ascii_string_equals(characterAscii(), Chars[ID])
+        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(0) == 2 && 
+        prev(survivalKills(0)) == 7 && survivalKills(0) == 8 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(-1081344) == 2 && 
+        prev(survivalKills(0)) == 7 && survivalKills(0) == 8 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 6 && difficulty(32000) == 2 && 
+        prev(survivalKills(15968)) == 7 && survivalKills(15968) == 8 && 
+        ascii_string_equals(characterAscii(15968), Chars[ID]))
     )
 }
 
@@ -493,13 +482,23 @@ function SurvivalLB(Title, DiffID, ID) {
     leaderboard(
         "Survival Mode: " + Title, 
         "Earn the highest score (submits on game over)", 
-        Demo() && Cheats() && gameMode() == 6 && difficulty() == DiffID && 
-        versusSurvP1Wins() == 0 && prev(versusSurvRoundsCompleted()) == 0 && 
-        versusSurvRoundsCompleted() == 1 && 
-        ascii_string_equals(characterAscii(), Chars[ID]), 
+        always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(0) == DiffID && 
+        versusSurvP1Wins(0) == 0 && prev(versusSurvRoundsCompleted(0)) == 0 && 
+        versusSurvRoundsCompleted(0) == 1 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(-1081344) == DiffID && 
+        versusSurvP1Wins(0) == 0 && prev(versusSurvRoundsCompleted(0)) == 0 && 
+        versusSurvRoundsCompleted(0) == 1 && 
+        ascii_string_equals(characterAscii(0), Chars[ID]) || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 6 && difficulty(32000) == DiffID && 
+        versusSurvP1Wins(15968) == 0 && prev(versusSurvRoundsCompleted(15968)) == 0 && 
+        versusSurvRoundsCompleted(15968) == 1 && 
+        ascii_string_equals(characterAscii(15968), Chars[ID])), 
         always_false(), 
         always_true(), 
-        survivalScore(), 
+        max_of(
+                 measured(survivalScore(0), when=USHash()),
+                 measured(survivalScore(0), when=EUHash()),
+                 measured(survivalScore(15968), when=JPHash())
+             ), 
         format = "VALUE", 
         lower_is_better = true
     )
@@ -511,33 +510,45 @@ achievement(
     title = "Rage", 
     description = "Unleash a Rage attack.", 
     points = 1, 
-    trigger = Demo() && Cheats() && gameMode() != 0 && 
-    prev(p1RageTimer()) >= 0.03125 && p1RageTimer() == 0
+    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) != 0 && 
+    prev(p1RageTimer(0)) >= 0.03125 && p1RageTimer(0) == 0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) != 0 && 
+    prev(p1RageTimer(14976)) >= 0.03125 && p1RageTimer(14976) == 0 || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) != 0 && 
+    prev(p1RageTimer(32000)) >= 0.03125 && p1RageTimer(32000) == 0)
 )
 
 achievement(
     title = "Monster of Man", 
     description = "Unlock Mechagodzilla or Kiryu.", 
     points = 2, 
-    trigger = Demo() && Cheats() && gameMode() == 5 && 
-    prev(mechagodzillaLocked()) == 1 && mechagodzillaLocked() == 0
+    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    prev(mechagodzillaLocked(0)) == 1 && mechagodzillaLocked(0) == 0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    prev(mechagodzillaLocked(-1081344)) == 1 && mechagodzillaLocked(-1081344) == 0 || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && 
+    prev(mechagodzillaLocked(32000)) == 1 && mechagodzillaLocked(32000) == 0)
 )
 achievement(
     title = "G-Cell Devourer", 
     description = "Unlock Orga.", 
     points = 2, 
-    trigger = Demo() && Cheats() && gameMode() == 5 && 
-    __ornext(prev(orgaLocked()) == 1 || prev(orgaLocked()) == 2) && orgaLocked() == 0
+    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    __ornext(prev(orgaLocked(0)) == 1 || prev(orgaLocked(0)) == 2) && orgaLocked(0) == 0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    __ornext(prev(orgaLocked(-1081344)) == 1 || prev(orgaLocked(-1081344)) == 2) && orgaLocked(-1081344) == 0 || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && 
+    __ornext(prev(orgaLocked(32000)) == 1 || prev(orgaLocked(32000)) == 2) && orgaLocked(32000) == 0)
 )
 
 achievement(
     title = "Arena Gladiator", 
     description = "Unlock all Arenas.", 
     points = 2, 
-    trigger = Demo() && Cheats() && gameMode() == 5 && 
-    sum_of(Arenas, a => prev(a)) <= 3 && 
-    sum_of(Arenas, a => prev(a)) > 0 && 
-    sum_of(Arenas, a => a) == 0
+    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    //sum_of(ArenasUS, a => prev(a)) <= 3 && 
+    sum_of(ArenasUS, a => prev(a)) > 0 && 
+    sum_of(ArenasUS, a => a) == 0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+    //sum_of(ArenasEU, a => prev(a)) <= 3 && 
+    sum_of(ArenasEU, a => prev(a)) > 0 && 
+    sum_of(ArenasEU, a => a) == 0 || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && 
+    //sum_of(ArenasJP, a => prev(a)) <= 3 && 
+    sum_of(ArenasJP, a => prev(a)) > 0 && 
+    sum_of(ArenasJP, a => a) == 0)
 )
 
 function Gallery(Title, Points, Amount) {
@@ -545,8 +556,10 @@ function Gallery(Title, Points, Amount) {
         title = Title, 
         description = "Collect " + Amount + " Gallery pieces.", 
         points = Points,
-        trigger = Demo() && Cheats() && gameMode() == 5 && 
-        prev(galleryArtsUnlocked()) == Amount - 1 && galleryArtsUnlocked() == Amount
+        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+        prev(galleryArtsUnlocked(0)) == Amount - 1 && galleryArtsUnlocked(0) == Amount || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
+        prev(galleryArtsUnlocked(-1081344)) == Amount - 1 && galleryArtsUnlocked(-1081344) == Amount || JPHash() && Demo(15968) && Cheats(15968) && gameMode(15968) == 5 && 
+        prev(galleryArtsUnlocked(32000)) == Amount - 1 && galleryArtsUnlocked(32000) == Amount)
     )
 }
 
