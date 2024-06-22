@@ -419,6 +419,11 @@ function CheatsRage(offset) {
         cheats5(offset) == 0 && cheats6(offset) == 0 && low4(0x2092F6 + offset) == 4 && high4(0x2092F6 + offset) == 0 && cheats8(offset) == 0
 }
 
+function CheatsSOS(offset) {
+    return ContinueCheat(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
+        low4(0x2092F2 + offset) == 4 && high4(0x2092F2 + offset) == 0 && cheats6(offset) == 0 && low4(0x2092F6 + offset) == 4 && high4(0x2092F6 + offset) == 0 && cheats8(offset) == 0
+}
+
 function CheatsTechni(offset) {
     return bit2(0x2092ED + offset) == 1 && ContinueCheat(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
         cheats5(offset) == 0 && cheats6(offset) == 0 && cheats7(offset) == 0 && cheats8(offset) == 0
@@ -469,6 +474,11 @@ function CheatsRageJP(offset) {
         cheats5(offset) == 0 && cheats6(offset) == 0 && low4(0x2092F6 + offset) == 4 && high4(0x2092F6 + offset) == 0 && cheats8(offset) == 0
 }
 
+function CheatsSOSJP(offset) {
+    return ContinueCheatJP(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
+        low4(0x2092F2 + offset) == 4 && high4(0x2092F2 + offset) == 0 && cheats6(offset) == 0 && low4(0x2092F6 + offset) == 4 && high4(0x2092F6 + offset) == 0 && cheats8(offset) == 0
+}
+
 function CheatsTechniJP(offset) {
     return bit3(0x2092ED + offset) == 1 && ContinueCheatJP(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
         cheats5(offset) == 0 && cheats6(offset) == 0 && cheats7(offset) == 0 && cheats8(offset) == 0
@@ -509,7 +519,7 @@ function Progression(Title, Name, ID) {
 }
 
 Progression("Hey, Anguirus!", "Godzilla 90's", 0)
-Progression("What Do Ya Want?", "Anguirus", 1)
+Progression("What Do You Want?", "Anguirus", 1)
 Progression("Fun Fact: Roaches Don't Actually Have Drills for Hands", "Megalon", 2)
 Progression("M Space Hunter Nebula", "Gigan", 3)
 Progression("Up from the Depths", "Godzilla 2000", 4)
@@ -537,7 +547,7 @@ function AdventureHard(Title, Name, ID) {
 }
 
 AdventureHard("Something Funny Going On, You Better Check!", "Godzilla 90's", 0)
-AdventureHard("OK", "Anguirus", 1)
+AdventureHard("OK!", "Anguirus", 1)
 AdventureHard("Roaches Also Can't Spit Bombs", "Megalon", 2)
 AdventureHard("Cyborg Chicken", "Gigan", 3)
 AdventureHard("Doom Inevitable", "Godzilla 2000", 4)
@@ -546,17 +556,17 @@ AdventureHard("The Fire Demon", "Rodan", 6)
 AdventureHard("A Weapon to Surpass Godzilla", "Mecha-King Ghidorah", 7)
 AdventureHard("A Monument to All Your Sins", "Destoroyah", 8)
 AdventureHard("Terror of Mechagodzilla", "Mechagodzilla", 9)
-AdventureHard("Organizer G1 Addict", "Orga", 10)
+AdventureHard("Y'all Got Any More of Them Organizer G1?", "Orga", 10)
 AdventureHard("Synthetic War Monster", "メカゴジラ", 11)
 
 achievement(
     title = "Monster Beater", 
-    description = "Complete Adventure Mode on Hard within 15 minutes.", 
+    description = "Complete Adventure Mode on Hard in under 12 minutes.", 
     points = 25, 
     trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && matchTime(0) <= 900.0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && matchTime(0) <= 900.0 || JPHash() && Demo(15968) && CheatsJP(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
-    prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9 && matchTime(15968) <= 900.0)
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && matchTime(0) <= 720.0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && matchTime(0) <= 720.0 || JPHash() && Demo(15968) && CheatsJP(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
+    prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9 && matchTime(15968) <= 720.0)
 )
 
 achievement(
@@ -581,31 +591,31 @@ achievement(
 
 achievement(
     title = "Schizophrenia", 
-    description = "Complete Adventure Mode on Medium or Hard against invisible opponents (Use 459113 cheat).", 
+    description = "Complete Adventure Mode on Hard against invisible opponents (Use 459113 cheat).", 
     points = 10, 
-    trigger = always_true() && (USHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(0) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(-1081344) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsInvisJP(15968) && gameMode(15968) == 5 && difficulty(32000) > 0 && 
+    trigger = always_true() && (USHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsInvisJP(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
     prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9)
 )
 
 achievement(
     title = "Monstrous Mosquitos", 
-    description = "Complete Adventure Mode on Medium or Hard against mini opponents (Use 971934 cheat).", 
+    description = "Complete Adventure Mode on Hard against mini opponents (Use 971934 cheat).", 
     points = 10, 
-    trigger = always_true() && (USHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(0) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(-1081344) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsP2MiniJP(15968) && gameMode(15968) == 5 && difficulty(32000) > 0 && 
+    trigger = always_true() && (USHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsP2MiniJP(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
     prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9)
 )
 
 achievement(
     title = "Tiny Terror", 
-    description = "Complete Adventure Mode on Medium or Hard as a mini monster (Use 986875 cheat).", 
+    description = "Complete Adventure Mode on Hard as a mini monster (Use 986875 cheat).", 
     points = 10, 
-    trigger = always_true() && (USHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(0) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(-1081344) > 0 && 
-    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsMiniJP(15968) && gameMode(15968) == 5 && difficulty(32000) > 0 && 
+    trigger = always_true() && (USHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
+    prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || JPHash() && Demo(15968) && CheatsMiniJP(15968) && gameMode(15968) == 5 && difficulty(32000) == 2 && 
     prev(adventureRound(15968)) == 8 && adventureRound(15968) == 9)
 )
 
@@ -701,8 +711,8 @@ function SurvivalHard(Title, Name, ID) {
 SurvivalHard("There's a Lot of Trouble up Ahead, We Must Hurry!", "Godzilla 90's", 0)
 SurvivalHard("OK...", "Anguirus", 1)
 SurvivalHard("They Don't Have Magnetic Horns Either", "Megalon", 2)
-SurvivalHard("Let Me Give You A Hug", "Gigan", 3)
-SurvivalHard("Ruin Reborn", "Godzilla 2000", 4)
+SurvivalHard("Buzzsaw Belly", "Gigan", 3)
+SurvivalHard("Bow before the King", "Godzilla 2000", 4)
 SurvivalHard("Kneel before the Keizer", "King Ghidorah", 5)
 SurvivalHard("Rock Monster Eagle", "Rodan", 6)
 SurvivalHard("Kneel before the Cyber Keizer", "Mecha-King Ghidorah", 7)
@@ -710,6 +720,18 @@ SurvivalHard("Micro-Oxygen Progeny", "Destoroyah", 8)
 SurvivalHard("Mecha-King Godzilla", "Mechagodzilla", 9)
 SurvivalHard("The Power of the Sun in the Base of My Shoulder", "Orga", 10)
 SurvivalHard("Multipurpose Fighting System Type-3", "メカゴジラ", 11)
+achievement(
+    title = "King of the Monsters", 
+    description = "Submit a score of 15,000 or higher in Survival Mode on Hard.", 
+    points = 25, 
+    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(0) == 2 && 
+    versusSurvP1Wins(0) == 0 && prev(versusSurvRoundsCompleted(0)) == 0 && 
+    versusSurvRoundsCompleted(0) == 1 && survivalScore(0) >= 15000 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(-1081344) == 2 && 
+    versusSurvP1Wins(0) == 0 && prev(versusSurvRoundsCompleted(0)) == 0 && 
+    versusSurvRoundsCompleted(0) == 1 && survivalScore(0) >= 15000 || JPHash() && Demo(15968) && CheatsJP(15968) && gameMode(15968) == 6 && difficulty(32000) == 2 && 
+    versusSurvP1Wins(15968) == 0 && prev(versusSurvRoundsCompleted(15968)) == 0 && 
+    versusSurvRoundsCompleted(15968) == 1 && survivalScore(15968) >= 15000)
+)
 
 function SurvivalLB(Title, DiffID, ID) {
     leaderboard(
@@ -787,6 +809,18 @@ achievement(
 )
 
 achievement(
+    title = "Tokyo S.O.S", 
+    description = "Win a 3 Round, 5 Minute Versus match on Hard against unlimited Rage Mechagodzilla and stronger military (122224 and 308929 cheats).", 
+    points = 10, 
+    trigger = always_true() && (USHash() && Demo(0) && CheatsSOS(0) && gameMode(0) == 1 && difficulty(0) == 2 && rounds(0) == 2 && roundTime(0) == 300.9 && 
+    prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterP2Ascii(0), Chars[9]) || 
+    EUHash() && Demo(0) && CheatsSOS(0) && gameMode(0) == 1 && difficulty(-1081344) == 2 && rounds(-1081344) == 2 && roundTime(-1081344) == 300.9 && 
+    prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterP2Ascii(0), Chars[9]) || 
+    JPHash() && Demo(15968) && CheatsSOSJP(15968) && gameMode(15968) == 1 && difficulty(32000) == 2 && rounds(32000) == 2 && roundTime(32000) == 300.9 && 
+    prev(versusSurvP1Wins(15968)) == 1 && versusSurvP1Wins(15968) == 2 && ascii_string_equals(characterP2Ascii(15968), Chars[11]))
+)
+
+achievement(
     title = "Annihilation", 
     description = "Win a 3 Round, 5 Minute Versus match as Orga against Destoroyah using the Technicolor cheat (Use 661334 cheat).", 
     points = 2, 
@@ -814,13 +848,13 @@ achievement(
 )
 
 achievement(
-    title = "G-Cell Devourer", 
-    description = "Unlock Orga.", 
+    title = "Giant Monsters All-Out Attack", 
+    description = "Unlock all monsters.", 
     points = 1, 
     trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
-    __ornext(prev(orgaLocked(0)) == 1 || prev(orgaLocked(0)) == 2) && orgaLocked(0) == 0 || EUHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
-    __ornext(prev(orgaLocked(-1081344)) == 1 || prev(orgaLocked(-1081344)) == 2) && orgaLocked(-1081344) == 0 || JPHash() && Demo(15968) && CheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
-    __ornext(prev(orgaLocked(32000)) == 1 || prev(orgaLocked(32000)) == 2) && orgaLocked(32000) == 0)
+    prev(orgaLocked(0)) == 1 && orgaLocked(0) == 0 || EUHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
+    prev(orgaLocked(-1081344)) == 1 && orgaLocked(-1081344) == 0 || JPHash() && Demo(15968) && CheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
+    prev(orgaLocked(32000)) == 1 && orgaLocked(32000) == 0)
 )
 
 achievement(
