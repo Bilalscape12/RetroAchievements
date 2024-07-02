@@ -7,6 +7,11 @@
 //          JP = 0x475a444a
 function diskSerial() => dword_be(0x0000)
 
+// $207CE4: Ingame [32-bit BE]
+//          I found this at the last second, after the set was completed and playtested
+//          only used for RP, needs to be combined with demo check
+function ingame(offset) => dword_be(0x207CE4 + offset)
+
 // $2089AC: Game Mode [32-bit BE]
 //          1 = Versus/Gallery/Options
 //          2 = Team Battle
@@ -186,6 +191,13 @@ function p1RageTimer(offset) => float_be(0x284230 + offset)
 
 // $28C80C: P2 health [Float BE]
 function p2Health(offset) => float_be(0x28C80C + offset)
+
+// $314A0C: Menu State [32-bit BE]
+//          1 = main menu
+//          2 = monster select
+//          3 = city select
+//          4 = gameplay
+function menuState(offset) => dword_be(0x314A0C + offset)
 
 // $316B2C: Difficulty [32-bit BE]
 //          0 = Easy
@@ -527,14 +539,15 @@ Progression("Venusian Demon of the Galaxy", "King Ghidorah", 5)
 Progression("Titan of Winged Fury", "Rodan", 6)
 Progression("Cyborg Super Monster", "Mecha-King Ghidorah", 7)
 Progression("Oxygen Destroyer Incarnate", "Destoroyah", 8)
-Progression("Mechagodzilla 90's", "Mechagodzilla", 9)
-Progression("Millennian Collective", "Orga", 10)
+// MERGED - Manually override
+Progression("WMD: Weapon of Monster Destruction", "Mechagodzilla", 9)
 Progression("Mechagodzilla 2000", "メカゴジラ", 11)
+Progression("Millennian Collective", "Orga", 10)
 
 function AdventureHard(Title, Name, ID) {
     achievement(
         title = Title, 
-        description = "Complete Adventure Mode with " + Name + " on Hard.", 
+        description = "Complete Adventure Mode with " + Name + " on Hard difficulty.", 
         points = 10,
         trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
         prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && 
@@ -555,13 +568,14 @@ AdventureHard("The Death Song of Three Storms", "King Ghidorah", 5)
 AdventureHard("The Fire Demon", "Rodan", 6)
 AdventureHard("A Weapon to Surpass Godzilla", "Mecha-King Ghidorah", 7)
 AdventureHard("A Monument to All Your Sins", "Destoroyah", 8)
+// MERGED - Manually override
 AdventureHard("Terror of Mechagodzilla", "Mechagodzilla", 9)
-AdventureHard("Y'all Got Any More of Them Organizer G1?", "Orga", 10)
 AdventureHard("Synthetic War Monster", "メカゴジラ", 11)
+AdventureHard("Y'all Got Any More of Them Organizer G1?", "Orga", 10)
 
 achievement(
     title = "Monster Beater", 
-    description = "Complete Adventure Mode on Hard in under 12 minutes.", 
+    description = "Complete Adventure Mode on Hard difficulty in under 12 minutes.", 
     points = 25, 
     trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 && matchTime(0) <= 720.0 || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -571,7 +585,7 @@ achievement(
 
 achievement(
     title = "No Nonsense, Let's Fight!", 
-    description = "Complete Adventure Mode on Hard with all power-ups and military disabled (Use 779886, 256806, and 841720 cheats).", 
+    description = "Complete Adventure Mode on Hard difficulty with all power-ups and military disabled (Cheat codes to use: 779886, 256806, 841720).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsSkill(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsSkill(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -581,7 +595,7 @@ achievement(
 
 achievement(
     title = "Never-Ending Beam Attacks", 
-    description = "Complete Adventure Mode on Hard against opponents with unlimited energy (Use 435976 cheat).", 
+    description = "Complete Adventure Mode on Hard difficulty against opponents with unlimited energy (Cheat code to use: 435976).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsEnergy(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsEnergy(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -591,7 +605,7 @@ achievement(
 
 achievement(
     title = "Schizophrenia", 
-    description = "Complete Adventure Mode on Hard against invisible opponents (Use 459113 cheat).", 
+    description = "Complete Adventure Mode on Hard difficulty against invisible opponents (Cheat code to use: 459113).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsInvis(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -601,7 +615,7 @@ achievement(
 
 achievement(
     title = "Monstrous Mosquitos", 
-    description = "Complete Adventure Mode on Hard against mini opponents (Use 971934 cheat).", 
+    description = "Complete Adventure Mode on Hard difficulty against mini opponents (Cheat code to use: 971934).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsP2Mini(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -611,7 +625,7 @@ achievement(
 
 achievement(
     title = "Tiny Terror", 
-    description = "Complete Adventure Mode on Hard as a mini monster (Use 986875 cheat).", 
+    description = "Complete Adventure Mode on Hard difficulty as a mini monster (Cheat code to use: 986875).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(0) == 2 && 
     prev(adventureRound(0)) == 8 && adventureRound(0) == 9 || EUHash() && Demo(0) && CheatsMini(0) && gameMode(0) == 5 && difficulty(-1081344) == 2 && 
@@ -652,8 +666,8 @@ AdventureLB("Easy - Rodan", 0, 6)
 AdventureLB("Easy - Mecha-King Ghidorah", 0, 7)
 AdventureLB("Easy - Destoroyah", 0, 8)
 AdventureLB("Easy - Mechagodzilla", 0, 9)
-AdventureLB("Easy - Orga", 0, 10)
 AdventureLB("Easy - メカゴジラ", 0, 11)
+AdventureLB("Easy - Orga", 0, 10)
 AdventureLB("Medium - Godzilla 90's", 1, 0)
 AdventureLB("Medium - Anguirus", 1, 1)
 AdventureLB("Medium - Megalon", 1, 2)
@@ -664,8 +678,8 @@ AdventureLB("Medium - Rodan", 1, 6)
 AdventureLB("Medium - Mecha-King Ghidorah", 1, 7)
 AdventureLB("Medium - Destoroyah", 1, 8)
 AdventureLB("Medium - Mechagodzilla", 1, 9)
-AdventureLB("Medium - Orga", 1, 10)
 AdventureLB("Medium - メカゴジラ", 1, 11)
+AdventureLB("Medium - Orga", 1, 10)
 AdventureLB("Hard - Godzilla 90's", 2, 0)
 AdventureLB("Hard - Anguirus", 2, 1)
 AdventureLB("Hard - Megalon", 2, 2)
@@ -676,8 +690,8 @@ AdventureLB("Hard - Rodan", 2, 6)
 AdventureLB("Hard - Mecha-King Ghidorah", 2, 7)
 AdventureLB("Hard - Destoroyah", 2, 8)
 AdventureLB("Hard - Mechagodzilla", 2, 9)
-AdventureLB("Hard - Orga", 2, 10)
 AdventureLB("Hard - メカゴジラ", 2, 11)
+AdventureLB("Hard - Orga", 2, 10)
 
 function Survival(Title) {
     achievement(
@@ -696,7 +710,7 @@ Survival("Survival of the Fittest")
 function SurvivalHard(Title, Name, ID) {
     achievement(
         title = Title, 
-        description = "Get 8 wins in Survival Mode with " + Name + " on Hard.", 
+        description = "Get 8 wins in Survival Mode with " + Name + " on Hard difficulty.", 
         points = 10,
         trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(0) == 2 && 
         prev(survivalKills(0)) == 7 && survivalKills(0) == 8 && 
@@ -717,12 +731,13 @@ SurvivalHard("Kneel before the Keizer", "King Ghidorah", 5)
 SurvivalHard("Rock Monster Eagle", "Rodan", 6)
 SurvivalHard("Kneel before the Cyber Keizer", "Mecha-King Ghidorah", 7)
 SurvivalHard("Micro-Oxygen Progeny", "Destoroyah", 8)
+// MERGED - Manually override
 SurvivalHard("Mecha-King Godzilla", "Mechagodzilla", 9)
-SurvivalHard("The Power of the Sun in the Base of My Shoulder", "Orga", 10)
 SurvivalHard("Multipurpose Fighting System Type-3", "メカゴジラ", 11)
+SurvivalHard("The Power of the Sun in the Base of My Shoulder", "Orga", 10)
 achievement(
     title = "King of the Monsters", 
-    description = "Submit a score of 15,000 or higher in Survival Mode on Hard.", 
+    description = "Submit a score of 15,000 or higher in Survival Mode on Hard difficulty.", 
     points = 25, 
     trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 6 && difficulty(0) == 2 && 
     versusSurvP1Wins(0) == 0 && prev(versusSurvRoundsCompleted(0)) == 0 && 
@@ -769,8 +784,8 @@ SurvivalLB("Easy - Rodan", 0, 6)
 SurvivalLB("Easy - Mecha-King Ghidorah", 0, 7)
 SurvivalLB("Easy - Destoroyah", 0, 8)
 SurvivalLB("Easy - Mechagodzilla", 0, 9)
-SurvivalLB("Easy - Rodan", 0, 10)
 SurvivalLB("Easy - メカゴジラ", 0, 11)
+SurvivalLB("Easy - Orga", 0, 10)
 SurvivalLB("Medium - Godzilla 90's", 1, 0)
 SurvivalLB("Medium - Anguirus", 1, 1)
 SurvivalLB("Medium - Megalon", 1, 2)
@@ -781,8 +796,8 @@ SurvivalLB("Medium - Rodan", 1, 6)
 SurvivalLB("Medium - Mecha-King Ghidorah", 1, 7)
 SurvivalLB("Medium - Destoroyah", 1, 8)
 SurvivalLB("Medium - Mechagodzilla", 1, 9)
-SurvivalLB("Medium - Rodan", 1, 10)
 SurvivalLB("Medium - メカゴジラ", 1, 11)
+SurvivalLB("Medium - Orga", 1, 10)
 SurvivalLB("Hard - Godzilla 90's", 2, 0)
 SurvivalLB("Hard - Anguirus", 2, 1)
 SurvivalLB("Hard - Megalon", 2, 2)
@@ -793,12 +808,12 @@ SurvivalLB("Hard - Rodan", 2, 6)
 SurvivalLB("Hard - Mecha-King Ghidorah", 2, 7)
 SurvivalLB("Hard - Destoroyah", 2, 8)
 SurvivalLB("Hard - Mechagodzilla", 2, 9)
-SurvivalLB("Hard - Rodan", 2, 10)
 SurvivalLB("Hard - メカゴジラ", 2, 11)
+SurvivalLB("Hard - Orga", 2, 10)
 
 achievement(
     title = "Spikey Ball of Death", 
-    description = "Win a 3 Round, 5 Minute Versus match on Hard against unlimited Rage Anguirus (Use 122224 cheat).", 
+    description = "Win a Versus match of 3 rounds set to 5 minutes each against unlimited Rage Anguirus on Hard difficulty (Cheat code to use: 122224).", 
     points = 5, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsRage(0) && gameMode(0) == 1 && difficulty(0) == 2 && rounds(0) == 2 && roundTime(0) == 300.9 && 
     prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterP2Ascii(0), Chars[1]) || 
@@ -809,8 +824,8 @@ achievement(
 )
 
 achievement(
-    title = "Tokyo S.O.S", 
-    description = "Win a 3 Round, 5 Minute Versus match on Hard against unlimited Rage Mechagodzilla and stronger military (122224 and 308929 cheats).", 
+    title = "Tokyo S.O.S.", 
+    description = "Win a Versus match of 3 rounds set to 5 minutes each against unlimited Rage Mechagodzilla and strong military on Hard difficulty (Cheat codes to use: 122224 and 308929).", 
     points = 10, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsSOS(0) && gameMode(0) == 1 && difficulty(0) == 2 && rounds(0) == 2 && roundTime(0) == 300.9 && 
     prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterP2Ascii(0), Chars[9]) || 
@@ -822,7 +837,7 @@ achievement(
 
 achievement(
     title = "Annihilation", 
-    description = "Win a 3 Round, 5 Minute Versus match as Orga against Destoroyah using the Technicolor cheat (Use 661334 cheat).", 
+    description = "Win a Versus match of 3 rounds set to 5 minutes each as Orga against Destoroyah using the Technicolor cheat (Cheat code to use: 661334).", 
     points = 2, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsTechni(0) && gameMode(0) == 1 && rounds(0) == 2 && roundTime(0) == 300.9 && 
     prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterAscii(0), Chars[10]) && ascii_string_equals(characterP2Ascii(0), Chars[8]) || 
@@ -834,7 +849,7 @@ achievement(
 
 achievement(
     title = "Godzilla Raids Again", 
-    description = "Win a 3 Round, 5 Minute Versus match as Godzilla 90's against Anguirus in Osaka using the Black & White cheat (Use 567980 cheat).", 
+    description = "Win a Versus match of 3 rounds set to 5 minutes each as Godzilla 90's against Anguirus in Osaka using the Black & White cheat (Cheat code to use: 567980).", 
     points = 2, 
     trigger = always_true() && (USHash() && Demo(0) && CheatsBW(0) && gameMode(0) == 1 && rounds(0) == 2 && roundTime(0) == 300.9 && 
     prev(versusSurvP1Wins(0)) == 1 && versusSurvP1Wins(0) == 2 && ascii_string_equals(characterAscii(0), Chars[0]) && 
@@ -1153,8 +1168,56 @@ EnergyCheat = rich_presence_lookup("Energy", cheats1(0), Energy)
 SurvWins = rich_presence_macro("Number", survivalKills(0))
 SurvScore = rich_presence_macro("Number", survivalScore(0))
 
-rich_presence_conditional_display(always_true() && (USHash() && demoAttractMode(0) == 1 || 
-    EUHash() && demoAttractMode(0) == 1 || JPHash() && demoAttractMode(15968) == 1), 
+rich_presence_conditional_display(always_true() && (USHash() && menuState(0) == 1 || 
+    EUHash() && menuState(-1081320) == 1 || JPHash() && menuState(32000) == 1), 
+    "Main Menu"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 1 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 1 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 1 && menuState(32000) == 2), 
+    "Selecting monsters for Versus"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 1 && menuState(0) == 3 || 
+    EUHash() && gameMode(0) == 1 && menuState(-1081320) == 3 || JPHash() && gameMode(15968) == 1 && menuState(32000) == 3), 
+    "Selecting an arena for Versus"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 5 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 5 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 5 && menuState(32000) == 2), 
+    "Selecting a monster for Adventure"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 6 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 6 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 6 && menuState(32000) == 2), 
+    "Selecting a monster for Survival"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 6 && menuState(0) == 3 || 
+    EUHash() && gameMode(0) == 6 && menuState(-1081320) == 3 || JPHash() && gameMode(15968) == 6 && menuState(32000) == 3), 
+    "Selecting an arena for Survival"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 2 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 2 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 2 && menuState(32000) == 2), 
+    "Selecting monsters for Team Battle"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 2 && menuState(0) == 3 || 
+    EUHash() && gameMode(0) == 2 && menuState(-1081320) == 3 || JPHash() && gameMode(15968) == 2 && menuState(32000) == 3), 
+    "Selecting an arena for Team Battle"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 3 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 3 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 3 && menuState(32000) == 2), 
+    "Selecting monsters for Melee"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 3 && menuState(0) == 3 || 
+    EUHash() && gameMode(0) == 3 && menuState(-1081320) == 3 || JPHash() && gameMode(15968) == 3 && menuState(32000) == 3), 
+    "Selecting an arena for Melee"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 4 && menuState(0) == 2 || 
+    EUHash() && gameMode(0) == 4 && menuState(-1081320) == 2 || JPHash() && gameMode(15968) == 4 && menuState(32000) == 2), 
+    "Selecting monsters for Destruction"
+)
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 4 && menuState(0) == 3 || 
+    EUHash() && gameMode(0) == 4 && menuState(-1081320) == 3 || JPHash() && gameMode(15968) == 4 && menuState(32000) == 3), 
+    "Selecting an arena for Destruction"
+)
+rich_presence_conditional_display(always_true() && (USHash() && demoAttractMode(0) == 1 && ingame(0) == 1 || 
+    EUHash() && demoAttractMode(0) == 1 && ingame(0) == 1 || JPHash() && demoAttractMode(15968) == 1 && ingame(15968) == 1), 
     "Watching the Demo"
 )
 rich_presence_conditional_display(always_true() && (USHash() && ascii_string_equals(gameModeAscii(0), "Options") || 
@@ -1167,16 +1230,16 @@ rich_presence_conditional_display(always_true() && (USHash() && ascii_string_equ
     JPHash() && ascii_string_equals(gameModeAscii(15968), "Gallery")), 
     "Viewing the Gallery"
 )
-rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 2 || 
-    EUHash() && gameMode(0) == 2 || JPHash() && gameMode(15968) == 2), 
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 2 && ingame(0) == 1 || 
+    EUHash() && gameMode(0) == 2 && ingame(0) == 1 || JPHash() && gameMode(15968) == 2 && ingame(15968) == 1), 
     "Playing Team Battle"
 )
-rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 3 || 
-    EUHash() && gameMode(0) == 3 || JPHash() && gameMode(15968) == 3), 
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 3 && ingame(0) == 1 || 
+    EUHash() && gameMode(0) == 3 && ingame(0) == 1 || JPHash() && gameMode(15968) == 3 && ingame(15968) == 1), 
     "Playing Melee"
 )
-rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 4 || 
-    EUHash() && gameMode(0) == 4 || JPHash() && gameMode(15968) == 4), 
+rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 4 && ingame(0) == 1 || 
+    EUHash() && gameMode(0) == 4 && ingame(0) == 1 || JPHash() && gameMode(15968) == 4 && ingame(15968) == 1), 
     "Playing Destruction"
 )
 rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 5 && 
@@ -1185,231 +1248,231 @@ rich_presence_conditional_display(always_true() && (USHash() && gameMode(0) == 5
     "The Vortaak have been defeated! But they will return..."
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[0]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G90", adventureRound(0), G90), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[1]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Ang", adventureRound(0), Ang), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[2]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Mega", adventureRound(0), Mega), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[3]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Giga", adventureRound(0), Giga), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[4]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G2K", adventureRound(0), G2K), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[5]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("KGH", adventureRound(0), KGH), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[6]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Rod", adventureRound(0), Rod), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[7]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MKGH", adventureRound(0), MKGH), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[8]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Des", adventureRound(0), Des), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[9]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MechaG", adventureRound(0), MechaG), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[10]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Org", adventureRound(0), Org), 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[0]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G90", adventureRound(0), G90), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[1]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Ang", adventureRound(0), Ang), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[2]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Mega", adventureRound(0), Mega), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[3]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Giga", adventureRound(0), Giga), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[4]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G2K", adventureRound(0), G2K), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[5]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("KGH", adventureRound(0), KGH), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[6]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Rod", adventureRound(0), Rod), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[7]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MKGH", adventureRound(0), MKGH), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[8]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Des", adventureRound(0), Des), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[9]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Org", adventureRound(0), Org), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[10]) && 
-    gameMode(0) == 5 && adventureRound(0) >= 1, 
+    gameMode(0) == 5 && adventureRound(0) >= 1 && ingame(0) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MechaG", adventureRound(0), MechaG), 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(0), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[0]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G90JP", adventureRound(15968), G90JP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[1]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("AngJP", adventureRound(15968), AngJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[2]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MegaJP", adventureRound(15968), MegaJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[3]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("GigaJP", adventureRound(15968), GigaJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[4]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("G2KJP", adventureRound(15968), G2KJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[5]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("KGHJP", adventureRound(15968), KGHJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[6]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("RodJP", adventureRound(15968), RodJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[7]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("MKGHJP", adventureRound(15968), MKGHJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[8]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("DesJP", adventureRound(15968), DesJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[11]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("Kiryu", adventureRound(15968), Kiryu), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_value("AdvTime", matchTime(15968), "SECS")
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[10]) && 
-    gameMode(15968) == 5 && adventureRound(15968) >= 1, 
+    gameMode(15968) == 5 && adventureRound(15968) >= 1 && ingame(15968) == 1, 
     "{0} in {1} Adventure Mode • Time: {2}", 
     rich_presence_lookup("OrgJP", adventureRound(15968), OrgJP), 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
@@ -1417,351 +1480,351 @@ rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[0]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Godzilla 90's is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[1]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Anguirus is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[2]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Megalon is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[3]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Gigan is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[4]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Godzilla 2000 is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[5]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "King Ghidorah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[6]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Rodan is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[7]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Mecha-King Ghidorah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[8]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Destoroyah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[9]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Mechagodzilla is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(__ornext(USHash() || EUHash()) && 
     ascii_string_equals(characterAscii(0), Chars[10]) && 
-    gameMode(0) == 1, 
+    gameMode(0) == 1 && ingame(0) == 1, 
     "Orga is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(0))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[0]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Godzilla 90's is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[1]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Anguirus is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[2]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Megalon is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[3]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Gigan is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[4]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Godzilla 2000 is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[5]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "King Ghidorah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[6]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Rodan is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[7]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Mecha-King Ghidorah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[8]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Destoroyah is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[11]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "メカゴジラ is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[10]) && 
-    gameMode(15968) == 1, 
+    gameMode(15968) == 1 && ingame(15968) == 1, 
     "Orga is in Versus Mode • Wins: {0}", 
     rich_presence_macro("Number", versusSurvP1Wins(15968))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[0]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Godzilla 90's is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[1]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Anguirus is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[2]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Megalon is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[3]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Gigan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[4]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Godzilla 2000 is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[5]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[6]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Rodan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[7]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Mecha-King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[8]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Destoroyah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[9]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Mechagodzilla is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(USHash() && ascii_string_equals(characterAscii(0), Chars[10]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Orga is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(0), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[0]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Godzilla 90's is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[1]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Anguirus is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[2]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Megalon is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[3]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Gigan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[4]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Godzilla 2000 is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[5]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[6]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Rodan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[7]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Mecha-King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[8]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Destoroyah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[9]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Mechagodzilla is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(EUHash() && ascii_string_equals(characterAscii(0), Chars[10]) && 
-    gameMode(0) == 6, 
+    gameMode(0) == 6 && ingame(0) == 1, 
     "Orga is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(-1081344), DiffLookup), 
     rich_presence_macro("Number", survivalKills(0)), 
     rich_presence_macro("Number", survivalScore(0))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[0]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Godzilla 90's is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[1]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Anguirus is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[2]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Megalon is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[3]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Gigan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[4]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Godzilla 2000 is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[5]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[6]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Rodan is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[7]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Mecha-King Ghidorah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[8]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Destoroyah is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[10]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "Orga is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
     rich_presence_macro("Number", survivalScore(15968))
 )
 rich_presence_conditional_display(JPHash() && ascii_string_equals(characterAscii(15968), Chars[11]) && 
-    gameMode(15968) == 6, 
+    gameMode(15968) == 6 && ingame(15968) == 1, 
     "メカゴジラ is in {0} Survival Mode • Wins: {1} • Score: {2}", 
     rich_presence_lookup("Diffi", difficulty(32000), DiffLookup), 
     rich_presence_macro("Number", survivalKills(15968)), 
