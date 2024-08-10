@@ -62,6 +62,7 @@ function zoo() => dword_be(0x2E1698)
 //          ++0x244 | chap 1, lvl 1 right stego
 //          ++0x254 | chap 1, lvl 1 baby triceratops
 //          ++0x25C | chap 1, lvl 1 momma triceratops
+//          ++0x8E4 | Bruckner
 //          +++0x1EC
 //          ++++0x04 | Health [Float BE]
 //          ++0xFC | chap 8, lvl 4 first manhole
@@ -73,6 +74,8 @@ function objectPointer() => dword_be(0x3112B0)
 //          +0xA44 | pointer to pterosaur
 //          ++0x80 | Pterosaur missiles [32-bit BE]
 //          ++0x84 | Overdrive time remaining [Float BE]
+//          +0x192C
+//          ++0x0 | Weapon attacking [32-bit BE]
 //          +0x1ACC | Weapon equipped [32-bit BE]
 //          +0x1AC0 | Weapons array, use equipped weapon as index pointer [25-bit BE]
 //          ++0x0 | Weapon ID [32-bit BE]
@@ -396,6 +399,10 @@ function ChapCheats() {
 		invisibleCheatActivated() == 0 && unless(once(autoAim() == 1))
 }
 
+function BanClub(hits) {
+	return disable_when(repeated(hits+1, levelLoading() == 0 && dword_be((playerPointer() & 0x1FFFFFF) + 0x001ACC) == 0 && dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x00192C) & 0x1FFFFFF) + 0x00) > prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x00192C) & 0x1FFFFFF) + 0x00))))
+}
+
 // Used to block regular arrows, pistol, shotgun, grenade, flechette gun (only flechettes), flamethrower, rocket launcher (only rockets), plasma cannon, spider mine, dark matter cube, gravity disruptor
 function BanSingleAmmoWeapon(weaponSlot, hits) {
 	return disable_when(repeated(hits+1, levelLoading() == 0 && dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000004 + (0x000028*weaponSlot))) < prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000004 + (0x000028*weaponSlot))))))
@@ -449,7 +456,7 @@ function WinCon() {
 function ChapSpeedrun(level, chap, frames) {
 	if (chap < 8)
 		return ChapCheats() && disable_when(repeated(frames, chapterNumber() == chap + 48 && levelLoading() == 0)) && 
-			levelTitleInUppercaseAscii() == level[0] && once(levelSecondHalf() == level[1]) && prev(chapterNumber()) == chap + 48 && trigger_when(chapterNumber() == chap + 49)
+			once(levelTitleInUppercaseAscii() == level[0] && levelSecondHalf() == level[1]) && prev(chapterNumber()) == chap + 48 && trigger_when(chapterNumber() == chap + 49)
 			|| never(levelPlaying() == 0)
 	if (chap == 8)
 		return ChapCheats() && disable_when(repeated(frames, chapterNumber() == chap + 48 && levelLoading() == 0)) && 
@@ -462,7 +469,7 @@ function ChapSpeedrun(level, chap, frames) {
 	// Use the lvl function for chapters 12 and 13
 	if (chap > 9 && chap < 15)
 		return ChapCheats() && disable_when(repeated(frames, chapterNumber() == chap*256 + 9777 && levelLoading() == 0)) && 
-			levelTitleInUppercaseAscii() == level[0] && once(levelSecondHalf() == level[1]) && prev(chapterNumber()) == chap*256 + 9777 && trigger_when(chapterNumber() == chap*256 + 9777)
+			once(levelTitleInUppercaseAscii() == level[0] && levelSecondHalf() == level[1]) && prev(chapterNumber()) == chap*256 + 9777 && trigger_when(chapterNumber() == chap*256 + 9777)
 			|| never(levelPlaying() == 0)
 	if (chap == 15)
 		return ChapCheats() && disable_when(repeated(frames, chapterNumber() == 13617 && levelLoading() == 0)) && 
@@ -486,28 +493,28 @@ function LvlSpeedrun(Level1, Level2, NextLevel1, NextLevel2, frames) {
 }
 
 Progression("Into the Jungle", "1. Note that Auto Aim must be disabled to earn any achievements!", 5, HUNTERS[0], HUNTERS[1], AIRBORNE[0], AIRBORNE[1])
-Progression("Airborne", "2", 10, ANCIENT_[0], ANCIENT_[1], MOUNTAIN[0], MOUNTAIN[1])
-Progression("Mountain Descent", "3", 10, DESC[0], "", INFILTRA[0], INFILTRA[1])
-Progression("Infiltration", "4", 10, ENTERING[0], ENTERING[1], THE_SLEG[0], THE_SLEG[1])
-Progression("The Sleg Fortress", "5", 25, FREE[0], "", SHADOWED[0], SHADOWED[1])
-Progression("Shadowed Lands", "6", 10, THE_BRID[0], THE_BRID[1], BACK_TO_[0], BACK_TO_[1])
-Progression("Back to the Skies", "7", 10, RAINING_[0], RAINING_[1], ASSA[0], "")
-Progression("Assault", "8", 10, AREN[0], "", VERT[0], "")
-Progression("Vertigo", "9", 10, MONUMENT[0], MONUMENT[1], HALLS_OF[0], HALLS_OF[1])
-Progression("Halls of Justice", "10", 10, SACRIFIC[0], SACRIFIC[1], CHAOS_IN[0], CHAOS_IN[1])
-Progression("Chaos in the Skies", "11", 10, THE_NICK[0], THE_NICK[1], JUGGERNA[0], JUGGERNA[1])
-Progression("Juggernaut Approach", "12", 5, JUGGERNA[0], JUGGERNA[1], THE_BELL[0], THE_BELL[1])
-Progression("The Belly of the Beast", "13", 10, THE_BELL[0], THE_BELL[1], THE_FINA[0], THE_FINA[1])
-Progression("The Final Blow", "14", 10, THE_BATT[0], THE_BATT[1], VENGEANC[0], VENGEANC[1])
+Progression("Airborne", "2.", 10, ANCIENT_[0], ANCIENT_[1], MOUNTAIN[0], MOUNTAIN[1])
+Progression("Mountain Descent", "3.", 10, DESC[0], "", INFILTRA[0], INFILTRA[1])
+Progression("Infiltration", "4.", 10, ENTERING[0], ENTERING[1], THE_SLEG[0], THE_SLEG[1])
+Progression("The Sleg Fortress", "5.", 25, FREE[0], "", SHADOWED[0], SHADOWED[1])
+Progression("Shadowed Lands", "6.", 10, THE_BRID[0], THE_BRID[1], BACK_TO_[0], BACK_TO_[1])
+Progression("Back to the Skies", "7.", 10, RAINING_[0], RAINING_[1], ASSA[0], "")
+Progression("Assault", "8.", 10, AREN[0], "", VERT[0], "")
+Progression("Vertigo", "9.", 10, MONUMENT[0], MONUMENT[1], HALLS_OF[0], HALLS_OF[1])
+Progression("Halls of Justice", "10.", 10, SACRIFIC[0], SACRIFIC[1], CHAOS_IN[0], CHAOS_IN[1])
+Progression("Chaos in the Skies", "11.", 10, THE_NICK[0], THE_NICK[1], JUGGERNA[0], JUGGERNA[1])
+Progression("Juggernaut Approach", "12.", 5, JUGGERNA[0], JUGGERNA[1], THE_BELL[0], THE_BELL[1])
+Progression("The Belly of the Beast", "13.", 10, THE_BELL[0], THE_BELL[1], THE_FINA[0], THE_FINA[1])
+Progression("The Final Blow", "14.", 10, THE_BATT[0], THE_BATT[1], VENGEANC[0], VENGEANC[1])
 achievement(
     title = "Vengeance", points = 5,
-    description = "Complete Chapter 15",
+    description = "Complete Chapter 15.",
     trigger = WinCon()
 )
 
 achievement(
     title = "Poison Paste", points = 1,
-    description = "Pick up Poison Arrows",
+    description = "Pick up Poison Arrows.",
     trigger = Cheats() && levelLoading() == 0 &&
               (dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x00000C + (0x000028*2))) > 
               prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x00000C + (0x000028*2)))) && 
@@ -521,7 +528,7 @@ achievement(
 
 achievement(
     title = "Flaming Guts", points = 1,
-    description = "Pick up Explosive Arrows",
+    description = "Pick up Explosive Arrows.",
     trigger = Cheats() && levelLoading() == 0 &&
               (dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000008 + (0x000028*1))) > 
               prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000008 + (0x000028*1)))) && 
@@ -531,7 +538,7 @@ achievement(
 
 achievement(
     title = "Scoped In", points = 1,
-    description = "Pick up a Sniper Scope",
+    description = "Pick up a Sniper Scope.",
     trigger = Cheats() && levelLoading() == 0 &&
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*3)))) == 0 &&
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*3))) == 1 && 
@@ -544,7 +551,7 @@ achievement(
 
 achievement(
     title = "Barrage of Shells", points = 2,
-    description = "Pick up a Quad Shot Barrel",
+    description = "Pick up a Quad Shot Barrel.",
     trigger = Cheats() && levelLoading() == 0 && 
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*3)))) == 0 && 
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*3))) == 1 && 
@@ -563,7 +570,7 @@ achievement(
 
 achievement(
     title = "18 Barrels of 20mm Death", points = 2,
-    description = "Pick up Minigun Barrels",
+    description = "Pick up Minigun Barrels.",
     trigger = Cheats() && levelLoading() == 0 &&
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*4)))) == 0 && 
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*4))) == 1 && 
@@ -588,7 +595,7 @@ achievement(
 
 achievement(
     title = "Homing Plasma", points = 2,
-    description = "Pick up a Seeker Lens",
+    description = "Pick up a Seeker Lens.",
     trigger = Cheats() && levelLoading() == 0 &&
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*7)))) == 0 &&
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*7))) == 1 && 
@@ -606,8 +613,8 @@ achievement(
 )
 
 achievement(
-    title = "Drill Bits From Hell", points = 2,
-    description = "Pick up a Swarm-Bore Attachment",
+    title = "Drill Bits from Hell", points = 2,
+    description = "Pick up a Swarm-Bore Attachment.",
     trigger = Cheats() && levelLoading() == 0 &&
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*6)))) == 0 &&
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000014 + (0x000028*6))) == 1 && 
@@ -624,7 +631,7 @@ achievement(
 
 achievement(
     title = "I Have Become Death", points = 2,
-    description = "Fire the Nuke",
+    description = "Fire the Nuke.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == AREN[0] &&
               prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + 0x0000D4)) == 1 &&
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + 0x0000D4) == 0 &&
@@ -634,7 +641,7 @@ achievement(
 
 achievement(
     title = "Chain Lightning", points = 2,
-    description = "Pick up a Chain Lens",
+    description = "Pick up a Chain Lens.",
     trigger = Cheats() && levelLoading() == 0 &&
               (prev(dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000018 + (0x000028*6)))) == 0 &&
               dword_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x001AC0) & 0x1FFFFFF) + (0x000018 + (0x000028*6))) == 1 && 
@@ -650,7 +657,7 @@ achievement(
 
 achievement(
     title = "Last Minute Resupply", points = 2,
-    description = "Pick up the hidden weapons in Hunter's Peril",
+    description = "Pick up the hidden weapons in Hunter's Peril.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == HUNTERS[0] && levelSecondHalf() == HUNTERS[1] &&
               (prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x0000A4)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -664,14 +671,14 @@ achievement(
 
 achievement(
     title = "Temple Relic", points = 2,
-    description = "Pick up an Overdrive in Ancient Ruins",
+    description = "Pick up an Overdrive in Ancient Ruins.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == ANCIENT_[0] && levelSecondHalf() == ANCIENT_[1] && 
 				float_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x000A44) & 0x1FFFFFF) + 0x000084) > 0.0
 )
 
 achievement(
     title = "Ledge Lookout", points = 3,
-    description = "Pick up the hidden Shotgun in Summit Battle",
+    description = "Pick up the hidden Shotgun in Summit Battle.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == SUMMIT_B[0] && levelSecondHalf() == SUMMIT_B[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x0000DC)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -680,8 +687,8 @@ achievement(
 )
 
 achievement(
-    title = "Lost Anti-Matter", points = 2,
-    description = "Pick up the hidden Dark Matter Cube in Compound Wall",
+    title = "It Will Tear Your Soul Apart!", points = 2,
+    description = "Pick up the hidden Dark Matter Cube in Compound Wall.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == COMPOUND[0] && levelSecondHalf() == COMPOUND[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000020)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -691,7 +698,7 @@ achievement(
 
 achievement(
     title = "Wait... Not Me!", points = 1,
-    description = "Release the Raptors from their cages in Entering the Base",
+    description = "Release the Raptors from their cages in Entering the Base.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == ENTERING[0] && levelSecondHalf() == ENTERING[1] &&
               prev(dword_be((prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000040)) & 0x1FFFFFF) + 0x000008)) & 0x1FFFFFF) + 0x000018)) < 256 &&
@@ -701,7 +708,7 @@ achievement(
 
 achievement(
     title = "Weapon of the Ancients", points = 3,
-    description = "Pick up the hidden Plasma Cannon in Ruined City",
+    description = "Pick up the hidden Plasma Cannon in Ruined City.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == RUINED_C[0] && levelSecondHalf() == RUINED_C[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000050)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -711,7 +718,7 @@ achievement(
 
 achievement(
     title = "Vulture Pellets", points = 2,
-    description = "Pick up the hidden Large Medkit in Dinosaur Graveyard",
+    description = "Pick up the hidden Large Medkit in Dinosaur Graveyard.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == DINOSAUR[0] && levelSecondHalf() == DINOSAUR[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000174)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -721,7 +728,7 @@ achievement(
 
 achievement(
     title = "Sewer Safety", points = 3,
-    description = "Pick up the hidden Plasma Cannon in Street Combat",
+    description = "Pick up the hidden Plasma Cannon in Street Combat.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == STREET_C[0] && levelSecondHalf() == STREET_C[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000920)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -730,69 +737,531 @@ achievement(
 )
 
 achievement(
+    title = "Hurry Up!", points = 1,
+    description = "Pick up the soldier's Key in Sniper Hunting.",
+    trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == SNIPER_H[0] && levelSecondHalf() == SNIPER_H[1] &&
+              prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
+              0x1FFFFFF) + 0x0004DC)) > 2147483648 &&
+              dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
+              0x1FFFFFF) + 0x0004DC) == 0
+)
+
+achievement(
     title = "Juggernaut Dissection", points = 3,
-    description = "Pick up an Overdrive in The Final Blow",
+    description = "Pick up an Overdrive in The Final Blow.",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == THE_FINA[0] && levelSecondHalf() == THE_FINA[1] && 
 				float_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x000A44) & 0x1FFFFFF) + 0x000084) > 0.0
 )
-// club, speedruns, crosshair, badges
-// check if works even if starting in story mode of last level of chapter
+
 achievement(
-	title = "Chapter 1 Speedrun", points = 5,
-	description = "Complete Chapter 1 in 4 minutes and 30 seconds", 
+	title = "When Nature Calls", points = 5,
+	description = "Complete Chapter 1 in 4 minutes and 30 seconds.", 
 	trigger = ChapSpeedrun(INTO_THE, 1, 16200)
 )
 
 achievement(
-	title = "Level 1 Speedrun", points = 5,
-	description = "Complete Level 1 in 4 minutes and 26 seconds", 
-	trigger = LvlSpeedrun(INTO_THE[0], INTO_THE[1], JUNGLE_H[0], JUNGLE_H[1], 15960)
+	title = "Will You Be Quiet Now?", points = 5,
+	description = "Complete Ancient Ruins in 2 minutes and 40 seconds.", 
+	trigger = LvlSpeedrun(ANCIENT_[0], ANCIENT_[1], MOUNTAIN[0], MOUNTAIN[1], 15960)
 )
 
 // Manually move resets into Alt 1
 achievement(
-    title = "lvl1club", points = 0,
-    description = "Complete lvl 1 only using the Warclub",
-    trigger = Cheats() && 
-              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanSingleAmmoWeapon(2, 0) && 
-              prev(levelTitleInUppercaseAscii()) == INTO_THE[0] && prev(levelSecondHalf()) == INTO_THE[1] && 
-			  trigger_when(levelTitleInUppercaseAscii() == JUNGLE_H[0] && levelSecondHalf() == JUNGLE_H[1]) || 
-			  always_false() && never(levelPlaying() == 0 || playerDies())
+    title = "lvl10club", points = 5,
+    description = "Complete Mountain Ascent using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && 
+              prev(levelTitleInUppercaseAscii()) == MOUNTAIN[0] && prev(levelSecondHalf()) == MOUNTAIN[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == SUMMIT_B[0] && levelSecondHalf() == SUMMIT_B[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
 )
 
 achievement(
-    title = "chap5lvl1club", points = 0,
-    description = "Complete chap 5 lvl 1 only using the Warclub",
-    trigger = Cheats() && 
-              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+    title = "lvl11club", points = 10,
+    description = "Complete Summit Battle using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+              prev(levelTitleInUppercaseAscii()) == SUMMIT_B[0] && prev(levelSecondHalf()) == SUMMIT_B[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == DESC[0]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl12club", points = 5,
+    description = "Complete Descent using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+              prev(levelTitleInUppercaseAscii()) == DESC[0] && 
+			  trigger_when(levelTitleInUppercaseAscii() == INFILTRA[0] && levelSecondHalf() == INFILTRA[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl13club", points = 3,
+    description = "Complete Infiltration using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
 			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
-			  BanSingleAmmoWeapon(5, 0) && BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == INFILTRA[0] && prev(levelSecondHalf()) == INFILTRA[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == COMPOUND[0] && levelSecondHalf() == COMPOUND[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl14club", points = 3,
+    description = "Complete Compound Wall using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == COMPOUND[0] && prev(levelSecondHalf()) == COMPOUND[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == BLOCKADE[0] && levelSecondHalf() == BLOCKADE[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl15club", points = 5,
+    description = "Complete Blockade using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == BLOCKADE[0] && prev(levelSecondHalf()) == BLOCKADE[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == ENTERING[0] && levelSecondHalf() == ENTERING[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl16club", points = 3,
+    description = "Complete Entering the Base using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSecondAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+              prev(levelTitleInUppercaseAscii()) == ENTERING[0] && prev(levelSecondHalf()) == ENTERING[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_SLEG[0] && levelSecondHalf() == THE_SLEG[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl17club", points = 10,
+    description = "Complete The Sleg Fortress using only the Warclub and 1 Grenade.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 1) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
               prev(levelTitleInUppercaseAscii()) == THE_SLEG[0] && prev(levelSecondHalf()) == THE_SLEG[1] && 
 			  trigger_when(levelTitleInUppercaseAscii() == SWEEP_TH[0] && levelSecondHalf() == SWEEP_TH[1]) || 
-			  always_false() && never(levelPlaying() == 0 || playerDies())
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl18club", points = 3,
+    description = "Complete Sweep the Halls using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == SWEEP_TH[0] && prev(levelSecondHalf()) == SWEEP_TH[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_SEAR[0] && levelSecondHalf() == THE_SEAR[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl19club", points = 10,
+    description = "Complete The Search Continues using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == THE_SEAR[0] && prev(levelSecondHalf()) == THE_SEAR[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_BOWE[0] && levelSecondHalf() == THE_BOWE[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl20club", points = 10,
+    description = "Complete The Bowels of the Base using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == THE_BOWE[0] && prev(levelSecondHalf()) == THE_BOWE[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == REACTOR_[0] && levelSecondHalf() == REACTOR_[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl21club", points = 5,
+    description = "Complete Reactor Core using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == REACTOR_[0] && prev(levelSecondHalf()) == REACTOR_[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == MELTDOWN[0] && levelSecondHalf() == MELTDOWN[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl22club", points = 5,
+    description = "Complete Meltdown using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == MELTDOWN[0] && prev(levelSecondHalf()) == MELTDOWN[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == INTERROG[0] && levelSecondHalf() == INTERROG[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl23club", points = 5,
+    description = "Complete Interrogation using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == INTERROG[0] && prev(levelSecondHalf()) == INTERROG[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == RESCUE_T[0] && levelSecondHalf() == RESCUE_T[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl24club", points = 10,
+    description = "Complete Rescue the Wise Father using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == RESCUE_T[0] && prev(levelSecondHalf()) == RESCUE_T[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == ESCA[0]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl25club", points = 3,
+    description = "Complete Escape (Chapter 5) using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == ESCA[0] && 
+			  trigger_when(levelTitleInUppercaseAscii() == FREE[0]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl26club", points = 3,
+    description = "Complete Shadowed Lands using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == SHADOWED[0] && prev(levelSecondHalf()) == SHADOWED[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == RUINED_C[0] && levelSecondHalf() == RUINED_C[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl27club", points = 5,
+    description = "Complete Ruined City using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == RUINED_C[0] && prev(levelSecondHalf()) == RUINED_C[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == SENTINEL[0] && levelSecondHalf() == SENTINEL[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl28club", points = 3,
+    description = "Complete Sentinels using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == SENTINEL[0] && prev(levelSecondHalf()) == SENTINEL[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == DEATH_FR[0] && levelSecondHalf() == DEATH_FR[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl29club", points = 10,
+    description = "Complete Death from the Deep using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == DEATH_FR[0] && prev(levelSecondHalf()) == DEATH_FR[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == DINOSAUR[0] && levelSecondHalf() == DINOSAUR[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl30club", points = 3,
+    description = "Complete Dinosaur Graveyard using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == DINOSAUR[0] && prev(levelSecondHalf()) == DINOSAUR[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_BRID[0] && levelSecondHalf() == THE_BRID[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl31club", points = 3,
+    description = "Complete The Bridge using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && BanSecondAmmoWeapon(6, 0) && BanThirdAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == THE_BRID[0] && prev(levelSecondHalf()) == THE_BRID[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == BACK_TO_[0] && levelSecondHalf() == BACK_TO_[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl35club", points = 3,
+    description = "Complete Assault using only the Warclub and 10 Missiles.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 10) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == ASSA[0] && 
+			  trigger_when(levelTitleInUppercaseAscii() == CITY_BRE[0] && levelSecondHalf() == CITY_BRE[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl36club", points = 3,
+    description = "Complete City Breach using only the Warclub and 9 Missiles.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 9) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == CITY_BRE[0] && prev(levelSecondHalf()) == CITY_BRE[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == ENTER_TH[0] && levelSecondHalf() == ENTER_TH[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl37club", points = 5,
+    description = "Complete Enter the City using only the Warclub and 2 Grenades.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 2) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == ENTER_TH[0] && prev(levelSecondHalf()) == ENTER_TH[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == STREET_C[0] && levelSecondHalf() == STREET_C[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl39club", points = 10,
+    description = "Complete Sniper Hunting using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == SNIPER_H[0] && prev(levelSecondHalf()) == SNIPER_H[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == AREN[0]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl40club", points = 10,
+    description = "Complete Arena using only the Warclub and 30 Flechettes.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 30) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == AREN[0] && 
+			  trigger_when(levelTitleInUppercaseAscii() == VERT[0]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl41club", points = 10,
+    description = "Complete Vertigo using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == VERT[0] && 
+			  trigger_when(levelTitleInUppercaseAscii() == BENEATH_[0] && levelSecondHalf() == BENEATH_[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl42club", points = 10,
+    description = "Complete Beneath the Streets using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == BENEATH_[0] && prev(levelSecondHalf()) == BENEATH_[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == MAINTENA[0] && levelSecondHalf() == MAINTENA[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl43club", points = 5,
+    description = "Complete Maintenance Tunnels using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == MAINTENA[0] && prev(levelSecondHalf()) == MAINTENA[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_LIBR[0] && levelSecondHalf() == THE_LIBR[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl44club", points = 5,
+    description = "Complete The Library using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 0) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == THE_LIBR[0] && prev(levelSecondHalf()) == THE_LIBR[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == MONUMENT[0] && levelSecondHalf() == MONUMENT[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl46club", points = 10,
+    description = "Complete Halls of Battle using only the Warclub and 9 Missiles.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSecondAmmoWeapon(4, 0) && 
+			  BanSingleAmmoWeapon(5, 9) && BanSecondAmmoWeapon(5, 0) && BanThirdAmmoWeapon(5, 0) && 
+			  BanSingleAmmoWeapon(6, 0) && 
+			  BanSingleAmmoWeapon(7, 0) && 
+              prev(levelTitleInUppercaseAscii()) == HALLS_OF[0] && prev(levelSecondHalf()) == HALLS_OF[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == THE_SENA[0] && levelSecondHalf() == THE_SENA[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
+)
+
+achievement(
+    title = "lvl47club", points = 10,
+    description = "Complete The Senate Chambers using only the Warclub.",
+    trigger = ChapCheats() && 
+              BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
+			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
+			  BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
+              prev(levelTitleInUppercaseAscii()) == THE_SENA[0] && prev(levelSecondHalf()) == THE_SENA[1] && 
+			  trigger_when(levelTitleInUppercaseAscii() == PERILOUS[0] && levelSecondHalf() == PERILOUS[1]) || 
+			  never(levelPlaying() == 0 || playerDies())
 )
 
 achievement(
     title = "Excellence in the Field of Crapulence", points = 10,
-    description = "Complete Vengeance only using the Warclub and 3 or less Grenades",
-    trigger = Cheats() && 
+    description = "Complete Vengeance using only the Warclub and 3 or less Grenades.",
+    trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSingleAmmoWeapon(2, 3) && 
 			  BanSingleAmmoWeapon(3, 0) && BanSecondAmmoWeapon(3, 0) && 
 			  BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
               levelTitleInUppercaseAscii() == VENGEANC[0] && levelSecondHalf() == VENGEANC[1] && 
-			  trigger_when(menuGameState() == 1768843100) || 
-			  always_false() && never(levelPlaying() == 0 || playerDies())
+			  prev(float_be((prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
+              0x1FFFFFF) + 0x0008E4)) & 0x1FFFFFF) + 0x0001EC)) & 0x1FFFFFF) + 0x000004)) > 0 &&
+              float_be((prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
+              0x1FFFFFF) + 0x0008E4)) & 0x1FFFFFF) + 0x0001EC)) & 0x1FFFFFF) + 0x000004) == 0 || 
+			  never(levelPlaying() == 0 || playerDies())
 )
 
 achievement(
     title = "Menu Hunter", points = 0,
-    description = "Activate the Hunter cheat",
+    description = "Activate the Hunter cheat.",
     trigger = menuGameState() == 1937009006 && hunterCheat() == 1
 )
 
 achievement(
     title = "Countdown to Extinction", points = 0,
-    description = "Explore the Zoo and slay the Tyrannosaurus rex",
+    description = "Explore the zoo and slay the Tyrannosaurus rex.",
     trigger = once(dword_be(0x2E1698) == 2054123356 && dword_be(0x2E169C) == 2054123310) && 
               never(levelLoading() != 0) && levelPlaying() == 0 && byte(0x70CC54) == 0 &&
 			  prev(float_be((prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
