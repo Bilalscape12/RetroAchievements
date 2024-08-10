@@ -400,6 +400,10 @@ function Cheats(offset) {
         cheats5(offset) == 0 && cheats6(offset) == 0 && cheats7(offset) == 0 && cheats8(offset) == 0
 }
 
+function GalleryCheats(offset) {
+    return ContinueCheat(offset) == 0 && cheats3(offset) == 0
+}
+
 function CheatsSkill(offset) {
     return ContinueCheat(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && low4(0x2092F1 + offset) == 0 && high4(0x2092F1 + offset) == 1 && 
         cheats5(offset) == 0 && cheats6(offset) == 0 && low4(0x2092F6 + offset) == 1 && high4(0x2092F6 + offset) == 0 && 
@@ -453,6 +457,10 @@ function ContinueCheatJP(offset) {
 function CheatsJP(offset) {
     return ContinueCheatJP(offset) == 0 && cheats2(offset) == 0 && cheats3(offset) == 0 && cheats4(offset) == 0 && 
         cheats5(offset) == 0 && cheats6(offset) == 0 && cheats7(offset) == 0 && cheats8(offset) == 0
+}
+
+function GalleryCheatsJP(offset) {
+    return ContinueCheatJP(offset) == 0 && cheats3(offset) == 0
 }
 
 function CheatsSkillJP(offset) {
@@ -866,9 +874,9 @@ achievement(
     title = "Giant Monsters All-Out Attack", 
     description = "Unlock all monsters.", 
     points = 1, 
-    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
-    prev(orgaLocked(0)) == 1 && orgaLocked(0) == 0 || EUHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
-    prev(orgaLocked(-1081344)) == 1 && orgaLocked(-1081344) == 0 || JPHash() && Demo(15968) && CheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
+    trigger = always_true() && (USHash() && Demo(0) && GalleryCheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
+    prev(orgaLocked(0)) == 1 && orgaLocked(0) == 0 || EUHash() && Demo(0) && GalleryCheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
+    prev(orgaLocked(-1081344)) == 1 && orgaLocked(-1081344) == 0 || JPHash() && Demo(15968) && GalleryCheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
     prev(orgaLocked(32000)) == 1 && orgaLocked(32000) == 0)
 )
 
@@ -876,13 +884,13 @@ achievement(
     title = "Arena Champion", 
     description = "Unlock all arenas.", 
     points = 2, 
-    trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
+    trigger = always_true() && (USHash() && Demo(0) && GalleryCheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
     //sum_of(ArenasUS, a => prev(a)) <= 3 && 
     sum_of(ArenasUS, a => prev(a)) > 0 && 
-    sum_of(ArenasUS, a => a) == 0 || EUHash() && Demo(0) && Cheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
+    sum_of(ArenasUS, a => a) == 0 || EUHash() && Demo(0) && GalleryCheats(0) && prev(gameMode(0)) == 5 && gameMode(0) == 5 && 
     //sum_of(ArenasEU, a => prev(a)) <= 3 && 
     sum_of(ArenasEU, a => prev(a)) > 0 && 
-    sum_of(ArenasEU, a => a) == 0 || JPHash() && Demo(15968) && CheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
+    sum_of(ArenasEU, a => a) == 0 || JPHash() && Demo(15968) && GalleryCheatsJP(15968) && prev(gameMode(15968)) == 5 && gameMode(15968) == 5 && 
     //sum_of(ArenasJP, a => prev(a)) <= 3 && 
     sum_of(ArenasJP, a => prev(a)) > 0 && 
     sum_of(ArenasJP, a => a) == 0)
@@ -893,9 +901,9 @@ function Gallery(Title, Points, Amount) {
         title = Title, 
         description = "Collect " + Amount + " Gallery images.", 
         points = Points,
-        trigger = always_true() && (USHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
-        prev(galleryArtsUnlocked(0)) == Amount - 1 && galleryArtsUnlocked(0) == Amount || EUHash() && Demo(0) && Cheats(0) && gameMode(0) == 5 && 
-        prev(galleryArtsUnlocked(-1081344)) == Amount - 1 && galleryArtsUnlocked(-1081344) == Amount || JPHash() && Demo(15968) && CheatsJP(15968) && gameMode(15968) == 5 && 
+        trigger = always_true() && (USHash() && Demo(0) && GalleryCheats(0) && gameMode(0) == 5 && 
+        prev(galleryArtsUnlocked(0)) == Amount - 1 && galleryArtsUnlocked(0) == Amount || EUHash() && Demo(0) && GalleryCheats(0) && gameMode(0) == 5 && 
+        prev(galleryArtsUnlocked(-1081344)) == Amount - 1 && galleryArtsUnlocked(-1081344) == Amount || JPHash() && Demo(15968) && GalleryCheatsJP(15968) && gameMode(15968) == 5 && 
         prev(galleryArtsUnlocked(32000)) == Amount - 1 && galleryArtsUnlocked(32000) == Amount)
     )
 }
