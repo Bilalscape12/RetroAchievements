@@ -6,7 +6,7 @@
 //          RGZP70 = EU
 //          
 //          EU has a -0x6B0 offset behind the US hash
-//          for all addresses from 0x003d6f08 (Profile) to 0x00432ac8 (P4 Total Round Points)
+//          for all addresses from 0x003d6f08 (Profile) to 0x00432ac8 (P4 Respawns used)
 function discSerial() => dword_be(0x000000)
 
 // $3D660C: Ingame = 0x3d088889 [Float BE]
@@ -27,37 +27,41 @@ function profile(offset) => dword_be(0x3D6F08 + offset)
 function profileExists(offset) => dword_be(profile(offset) * 7448 + 0x3D7250 + offset)
 
 // $3D7254: Profile 1 Story 1 exists = 0x01000000 [32-bit BE]
-function storyExists(offset) => dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D7254 + offset)
+function storyExists(offset) => dword_be(0x3D7254 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72D0: Profile 1 Story 1 Day [32-bit BE]
 //          0 indexed
 //          Updates immediately upon stage completion
-function storyDay(offset) => dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72D0 + offset)
+function storyDay(offset) => dword_be(0x3D72D0 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72D4: Profile 1 Story 1 Faction [32-bit BE]
-function storyFaction(offset) => dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72D4 + offset)
+function storyFaction(offset) => dword_be(0x3D72D4 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72D8: Profile 1 Story 1 Character [32-bit BE]
-function storyCharacter(offset) => dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72D8 + offset)
+function storyCharacter(offset) => dword_be(0x3D72D8 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72DC: Profile 1 Story 1 Aliens affinity [Float BE]
-function storyAliensAffinity(offset) => float_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72DC + offset)
+function storyAliensAffinity(offset) => float_be(0x3D72DC + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72E0: Profile 1 Story 1 Earth Defenders affinity [Float BE]
-function storyEarthDefendersAffinity(offset) => float_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72E0 + offset)
+function storyEarthDefendersAffinity(offset) => float_be(0x3D72E0 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72E4: Profile 1 Story 1 GDF affinity [Float BE]
-function storyGDFAffinity(offset) => float_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72E4 + offset)
+function storyGDFAffinity(offset) => float_be(0x3D72E4 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72E8: Profile 1 Story 1 Mutants affinity [Float BE]
-function storyMutantsAffinity(offset) => float_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72E8 + offset)
+function storyMutantsAffinity(offset) => float_be(0x3D72E8 + offset + (profile(offset) * 7448 + 0 + ((dword_be(0x3D8818 + offset + (profile(offset) * 7448)) * 796))))
 
 // $3D72F0: Profile 1 Story 1 Day 1 Mission ID [32-bit BE]
-function storyMission(offset) => dword_be(dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72D0 + offset) * 20 + 0x3D72F0 + offset)
+//          17 = Finale
+//          55 = Tyrant
+function storyMission(offset) => dword_be((prev(dword_be(prev(profile(offset)) * 7448 + (prev(dword_be(prev(profile(offset)) * 7448 + 0x3D8818 + offset)) * 796)
+              + 4027088 + offset)) * 20) + prev(profile(offset)) * 7448 + (prev(dword_be(prev(profile(offset)) * 7448 + 0x3D8818 + offset)) * 796) + 4027120 + offset)
 
 // $3D72F4: Profile 1 Story 1 Day 1 Completion [32-bit BE]
 //          Bit0
-function missionComplete(offset) => bit0(dword_be(dword_be(profile(offset) * 7448 + 0x3D8818 + offset) * 796 + 0x3D72D0 + offset) * 20 + 0x3D72F7 + offset)
+function missionComplete(offset) => bit0((prev(dword_be(prev(profile(offset)) * 7448 + (prev(dword_be(prev(profile(offset)) * 7448 + 0x3D8818 + offset)) * 796)
+              + 4027088 + offset)) * 20) + prev(profile(offset)) * 7448 + (prev(dword_be(prev(profile(offset)) * 7448 + 0x3D8818 + offset)) * 796) + 4027127 + offset)
 
 // $3D8818: Profile 1 Loaded Story [32-bit BE]
 function loadedStory(offset) => dword_be(profile(offset) * 7448 + 0x3D8818 + offset)
@@ -70,7 +74,7 @@ function storeCheat(offset) => byte(profile(offset) * 7448 + 0x3D881C + offset)
 // $3D881D: Profile 1 Monsters Unlocked [Bitflags]
 //          Bit0=Baragon
 //          Bit1=Godzilla 1990s
-function monstersUnlocked1(offset) => byte(profile(offset) * 7448 + 0x3D881D + offset)
+function monstersUnlocked1(index, offset) => index(profile(offset) * 7448 + 0x3D881D + offset)
 
 // $3D881E: Profile 1 Monsters Unlocked [Bitflags]
 //          Bit0=Megaguirus
@@ -81,7 +85,7 @@ function monstersUnlocked1(offset) => byte(profile(offset) * 7448 + 0x3D881D + o
 //          Bit5=Krystalak
 //          Bit6=Mecha-King Ghidorah
 //          Bit7=Biollante
-function monstersUnlocked2(offset) => byte(profile(offset) * 7448 + 0x3D881E + offset)
+function monstersUnlocked2(index, offset) => index(profile(offset) * 7448 + 0x3D881E + offset)
 
 // $3D881F: Profile 1 Monsters Unlocked [Bitflags]
 //          Bit0=Mechagodzilla 2
@@ -92,12 +96,12 @@ function monstersUnlocked2(offset) => byte(profile(offset) * 7448 + 0x3D881E + o
 //          Bit5=Mothra
 //          Bit6=Orga
 //          Bit7=Godzilla 1954
-function monstersUnlocked3(offset) => byte(profile(offset) * 7448 + 0x3D881F + offset)
+function monstersUnlocked3(index, offset) => index(profile(offset) * 7448 + 0x3D881F + offset)
 
 // $3D8821: Profile 1 Monsters Available [Bitflags]
 //          Bit0=Baragon
 //          Bit1=Godzilla 1990s
-function monstersAvailable1(offset) => byte(profile(offset) * 7448 + 0x3D8821 + offset)
+function monstersAvailable1(index, offset) => index(profile(offset) * 7448 + 0x3D8821 + offset)
 
 // $3D8822: Profile 1 Monsters Available [Bitflags]
 //          Bit0=Megaguirus
@@ -108,7 +112,7 @@ function monstersAvailable1(offset) => byte(profile(offset) * 7448 + 0x3D8821 + 
 //          Bit5=Krystalak
 //          Bit6=Mecha-King Ghidorah
 //          Bit7=Biollante
-function monstersAvailable2(offset) => byte(profile(offset) * 7448 + 0x3D8822 + offset)
+function monstersAvailable2(index, offset) => index(profile(offset) * 7448 + 0x3D8822 + offset)
 
 // $3D8823: Profile 1 Monsters Available [Bitflags]
 //          Bit0=Mechagodzilla 2
@@ -119,14 +123,14 @@ function monstersAvailable2(offset) => byte(profile(offset) * 7448 + 0x3D8822 + 
 //          Bit5=Mothra
 //          Bit6=Orga
 //          Bit7=Godzilla 1954
-function monstersAvailable3(offset) => byte(profile(offset) * 7448 + 0x3D8823 + offset)
+function monstersAvailable3(index, offset) => index(profile(offset) * 7448 + 0x3D8823 + offset)
 
 // $3D8827: Profile 1 Factions [Bitflags]
 //          Bit0=GDF
 //          Bit1=Aliens
 //          Bit2=Mutants
 //          Bit3=Mutants available
-function factions(offset) => byte(profile(offset) * 7448 + 0x3D8827 + offset)
+function factions(index, offset) => index(profile(offset) * 7448 + 0x3D8827 + offset)
 
 // $3D882B: Profile 1 Environments [Bitflags]
 //          Bit0=Seattle
@@ -313,7 +317,7 @@ function custom1PowerupTypes(offset) => dword_be(profile(offset) * 7448 + 0x3D8A
 //          0x14=100%
 function custom1PowerupSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8A2C + offset)
 
-// $3D8A33: Profile 1 Custom 1 Powerup Surge Types [Bitflags]
+// $3D8A33: Profile 1 Custom 1 Power Surge Types [Bitflags]
 //          Bit0=Darkness
 //          Bit1=Fire
 //          Bit2=Electric
@@ -321,7 +325,7 @@ function custom1PowerupSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x
 //          Bit4=Shield
 //          Bit5=Speed
 //          Bit6=Crystal
-function custom1PowerupSurgeTypes(offset) => byte(profile(offset) * 7448 + 0x3D8A33 + offset)
+function custom1PowerSurgeTypes(offset) => byte(profile(offset) * 7448 + 0x3D8A33 + offset)
 
 // $3D8A34: Profile 1 Custom 1 Power Surge Spawn Rate [32-bit BE]
 //          0x00=0%
@@ -404,175 +408,175 @@ function custom1MonsterSpeed(offset) => dword_be(profile(offset) * 7448 + 0x3D8A
 function custom1UseTinyMonsters(offset) => dword_be(profile(offset) * 7448 + 0x3D8A50 + offset)
 
 // $3D8A74: Profile 1 Custom 2 Game Mode [32-bit BE]
-function custom2GameMode() => dword_be(profile() * 7448 + 0x3D8A74)
+function custom2GameMode(offset) => dword_be(profile(offset) * 7448 + 0x3D8A74 + offset)
 
 // $3D8A7B: Profile 1 Custom 2 Points Earned [Bitflags]
-function custom2PointsEarned() => byte(profile() * 7448 + 0x3D8A7B)
+function custom2PointsEarned(offset) => byte(profile(offset) * 7448 + 0x3D8A7B + offset)
 
 // $3D8A7C: Profile 1 Custom 2 Number of Respawns [32-bit BE]
-function custom2NumberOfRespawns() => dword_be(profile() * 7448 + 0x3D8A7C)
+function custom2NumberOfRespawns(offset) => dword_be(profile(offset) * 7448 + 0x3D8A7C + offset)
 
 // $3D8A80: Profile 1 Custom 2 Round Length [32-bit BE]
-function custom2RoundLength() => dword_be(profile() * 7448 + 0x3D8A80)
+function custom2RoundLength(offset) => dword_be(profile(offset) * 7448 + 0x3D8A80 + offset)
 
 // $3D8A84: Profile 1 Custom 2 Rounds for Win [32-bit BE]
-function custom2RoundsForWin() => dword_be(profile() * 7448 + 0x3D8A84)
+function custom2RoundsForWin(offset) => dword_be(profile(offset) * 7448 + 0x3D8A84 + offset)
 
 // $3D8A88: Profile 1 Custom 2 Military Settings [32-bit BE]
-function custom2MilitarySettings() => dword_be(profile() * 7448 + 0x3D8A88)
+function custom2MilitarySettings(offset) => dword_be(profile(offset) * 7448 + 0x3D8A88 + offset)
 
 // $3D8A8C: Profile 1 Custom 2 Military Aggression [32-bit BE]
-function custom2MilitaryAggression() => dword_be(profile() * 7448 + 0x3D8A8C)
+function custom2MilitaryAggression(offset) => dword_be(profile(offset) * 7448 + 0x3D8A8C + offset)
 
 // $3D8A93: Profile 1 Custom 2 Vehicle Types [Bitflags]
-function custom2VehicleTypes() => byte(profile() * 7448 + 0x3D8A93)
+function custom2VehicleTypes(offset) => byte(profile(offset) * 7448 + 0x3D8A93 + offset)
 
 // $3D8A94: Profile 1 Custom 2 Powerup Types [32-bit BE]
-function custom2PowerupTypes() => dword_be(profile() * 7448 + 0x3D8A94)
+function custom2PowerupTypes(offset) => dword_be(profile(offset) * 7448 + 0x3D8A94 + offset)
 
 // $3D8A98: Profile 1 Custom 2 Powerup Spawn Rate [32-bit BE]
-function custom2PowerupSpawnRate() => dword_be(profile() * 7448 + 0x3D8A98)
+function custom2PowerupSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8A98 + offset)
 
-// $3D8A9F: Profile 1 Custom 2 Powerup Surge Types [Bitflags]
-function custom2PowerupSurgeTypes() => byte(profile() * 7448 + 0x3D8A9F)
+// $3D8A9F: Profile 1 Custom 2 Power Surge Types [Bitflags]
+function custom2PowerSurgeTypes(offset) => byte(profile(offset) * 7448 + 0x3D8A9F + offset)
 
 // $3D8AA0: Profile 1 Custom 2 Power Surge Spawn Rate [32-bit BE]
-function custom2PowerSurgeSpawnRate() => dword_be(profile() * 7448 + 0x3D8AA0)
+function custom2PowerSurgeSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8AA0 + offset)
 
 // $3D8AA4: Profile 1 Custom 2 Critical Mass Accumulation [32-bit BE]
-function custom2CriticalMassAccumulation() => dword_be(profile() * 7448 + 0x3D8AA4)
+function custom2CriticalMassAccumulation(offset) => dword_be(profile(offset) * 7448 + 0x3D8AA4 + offset)
 
 // $3D8AA8: Profile 1 Custom 2 Teams [32-bit BE]
-function custom2Teams() => dword_be(profile() * 7448 + 0x3D8AA8)
+function custom2Teams(offset) => dword_be(profile(offset) * 7448 + 0x3D8AA8 + offset)
 
 // $3D8AAF: Profile 1 Custom 2 Team Selection [Bitflags]
-function custom2TeamSelection() => byte(profile() * 7448 + 0x3D8AAF)
+function custom2TeamSelection(offset) => byte(profile(offset) * 7448 + 0x3D8AAF + offset)
 
 // $3D8AB0: Profile 1 Custom 2 Health Regenerate [32-bit BE]
-function custom2HealthRegenerate() => dword_be(profile() * 7448 + 0x3D8AB0)
+function custom2HealthRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8AB0 + offset)
 
 // $3D8AB4: Profile 1 Custom 2 Energy Regenerate [32-bit BE]
-function custom2EnergyRegenerate() => dword_be(profile() * 7448 + 0x3D8AB4)
+function custom2EnergyRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8AB4 + offset)
 
 // $3D8AB8: Profile 1 Custom 2 Monster Speed [32-bit BE]
-function custom2MonsterSpeed() => dword_be(profile() * 7448 + 0x3D8AB8)
+function custom2MonsterSpeed(offset) => dword_be(profile(offset) * 7448 + 0x3D8AB8 + offset)
 
 // $3D8ABC: Profile 1 Custom 2 Use Tiny Monsters [32-bit BE]
-function custom2UseTinyMonsters() => dword_be(profile() * 7448 + 0x3D8ABC)
+function custom2UseTinyMonsters(offset) => dword_be(profile(offset) * 7448 + 0x3D8ABC + offset)
 
 // $3D8AE0: Profile 1 Custom 3 Game Mode [32-bit BE]
-function custom3GameMode() => dword_be(profile() * 7448 + 0x3D8AE0)
+function custom3GameMode(offset) => dword_be(profile(offset) * 7448 + 0x3D8AE0 + offset)
 
 // $3D8AE7: Profile 1 Custom 3 Points Earned [Bitflags]
-function custom3PointsEarned() => byte(profile() * 7448 + 0x3D8AE7)
+function custom3PointsEarned(offset) => byte(profile(offset) * 7448 + 0x3D8AE7 + offset)
 
 // $3D8AE8: Profile 1 Custom 3 Number of Respawns [32-bit BE]
-function custom3NumberOfRespawns() => dword_be(profile() * 7448 + 0x3D8AE8)
+function custom3NumberOfRespawns(offset) => dword_be(profile(offset) * 7448 + 0x3D8AE8 + offset)
 
 // $3D8AEC: Profile 1 Custom 3 Round Length [32-bit BE]
-function custom3RoundLength() => dword_be(profile() * 7448 + 0x3D8AEC)
+function custom3RoundLength(offset) => dword_be(profile(offset) * 7448 + 0x3D8AEC + offset)
 
 // $3D8AF0: Profile 1 Custom 3 Rounds for Win [32-bit BE]
-function custom3RoundsForWin() => dword_be(profile() * 7448 + 0x3D8AF0)
+function custom3RoundsForWin(offset) => dword_be(profile(offset) * 7448 + 0x3D8AF0 + offset)
 
 // $3D8AF4: Profile 1 Custom 3 Military Settings [32-bit BE]
-function custom3MilitarySettings() => dword_be(profile() * 7448 + 0x3D8AF4)
+function custom3MilitarySettings(offset) => dword_be(profile(offset) * 7448 + 0x3D8AF4 + offset)
 
 // $3D8AF8: Profile 1 Custom 3 Military Aggression [32-bit BE]
-function custom3MilitaryAggression() => dword_be(profile() * 7448 + 0x3D8AF8)
+function custom3MilitaryAggression(offset) => dword_be(profile(offset) * 7448 + 0x3D8AF8 + offset)
 
 // $3D8AFF: Profile 1 Custom 3 Vehicle Types [Bitflags]
-function custom3VehicleTypes() => byte(profile() * 7448 + 0x3D8AFF)
+function custom3VehicleTypes(offset) => byte(profile(offset) * 7448 + 0x3D8AFF + offset)
 
 // $3D8B00: Profile 1 Custom 3 Powerup Types [32-bit BE]
-function custom3PowerupTypes() => dword_be(profile() * 7448 + 0x3D8B00)
+function custom3PowerupTypes(offset) => dword_be(profile(offset) * 7448 + 0x3D8B00 + offset)
 
 // $3D8B04: Profile 1 Custom 3 Powerup Spawn Rate [32-bit BE]
-function custom3PowerupSpawnRate() => dword_be(profile() * 7448 + 0x3D8B04)
+function custom3PowerupSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B04 + offset)
 
-// $3D8B0B: Profile 1 Custom 3 Powerup Surge Types [Bitflags]
-function custom3PowerupSurgeTypes() => byte(profile() * 7448 + 0x3D8B0B)
+// $3D8B0B: Profile 1 Custom 3 Power Surge Types [Bitflags]
+function custom3PowerSurgeTypes(offset) => byte(profile(offset) * 7448 + 0x3D8B0B + offset)
 
 // $3D8B0C: Profile 1 Custom 3 Power Surge Spawn Rate [32-bit BE]
-function custom3PowerSurgeSpawnRate() => dword_be(profile() * 7448 + 0x3D8B0C)
+function custom3PowerSurgeSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B0C + offset)
 
 // $3D8B10: Profile 1 Custom 3 Critical Mass Accumulation [32-bit BE]
-function custom3CriticalMassAccumulation() => dword_be(profile() * 7448 + 0x3D8B10)
+function custom3CriticalMassAccumulation(offset) => dword_be(profile(offset) * 7448 + 0x3D8B10 + offset)
 
 // $3D8B14: Profile 1 Custom 3 Teams [32-bit BE]
-function custom3Teams() => dword_be(profile() * 7448 + 0x3D8B14)
+function custom3Teams(offset) => dword_be(profile(offset) * 7448 + 0x3D8B14 + offset)
 
 // $3D8B1B: Profile 1 Custom 3 Team Selection [Bitflags]
-function custom3TeamSelection() => byte(profile() * 7448 + 0x3D8B1B)
+function custom3TeamSelection(offset) => byte(profile(offset) * 7448 + 0x3D8B1B + offset)
 
 // $3D8B1C: Profile 1 Custom 3 Health Regenerate [32-bit BE]
-function custom3HealthRegenerate() => dword_be(profile() * 7448 + 0x3D8B1C)
+function custom3HealthRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B1C + offset)
 
 // $3D8B20: Profile 1 Custom 3 Energy Regenerate [32-bit BE]
-function custom3EnergyRegenerate() => dword_be(profile() * 7448 + 0x3D8B20)
+function custom3EnergyRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B20 + offset)
 
 // $3D8B24: Profile 1 Custom 3 Monster Speed [32-bit BE]
-function custom3MonsterSpeed() => dword_be(profile() * 7448 + 0x3D8B24)
+function custom3MonsterSpeed(offset) => dword_be(profile(offset) * 7448 + 0x3D8B24 + offset)
 
 // $3D8B28: Profile 1 Custom 3 Use Tiny Monsters [32-bit BE]
-function custom3UseTinyMonsters() => dword_be(profile() * 7448 + 0x3D8B28)
+function custom3UseTinyMonsters(offset) => dword_be(profile(offset) * 7448 + 0x3D8B28 + offset)
 
 // $3D8B4C: Profile 1 Custom 4 Game Mode [32-bit BE]
-function custom4GameMode() => dword_be(profile() * 7448 + 0x3D8B4C)
+function custom4GameMode(offset) => dword_be(profile(offset) * 7448 + 0x3D8B4C + offset)
 
 // $3D8B53: Profile 1 Custom 4 Points Earned [Bitflags]
-function custom4PointsEarned() => byte(profile() * 7448 + 0x3D8B53)
+function custom4PointsEarned(offset) => byte(profile(offset) * 7448 + 0x3D8B53 + offset)
 
 // $3D8B54: Profile 1 Custom 4 Number of Respawns [32-bit BE]
-function custom4NumberOfRespawns() => dword_be(profile() * 7448 + 0x3D8B54)
+function custom4NumberOfRespawns(offset) => dword_be(profile(offset) * 7448 + 0x3D8B54 + offset)
 
 // $3D8B58: Profile 1 Custom 4 Round Length [32-bit BE]
-function custom4RoundLength() => dword_be(profile() * 7448 + 0x3D8B58)
+function custom4RoundLength(offset) => dword_be(profile(offset) * 7448 + 0x3D8B58 + offset)
 
 // $3D8B5C: Profile 1 Custom 4 Rounds for Win [32-bit BE]
-function custom4RoundsForWin() => dword_be(profile() * 7448 + 0x3D8B5C)
+function custom4RoundsForWin(offset) => dword_be(profile(offset) * 7448 + 0x3D8B5C + offset)
 
 // $3D8B60: Profile 1 Custom 4 Military Settings [32-bit BE]
-function custom4MilitarySettings() => dword_be(profile() * 7448 + 0x3D8B60)
+function custom4MilitarySettings(offset) => dword_be(profile(offset) * 7448 + 0x3D8B60 + offset)
 
 // $3D8B64: Profile 1 Custom 4 Military Aggression [32-bit BE]
-function custom4MilitaryAggression() => dword_be(profile() * 7448 + 0x3D8B64)
+function custom4MilitaryAggression(offset) => dword_be(profile(offset) * 7448 + 0x3D8B64 + offset)
 
 // $3D8B6B: Profile 1 Custom 4 Vehicle Types [Bitflags]
-function custom4VehicleTypes() => byte(profile() * 7448 + 0x3D8B6B)
+function custom4VehicleTypes(offset) => byte(profile(offset) * 7448 + 0x3D8B6B + offset)
 
 // $3D8B6C: Profile 1 Custom 4 Powerup Types [32-bit BE]
-function custom4PowerupTypes() => dword_be(profile() * 7448 + 0x3D8B6C)
+function custom4PowerupTypes(offset) => dword_be(profile(offset) * 7448 + 0x3D8B6C + offset)
 
 // $3D8B70: Profile 1 Custom 4 Powerup Spawn Rate [32-bit BE]
-function custom4PowerupSpawnRate() => dword_be(profile() * 7448 + 0x3D8B70)
+function custom4PowerupSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B70 + offset)
 
-// $3D8B77: Profile 1 Custom 4 Powerup Surge Types [Bitflags]
-function custom4PowerupSurgeTypes() => byte(profile() * 7448 + 0x3D8B77)
+// $3D8B77: Profile 1 Custom 4 Power Surge Types [Bitflags]
+function custom4PowerSurgeTypes(offset) => byte(profile(offset) * 7448 + 0x3D8B77 + offset)
 
 // $3D8B78: Profile 1 Custom 4 Power Surge Spawn Rate [32-bit BE]
-function custom4PowerSurgeSpawnRate() => dword_be(profile() * 7448 + 0x3D8B78)
+function custom4PowerSurgeSpawnRate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B78 + offset)
 
 // $3D8B7C: Profile 1 Custom 4 Critical Mass Accumulation [32-bit BE]
-function custom4CriticalMassAccumulation() => dword_be(profile() * 7448 + 0x3D8B7C)
+function custom4CriticalMassAccumulation(offset) => dword_be(profile(offset) * 7448 + 0x3D8B7C + offset)
 
 // $3D8B80: Profile 1 Custom 4 Teams [32-bit BE]
-function custom4Teams() => dword_be(profile() * 7448 + 0x3D8B80)
+function custom4Teams(offset) => dword_be(profile(offset) * 7448 + 0x3D8B80 + offset)
 
 // $3D8B87: Profile 1 Custom 4 Team Selection [Bitflags]
-function custom4TeamSelection() => byte(profile() * 7448 + 0x3D8B87)
+function custom4TeamSelection(offset) => byte(profile(offset) * 7448 + 0x3D8B87 + offset)
 
 // $3D8B88: Profile 1 Custom 4 Health Regenerate [32-bit BE]
-function custom4HealthRegenerate() => dword_be(profile() * 7448 + 0x3D8B88)
+function custom4HealthRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B88 + offset)
 
 // $3D8B8C: Profile 1 Custom 4 Energy Regenerate [32-bit BE]
-function custom4EnergyRegenerate() => dword_be(profile() * 7448 + 0x3D8B8C)
+function custom4EnergyRegenerate(offset) => dword_be(profile(offset) * 7448 + 0x3D8B8C + offset)
 
 // $3D8B90: Profile 1 Custom 4 Monster Speed [32-bit BE]
-function custom4MonsterSpeed() => dword_be(profile() * 7448 + 0x3D8B90)
+function custom4MonsterSpeed(offset) => dword_be(profile(offset) * 7448 + 0x3D8B90 + offset)
 
 // $3D8B94: Profile 1 Custom 4 Use Tiny Monsters [32-bit BE]
-function custom4UseTinyMonsters() => dword_be(profile() * 7448 + 0x3D8B94)
+function custom4UseTinyMonsters(offset) => dword_be(profile(offset) * 7448 + 0x3D8B94 + offset)
 
 // $3D8C04: Profile 1 Game Mode [32-bit BE]
 //          0=Versus
@@ -607,8 +611,8 @@ function subtitles(offset) => dword_be(profile(offset) * 7448 + 0x3D8C18 + offse
 
 // $3D8C1C: Profile 1 Difficulty [32-bit BE]
 //          0=Easy
-//          0=Normal
-//          0=Hard
+//          1=Normal
+//          2=Hard
 function difficulty(offset) => dword_be(profile(offset) * 7448 + 0x3D8C1C + offset)
 
 // $3E1DA8: Map [24 Bytes ASCII]
@@ -658,8 +662,9 @@ function currentRound(offset) => dword_be(0x3E20BC + offset)
 // $3E218C: Number of Players/CPUs [32-bit BE]
 function numOfPlayers(offset) => dword_be(0x3E218C + offset)
 
-// $3E2190: Game intro cutscene started = 1 [32-bit BE]
-function gameIntroCutsceneStarted(offset) => dword_be(0x3E2190 + offset)
+// $3E2190: Number of Active Players bitflags [32-bit BE]
+//          Game intro cutscene started >= 1
+function activePlayers(offset) => dword_be(0x3E2190 + offset)
 
 // $3E21A8: Story = 1 [32-bit BE]
 function story(offset) => dword_be(0x3E21A8 + offset)
@@ -838,7 +843,10 @@ function p4TotalRoundPoints(offset) => dword_be(0x432AC0 + offset)
 // $432AC8: P4 Respawns used [32-bit BE]
 function p4RespawnsUsed(offset) => dword_be(0x432AC8 + offset)
 
-// $79D0D4: Main Menu Pointer [32-bit BE]
+// $79CA54: [EU] Main Menu Pointer [32-bit BE]
+function eumenuPointer(offset) => dword_be(0x79CA54 + offset)
+
+// $79D0D4: [US] Main Menu Pointer [32-bit BE]
 function menuPointer(offset) => dword_be(0x79D0D4 + offset)
 
 function USHash() => discSerial() == 0x52475a45
@@ -851,7 +859,7 @@ Chars = [
     "Godzilla 2000",
     "Anguirus",
     "Fire Rodan",
-    "Mothra Larva",
+    "Mothra",
     "King Caesar",
     "Baragon",
     "Varan",
@@ -908,11 +916,30 @@ function StringPrev(address, string)
 }
 
 function Guards(offset) {
-    return gameIntroCutsceneStarted(offset) == 1 && demoMode(offset) != 16777216
+    return activePlayers(offset) >= 1 && demoMode(offset) != 16777216
+}
+
+function BrawlGuards(offset) {
+    return activePlayers(offset) == 1 && demoMode(offset) != 16777216
 }
 
 function Cheat(offset) {
     return storeCheat(offset) != 255
+}
+
+function PointCheat(offset) {
+    return disable_when(OutgameCheck(offset) &&
+        (storePoints(offset) - (prev(storePoints(offset)))) == 90000)
+}
+
+function EUStoryCheat(offset) {
+    return disable_when(OutgameCheck(offset) &&
+        EUMainMenu(offset) && (storyDay(offset) - (prev(storyDay(offset)))) > 0)
+}
+
+function StoryCheat(offset) {
+    return disable_when(OutgameCheck(offset) &&
+        MainMenu(offset) && (storyDay(offset) - (prev(storyDay(offset)))) > 0)
 }
 
 function IngameCheck(offset) {
@@ -928,6 +955,10 @@ function Timer(offset, asciiHex) {
               0x1FFFFFF) + 0x000090) & 0x1FFFFFF) == asciiHex
 }
 
+function EUMainMenu(offset) {
+    return dword_be((dword_be((eumenuPointer(offset) & 0x1FFFFFF) + 0x0007B8) & 0x1FFFFFF) + 0x000024) == 1000
+}
+
 function MainMenu(offset) {
     return dword_be((dword_be((menuPointer(offset) & 0x1FFFFFF) + 0x0007B8) & 0x1FFFFFF) + 0x000024) == 1000
 }
@@ -935,13 +966,27 @@ function MainMenu(offset) {
 function Progression(Title, ID) {
     achievement(
         title = Title, 
-        description = "Complete the Story with " + Chars[ID] + ".", 
+        description = "Complete Story Mode as " + Chars[ID] + ".", 
         points = 5,
         trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) && 
-        storyMission(US) == 17 && missionComplete(US) > prev(missionComplete(US)) && 
-        storyCharacter(US) == ID || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
-        storyMission(EU) == 17 && missionComplete(EU) > prev(missionComplete(EU)) && 
-        storyCharacter(EU) == ID),
+        __ornext(storyMission(US) == 17 || storyMission(US) == 55) && missionComplete(US) > prev(missionComplete(US)) && 
+        storyCharacter(US) == ID && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
+        __ornext(storyMission(EU) == 17 || storyMission(US) == 55) && missionComplete(EU) > prev(missionComplete(EU)) && 
+        storyCharacter(EU) == ID && PointCheat(EU) && EUStoryCheat(EU)),
+        type = "win_condition"
+    )
+}
+
+function ProgMutant(Title, ID) {
+    achievement(
+        title = Title, 
+        description = "Complete Story Mode as " + Chars[ID] + ".", 
+        points = 5,
+        trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) && 
+        storyMission(US) == 55 && missionComplete(US) > prev(missionComplete(US)) && 
+        storyCharacter(US) == ID && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
+        storyMission(EU) == 55 && missionComplete(EU) > prev(missionComplete(EU)) && 
+        storyCharacter(EU) == ID && PointCheat(EU) && EUStoryCheat(EU)),
         type = "win_condition"
     )
 }
@@ -949,39 +994,414 @@ function Progression(Title, ID) {
 function Tyrant(Title, ID) {
     achievement(
         title = Title, 
-        description = "Achieve the Tyrant ending with " + Chars[ID] + " on Hard.", 
+        description = "Become a Tyrant as " + Chars[ID] + " on Hard.", 
         points = 10,
         trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) && 
         storyMission(US) == 55 && missionComplete(US) > prev(missionComplete(US)) && 
-        storyCharacter(US) == ID || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
+        storyCharacter(US) == ID && difficulty(US) == 2 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
         storyMission(EU) == 55 && missionComplete(EU) > prev(missionComplete(EU)) && 
-        storyCharacter(EU) == ID)
+        storyCharacter(EU) == ID && difficulty(EU) == 2 && PointCheat(EU) && EUStoryCheat(EU))
     )
 }
 
-Progression("G", 0)
-Progression("A", 1)
-Progression("Fire Rodan", 2)
-Progression("Mothra Larva", 3)
-Progression("G", 4)
-Progression("A", 5)
-Progression("G", 6)
-Progression("A", 7)
-Progression("G", 8)
-Progression("A", 9)
-Progression("G", 10)
-Progression("A", 11)
-Progression("G", 12)
-Progression("A", 13)
-Progression("G", 14)
-Progression("A", 15)
-Progression("G", 16)
-Progression("A", 17)
-Progression("G", 18)
-Progression("A", 19)
-Progression("G", 20)
-Progression("A", 21)
-Progression("G", 22)
+Progression("Monster of the Millenium", 0)
+Progression("The Last Ankylosaurus", 1)
+Progression("Back from the Dead", 2)
+Progression("Mother Moth", 3)
+Progression("Legendary Lion Dog", 4)
+Progression("Subterranean Defender", 5)
+Progression("Varanopode", 6)
+Progression("Attack of the Scythed Goose", 7)
+Progression("Mega Drills", 8)
+Progression("Cosmic Emperor", 9)
+Progression("Organized Destruction", 10)
+Progression("Extraterrestrial Fake", 11)
+Progression("Key to Defense", 12)
+Progression("Mecha Mole", 13)
+Progression("Future Terminator", 14)
+Progression("Red but Not Alone", 15)
+ProgMutant("Death Corona", 16)
+ProgMutant("Destoroyah of Worlds", 17)
+ProgMutant("Son of SpaceGodzilla", 18)
+ProgMutant("Little Shop of Horrors", 19)
+ProgMutant("Omega Dragonfly", 20)
+ProgMutant("Not a Sauropod", 21)
+ProgMutant("Magmouth", 22)
+Progression("Ready Anytime", 23)
+
+Tyrant("Tyrant of the Monsters", 0)
+Tyrant("Killer of the Living", 1)
+Tyrant("Reborn to Rule", 2)
+Tyrant("Queen's Rage", 3)
+Tyrant("Tyranny of the Seesaw", 4)
+Tyrant("Fierce Tyrant of the Underground", 5)
+Tyrant("Varan, a Tyrant? How Unbelievable", 6)
+Tyrant("GIGAAAAN!!! RISE!", 7)
+Tyrant("Seatopian Dystopia", 8)
+Tyrant("Tyrant Zero", 9)
+Tyrant("It's All Orga Now", 10)
+Tyrant("Planet for the Simians", 11)
+Tyrant("Tyranny of Our Own Making", 12)
+Tyrant("Monster Universal Expert Robot", 13)
+Tyrant("Critical Cyborg", 14)
+Tyrant("Redman Roleplay", 15)
+Tyrant("Galaxy-Eyes Crystal Godzilla", 16)
+Tyrant("King of Hell and Earth", 17)
+Tyrant("Krystal Khaos", 18)
+Tyrant("Bio Wars", 19)
+Tyrant("Killer Queen", 20)
+Tyrant("Life Finds a Way", 21)
+Tyrant("Mantle of Tyranny", 22)
+Tyrant("Anti-Monster Superweapon", 23)
+
+achievement(
+    title = "Original King's Reign",
+    description = "Win a game of Hard Versus as Godzilla 1954 against P2 as Godzilla 1990's, P3 as Godzilla 2000, and P4 as SpaceGodzilla.",
+    points = 5,
+    trigger = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 0 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 24 && p2Char(US) == 25 && p3Char(US) == 0 && p4Char(US) == 16 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 0 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 24 && p2Char(EU) == 25 && p3Char(EU) == 0 && p4Char(EU) == 16 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU))
+)
+
+achievement(
+    title = "Smooth Moves",
+    description = "Win a game of Hard Classic Melee with a score of at least 5,000.",
+    points = 5,
+    trigger = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 1 && difficulty(US) == 2 && p1TotalRoundPoints(US) >= 5000 && 
+    p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 1 && difficulty(EU) == 2 && p1TotalRoundPoints(EU) >= 5000 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU))
+)
+
+achievement(
+    title = "Unleashed Destruction",
+    description = "Win a game of Classic Destruction with a score of at least 10,000.",
+    points = 5,
+    trigger = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 2 && p1TotalRoundPoints(US) >= 10000 && 
+    p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 2 && p1TotalRoundPoints(EU) >= 10000 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU))
+)
+
+// Custom default settings
+//  custom1GameMode(US) == 0 && custom1PointsEarned(US) == 0 && custom1NumberOfRespawns(US) == 0 && 
+//  custom1RoundLength(US) == 3 && custom1RoundsForWin(US) == 1 && custom1MilitarySettings(US) == 0 && 
+//  custom1MilitaryAggression(US) == 10 && custom1VehicleTypes(US) == 45 && custom1PowerupTypes(US) == 10 && 
+//  custom1PowerupSpawnRate(US) == 10 && custom1PowerSurgeTypes(US) == 0 && custom1PowerSurgeSpawnRate(US) == 0 && 
+//  custom1CriticalMassAccumulation(US) == 10 && custom1Teams(US) == 0 && custom1TeamSelection(US) == 0 && 
+//  custom1HealthRegenerate(US) == 10 && custom1EnergyRegenerate(US) == 10 && custom1MonsterSpeed(US) == 1
+
+achievement(
+    title = "Burning Godzilla",
+    description = "Win a Hard Custom game as Godzilla 1990's against P2 as Biollante, P3 as Mecha-King Ghidorah, and P4 as Destoroyah with default settings except slowest monster speed and maxed out Power Surge & Critical Mass settings.",
+    points = 5,
+    trigger = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 4 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 25 && p2Char(US) == 19 && p3Char(US) == 14 && p4Char(US) == 17 && 
+    custom1GameMode(US) == 0 && custom1NumberOfRespawns(US) == 0 && 
+    custom1RoundLength(US) == 3 && custom1RoundsForWin(US) == 1 && custom1MilitarySettings(US) == 0 && 
+    custom1MilitaryAggression(US) == 10 && custom1VehicleTypes(US) == 45 && custom1PowerupTypes(US) == 10 && 
+    custom1PowerupSpawnRate(US) == 10 && custom1PowerSurgeTypes(US) == 127 && custom1PowerSurgeSpawnRate(US) == 20 && 
+    custom1CriticalMassAccumulation(US) == 20 && custom1Teams(US) == 0 && 
+    custom1HealthRegenerate(US) == 10 && custom1EnergyRegenerate(US) == 10 && custom1MonsterSpeed(US) == 0 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 5 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 25 && p2Char(US) == 19 && p3Char(US) == 14 && p4Char(US) == 17 && 
+    custom2GameMode(US) == 0 && custom2NumberOfRespawns(US) == 0 && 
+    custom2RoundLength(US) == 3 && custom2RoundsForWin(US) == 1 && custom2MilitarySettings(US) == 0 && 
+    custom2MilitaryAggression(US) == 10 && custom2VehicleTypes(US) == 45 && custom2PowerupTypes(US) == 10 && 
+    custom2PowerupSpawnRate(US) == 10 && custom2PowerSurgeTypes(US) == 127 && custom2PowerSurgeSpawnRate(US) == 20 && 
+    custom2CriticalMassAccumulation(US) == 20 && custom2Teams(US) == 0 && 
+    custom2HealthRegenerate(US) == 10 && custom2EnergyRegenerate(US) == 10 && custom2MonsterSpeed(US) == 0 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 6 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 25 && p2Char(US) == 19 && p3Char(US) == 14 && p4Char(US) == 17 && 
+    custom3GameMode(US) == 0 && custom3NumberOfRespawns(US) == 0 && 
+    custom3RoundLength(US) == 3 && custom3RoundsForWin(US) == 1 && custom3MilitarySettings(US) == 0 && 
+    custom3MilitaryAggression(US) == 10 && custom3VehicleTypes(US) == 45 && custom3PowerupTypes(US) == 10 && 
+    custom3PowerupSpawnRate(US) == 10 && custom3PowerSurgeTypes(US) == 127 && custom3PowerSurgeSpawnRate(US) == 20 && 
+    custom3CriticalMassAccumulation(US) == 20 && custom3Teams(US) == 0 && 
+    custom3HealthRegenerate(US) == 10 && custom3EnergyRegenerate(US) == 10 && custom3MonsterSpeed(US) == 0 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 7 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 25 && p2Char(US) == 19 && p3Char(US) == 14 && p4Char(US) == 17 && 
+    custom4GameMode(US) == 0 && custom4NumberOfRespawns(US) == 0 && 
+    custom4RoundLength(US) == 3 && custom4RoundsForWin(US) == 1 && custom4MilitarySettings(US) == 0 && 
+    custom4MilitaryAggression(US) == 10 && custom4VehicleTypes(US) == 45 && custom4PowerupTypes(US) == 10 && 
+    custom4PowerupSpawnRate(US) == 10 && custom4PowerSurgeTypes(US) == 127 && custom4PowerSurgeSpawnRate(US) == 20 && 
+    custom4CriticalMassAccumulation(US) == 20 && custom4Teams(US) == 0 && 
+    custom4HealthRegenerate(US) == 10 && custom4EnergyRegenerate(US) == 10 && custom4MonsterSpeed(US) == 0 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 4 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
+    custom1GameMode(EU) == 0 && custom1NumberOfRespawns(EU) == 0 && 
+    custom1RoundLength(EU) == 3 && custom1RoundsForWin(EU) == 1 && custom1MilitarySettings(EU) == 0 && 
+    custom1MilitaryAggression(EU) == 10 && custom1VehicleTypes(EU) == 45 && custom1PowerupTypes(EU) == 10 && 
+    custom1PowerupSpawnRate(EU) == 10 && custom1PowerSurgeTypes(EU) == 127 && custom1PowerSurgeSpawnRate(EU) == 20 && 
+    custom1CriticalMassAccumulation(EU) == 20 && custom1Teams(EU) == 0 && 
+    custom1HealthRegenerate(EU) == 10 && custom1EnergyRegenerate(EU) == 10 && custom1MonsterSpeed(EU) == 0 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 5 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
+    custom2GameMode(EU) == 0 && custom2NumberOfRespawns(EU) == 0 && 
+    custom2RoundLength(EU) == 3 && custom2RoundsForWin(EU) == 1 && custom2MilitarySettings(EU) == 0 && 
+    custom2MilitaryAggression(EU) == 10 && custom2VehicleTypes(EU) == 45 && custom2PowerupTypes(EU) == 10 && 
+    custom2PowerupSpawnRate(EU) == 10 && custom2PowerSurgeTypes(EU) == 127 && custom2PowerSurgeSpawnRate(EU) == 20 && 
+    custom2CriticalMassAccumulation(EU) == 20 && custom2Teams(EU) == 0 && 
+    custom2HealthRegenerate(EU) == 10 && custom2EnergyRegenerate(EU) == 10 && custom2MonsterSpeed(EU) == 0 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 6 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
+    custom3GameMode(EU) == 0 && custom3NumberOfRespawns(EU) == 0 && 
+    custom3RoundLength(EU) == 3 && custom3RoundsForWin(EU) == 1 && custom3MilitarySettings(EU) == 0 && 
+    custom3MilitaryAggression(EU) == 10 && custom3VehicleTypes(EU) == 45 && custom3PowerupTypes(EU) == 10 && 
+    custom3PowerupSpawnRate(EU) == 10 && custom3PowerSurgeTypes(EU) == 127 && custom3PowerSurgeSpawnRate(EU) == 20 && 
+    custom3CriticalMassAccumulation(EU) == 20 && custom3Teams(EU) == 0 && 
+    custom3HealthRegenerate(EU) == 10 && custom3EnergyRegenerate(EU) == 10 && custom3MonsterSpeed(EU) == 0 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 7 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
+    custom4GameMode(EU) == 0 && custom4NumberOfRespawns(EU) == 0 && 
+    custom4RoundLength(EU) == 3 && custom4RoundsForWin(EU) == 1 && custom4MilitarySettings(EU) == 0 && 
+    custom4MilitaryAggression(EU) == 10 && custom4VehicleTypes(EU) == 45 && custom4PowerupTypes(EU) == 10 && 
+    custom4PowerupSpawnRate(EU) == 10 && custom4PowerSurgeTypes(EU) == 127 && custom4PowerSurgeSpawnRate(EU) == 20 && 
+    custom4CriticalMassAccumulation(EU) == 20 && custom4Teams(EU) == 0 && 
+    custom4HealthRegenerate(EU) == 10 && custom4EnergyRegenerate(EU) == 10 && custom4MonsterSpeed(EU) == 0 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "GVBA",
+    description = "Win a Hard Custom game as Godzilla 2000 on the blue team against P2 as Varan, P3 as Baragon, and P4 as Anguirus on the red team with default settings.",
+    points = 10,
+    trigger = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 4 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 0 && p2Char(US) == 6 && p3Char(US) == 5 && p4Char(US) == 1 && 
+    custom1GameMode(US) == 0 && custom1NumberOfRespawns(US) == 0 && 
+    custom1RoundLength(US) == 3 && custom1RoundsForWin(US) == 1 && custom1MilitarySettings(US) == 0 && 
+    custom1MilitaryAggression(US) == 10 && custom1VehicleTypes(US) == 45 && custom1PowerupTypes(US) == 10 && 
+    custom1PowerupSpawnRate(US) == 10 && custom1PowerSurgeTypes(US) == 0 && custom1PowerSurgeSpawnRate(US) == 0 && 
+    custom1CriticalMassAccumulation(US) == 10 && custom1Teams(US) == 1 && custom1TeamSelection(US) == 14 && 
+    custom1HealthRegenerate(US) == 10 && custom1EnergyRegenerate(US) == 10 && custom1MonsterSpeed(US) == 1 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 5 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 0 && p2Char(US) == 6 && p3Char(US) == 5 && p4Char(US) == 1 && 
+    custom2GameMode(US) == 0 && custom2NumberOfRespawns(US) == 0 && 
+    custom2RoundLength(US) == 3 && custom2RoundsForWin(US) == 1 && custom2MilitarySettings(US) == 0 && 
+    custom2MilitaryAggression(US) == 10 && custom2VehicleTypes(US) == 45 && custom2PowerupTypes(US) == 10 && 
+    custom2PowerupSpawnRate(US) == 10 && custom2PowerSurgeTypes(US) == 0 && custom2PowerSurgeSpawnRate(US) == 0 && 
+    custom2CriticalMassAccumulation(US) == 10 && custom2Teams(US) == 1 && custom2TeamSelection(US) == 14 && 
+    custom2HealthRegenerate(US) == 10 && custom2EnergyRegenerate(US) == 10 && custom2MonsterSpeed(US) == 1 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 6 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 0 && p2Char(US) == 6 && p3Char(US) == 5 && p4Char(US) == 1 && 
+    custom3GameMode(US) == 0 && custom3NumberOfRespawns(US) == 0 && 
+    custom3RoundLength(US) == 3 && custom3RoundsForWin(US) == 1 && custom3MilitarySettings(US) == 0 && 
+    custom3MilitaryAggression(US) == 10 && custom3VehicleTypes(US) == 45 && custom3PowerupTypes(US) == 10 && 
+    custom3PowerupSpawnRate(US) == 10 && custom3PowerSurgeTypes(US) == 0 && custom3PowerSurgeSpawnRate(US) == 0 && 
+    custom3CriticalMassAccumulation(US) == 10 && custom3Teams(US) == 1 && custom3TeamSelection(US) == 14 && 
+    custom3HealthRegenerate(US) == 10 && custom3EnergyRegenerate(US) == 10 && custom3MonsterSpeed(US) == 1 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) && 
+    gameMode(US) == 7 && difficulty(US) == 2 && numOfPlayers(US) == 4 && p1Char(US) == 0 && p2Char(US) == 6 && p3Char(US) == 5 && p4Char(US) == 1 && 
+    custom4GameMode(US) == 0 && custom4NumberOfRespawns(US) == 0 && 
+    custom4RoundLength(US) == 3 && custom4RoundsForWin(US) == 1 && custom4MilitarySettings(US) == 0 && 
+    custom4MilitaryAggression(US) == 10 && custom4VehicleTypes(US) == 45 && custom4PowerupTypes(US) == 10 && 
+    custom4PowerupSpawnRate(US) == 10 && custom4PowerSurgeTypes(US) == 0 && custom4PowerSurgeSpawnRate(US) == 0 && 
+    custom4CriticalMassAccumulation(US) == 10 && custom4Teams(US) == 1 && custom4TeamSelection(US) == 14 && 
+    custom4HealthRegenerate(US) == 10 && custom4EnergyRegenerate(US) == 10 && custom4MonsterSpeed(US) == 1 && 
+    p1RoundsWon(US) == 2 && p1RoundsWon(US) > prev(p1RoundsWon(US)) && PointCheat(US) && StoryCheat(US)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 4 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
+    custom1GameMode(EU) == 0 && custom1NumberOfRespawns(EU) == 0 && 
+    custom1RoundLength(EU) == 3 && custom1RoundsForWin(EU) == 1 && custom1MilitarySettings(EU) == 0 && 
+    custom1MilitaryAggression(EU) == 10 && custom1VehicleTypes(EU) == 45 && custom1PowerupTypes(EU) == 10 && 
+    custom1PowerupSpawnRate(EU) == 10 && custom1PowerSurgeTypes(EU) == 0 && custom1PowerSurgeSpawnRate(EU) == 0 && 
+    custom1CriticalMassAccumulation(EU) == 10 && custom1Teams(EU) == 1 && custom1TeamSelection(EU) == 14 && 
+    custom1HealthRegenerate(EU) == 10 && custom1EnergyRegenerate(EU) == 10 && custom1MonsterSpeed(EU) == 1 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 5 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
+    custom2GameMode(EU) == 0 && custom2NumberOfRespawns(EU) == 0 && 
+    custom2RoundLength(EU) == 3 && custom2RoundsForWin(EU) == 1 && custom2MilitarySettings(EU) == 0 && 
+    custom2MilitaryAggression(EU) == 10 && custom2VehicleTypes(EU) == 45 && custom2PowerupTypes(EU) == 10 && 
+    custom2PowerupSpawnRate(EU) == 10 && custom2PowerSurgeTypes(EU) == 0 && custom2PowerSurgeSpawnRate(EU) == 0 && 
+    custom2CriticalMassAccumulation(EU) == 10 && custom2Teams(EU) == 1 && custom2TeamSelection(EU) == 14 && 
+    custom2HealthRegenerate(EU) == 10 && custom2EnergyRegenerate(EU) == 10 && custom2MonsterSpeed(EU) == 1 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 6 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
+    custom3GameMode(EU) == 0 && custom3NumberOfRespawns(EU) == 0 && 
+    custom3RoundLength(EU) == 3 && custom3RoundsForWin(EU) == 1 && custom3MilitarySettings(EU) == 0 && 
+    custom3MilitaryAggression(EU) == 10 && custom3VehicleTypes(EU) == 45 && custom3PowerupTypes(EU) == 10 && 
+    custom3PowerupSpawnRate(EU) == 10 && custom3PowerSurgeTypes(EU) == 0 && custom3PowerSurgeSpawnRate(EU) == 0 && 
+    custom3CriticalMassAccumulation(EU) == 10 && custom3Teams(EU) == 1 && custom3TeamSelection(EU) == 14 && 
+    custom3HealthRegenerate(EU) == 10 && custom3EnergyRegenerate(EU) == 10 && custom3MonsterSpeed(EU) == 1 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
+    gameMode(EU) == 7 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
+    custom4GameMode(EU) == 0 && custom4NumberOfRespawns(EU) == 0 && 
+    custom4RoundLength(EU) == 3 && custom4RoundsForWin(EU) == 1 && custom4MilitarySettings(EU) == 0 && 
+    custom4MilitaryAggression(EU) == 10 && custom4VehicleTypes(EU) == 45 && custom4PowerupTypes(EU) == 10 && 
+    custom4PowerupSpawnRate(EU) == 10 && custom4PowerSurgeTypes(EU) == 0 && custom4PowerSurgeSpawnRate(EU) == 0 && 
+    custom4CriticalMassAccumulation(EU) == 10 && custom4Teams(EU) == 1 && custom4TeamSelection(EU) == 14 && 
+    custom4HealthRegenerate(EU) == 10 && custom4EnergyRegenerate(EU) == 10 && custom4MonsterSpeed(EU) == 1 && 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Guardian Monsters", 
+    description = "Unlock all of the Earth Defender monsters.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(monstersUnlocked1(bit0, US) > prev(monstersUnlocked1(bit0, US)) || 
+    monstersUnlocked1(bit1, US) > prev(monstersUnlocked1(bit1, US)) || 
+    monstersUnlocked2(bit1, US) > prev(monstersUnlocked2(bit1, US)) || 
+    monstersUnlocked3(bit4, US) > prev(monstersUnlocked3(bit4, US)) || 
+    monstersUnlocked3(bit5, US) > prev(monstersUnlocked3(bit5, US))) && 
+    monstersUnlocked1(bit0, US) == 1 && monstersUnlocked1(bit1, US) == 1 && 
+    monstersUnlocked2(bit1, US) == 1 && monstersUnlocked3(bit4, US) == 1 && 
+    monstersUnlocked3(bit5, US) == 1 && 
+    monstersAvailable1(bit0, US) == 1 && monstersAvailable1(bit1, US) == 1 && 
+    monstersAvailable2(bit1, US) == 1 && monstersAvailable3(bit4, US) == 1 && 
+    monstersAvailable3(bit5, US) == 1 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(monstersUnlocked1(bit0, EU) > prev(monstersUnlocked1(bit0, EU)) || 
+    monstersUnlocked1(bit1, EU) > prev(monstersUnlocked1(bit1, EU)) || 
+    monstersUnlocked2(bit1, EU) > prev(monstersUnlocked2(bit1, EU)) || 
+    monstersUnlocked3(bit4, EU) > prev(monstersUnlocked3(bit4, EU)) || 
+    monstersUnlocked3(bit5, EU) > prev(monstersUnlocked3(bit5, EU))) && 
+    monstersUnlocked1(bit0, EU) == 1 && monstersUnlocked1(bit1, EU) == 1 && 
+    monstersUnlocked2(bit1, EU) == 1 && monstersUnlocked3(bit4, EU) == 1 && 
+    monstersUnlocked3(bit5, EU) == 1 && 
+    monstersAvailable1(bit0, EU) == 1 && monstersAvailable1(bit1, EU) == 1 && 
+    monstersAvailable2(bit1, EU) == 1 && monstersAvailable3(bit4, EU) == 1 && 
+    monstersAvailable3(bit5, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "GDF Strong", 
+    description = "Unlock all of the GDF monsters.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(monstersUnlocked2(bit6, US) > prev(monstersUnlocked2(bit6, US)) || 
+    monstersUnlocked3(bit0, US) > prev(monstersUnlocked3(bit0, US)) || 
+    monstersUnlocked3(bit1, US) > prev(monstersUnlocked3(bit1, US)) || 
+    monstersUnlocked3(bit2, US) > prev(monstersUnlocked3(bit2, US))) && 
+    monstersUnlocked2(bit6, US) == 1 && monstersUnlocked3(bit0, US) == 1 && 
+    monstersUnlocked3(bit1, US) == 1 && monstersUnlocked3(bit2, US) == 1 && 
+    monstersAvailable2(bit6, US) == 1 && monstersAvailable3(bit0, US) == 1 && 
+    monstersAvailable3(bit1, US) == 1 && monstersAvailable3(bit2, US) == 1 && PointCheat(US) && StoryCheat(US)
+    || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(monstersUnlocked2(bit6, EU) > prev(monstersUnlocked2(bit6, EU)) || 
+    monstersUnlocked3(bit0, EU) > prev(monstersUnlocked3(bit0, EU)) || 
+    monstersUnlocked3(bit1, EU) > prev(monstersUnlocked3(bit1, EU)) || 
+    monstersUnlocked3(bit2, EU) > prev(monstersUnlocked3(bit2, EU))) && 
+    monstersUnlocked2(bit6, EU) == 1 && monstersUnlocked3(bit0, EU) == 1 && 
+    monstersUnlocked3(bit1, EU) == 1 && monstersUnlocked3(bit2, EU) == 1 && 
+    monstersAvailable2(bit6, EU) == 1 && monstersAvailable3(bit0, EU) == 1 && 
+    monstersAvailable3(bit1, EU) == 1 && monstersAvailable3(bit2, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Terraphobe", 
+    description = "Unlock all of the Alien monsters.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(monstersUnlocked3(bit3, US) > prev(monstersUnlocked3(bit3, US)) || 
+    monstersUnlocked3(bit6, US) > prev(monstersUnlocked3(bit6, US))) && 
+    monstersUnlocked3(bit3, US) == 1 && monstersUnlocked3(bit6, US) == 1 && 
+    monstersAvailable3(bit3, US) == 1 && monstersAvailable3(bit6, US) == 1 && PointCheat(US) && StoryCheat(US)
+    || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(monstersUnlocked3(bit3, EU) > prev(monstersUnlocked3(bit3, EU)) || 
+    monstersUnlocked3(bit6, EU) > prev(monstersUnlocked3(bit6, EU))) && 
+    monstersUnlocked3(bit3, EU) == 1 && monstersUnlocked3(bit6, EU) == 1 && 
+    monstersAvailable3(bit3, EU) == 1 && monstersAvailable3(bit3, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Lone Wolves", 
+    description = "Unlock all of the Mutant monsters.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(monstersUnlocked2(bit0, US) > prev(monstersUnlocked2(bit0, US)) || 
+    monstersUnlocked2(bit2, US) > prev(monstersUnlocked2(bit2, US)) || 
+    monstersUnlocked2(bit3, US) > prev(monstersUnlocked2(bit3, US)) || 
+    monstersUnlocked2(bit4, US) > prev(monstersUnlocked2(bit4, US)) || 
+    monstersUnlocked2(bit5, US) > prev(monstersUnlocked2(bit5, US)) || 
+    monstersUnlocked2(bit7, US) > prev(monstersUnlocked2(bit7, US))) && 
+    monstersUnlocked2(bit0, US) == 1 && monstersUnlocked2(bit2, US) == 1 && 
+    monstersUnlocked2(bit3, US) == 1 && monstersUnlocked2(bit4, US) == 1 && 
+    monstersUnlocked2(bit5, US) == 1 && monstersUnlocked2(bit7, US) == 1 && 
+    monstersAvailable2(bit0, US) == 1 && monstersAvailable2(bit2, US) == 1 && 
+    monstersAvailable2(bit3, US) == 1 && monstersAvailable2(bit4, US) == 1 && 
+    monstersAvailable2(bit5, US) == 1 && monstersAvailable2(bit7, US) == 1 && PointCheat(US) && StoryCheat(US)
+    || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(monstersUnlocked2(bit0, EU) > prev(monstersUnlocked2(bit0, EU)) || 
+    monstersUnlocked2(bit2, EU) > prev(monstersUnlocked2(bit2, EU)) || 
+    monstersUnlocked2(bit3, EU) > prev(monstersUnlocked2(bit3, EU)) || 
+    monstersUnlocked2(bit4, EU) > prev(monstersUnlocked2(bit4, EU)) || 
+    monstersUnlocked2(bit5, EU) > prev(monstersUnlocked2(bit5, EU)) || 
+    monstersUnlocked2(bit7, EU) > prev(monstersUnlocked2(bit7, EU))) && 
+    monstersUnlocked2(bit0, EU) == 1 && monstersUnlocked2(bit2, EU) == 1 && 
+    monstersUnlocked2(bit3, EU) == 1 && monstersUnlocked2(bit4, EU) == 1 && 
+    monstersUnlocked2(bit5, EU) == 1 && monstersUnlocked2(bit7, EU) == 1 && 
+    monstersAvailable2(bit0, EU) == 1 && monstersAvailable2(bit2, EU) == 1 && 
+    monstersAvailable2(bit3, EU) == 1 && monstersAvailable2(bit4, EU) == 1 && 
+    monstersAvailable2(bit5, EU) == 1 && monstersAvailable2(bit7, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Gojira", 
+    description = "Unlock Godzilla 1954.", 
+    points = 25,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    monstersUnlocked3(bit7, US) > prev(monstersUnlocked3(bit7, US)) && 
+    monstersUnlocked3(bit7, US) == 1 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    monstersAvailable3(bit7, EU) > prev(monstersAvailable3(bit7, EU)) && 
+    monstersAvailable3(bit7, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Worldwide Destruction", 
+    description = "Unlock all of the Environments.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    environments(US) > prev(environments(US)) && environments(US) == 127 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    environments(EU) > prev(environments(EU)) && environments(EU) == 127 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Concept Collector", 
+    description = "Unlock all of the Gallery 1 items.", 
+    points = 10,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(gallery11(US) > prev(gallery11(US)) || gallery12(US) > prev(gallery12(US)) || 
+    gallery13(US) > prev(gallery13(US)) || gallery14(US) > prev(gallery14(US))) && 
+    gallery11(US) == 7 && gallery12(US) == 255 && gallery13(US) == 255 && gallery14(US) == 255 && PointCheat(US) && StoryCheat(US)
+    || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(gallery11(EU) > prev(gallery11(EU)) || gallery12(EU) > prev(gallery12(EU)) || 
+    gallery13(EU) > prev(gallery13(EU)) || gallery14(EU) > prev(gallery14(EU))) && 
+    gallery11(EU) == 7 && gallery12(EU) == 255 && gallery13(EU) == 255 && gallery14(EU) == 255 && PointCheat(EU) && StoryCheat(EU))
+)
+
+achievement(
+    title = "Monster Files", 
+    description = "Unlock all of the Gallery 2 items.", 
+    points = 25,
+    trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
+    __ornext(gallery21(US) > prev(gallery21(US)) || gallery22(US) > prev(gallery22(US)) || 
+    gallery23(US) > prev(gallery23(US)) || gallery24(US) > prev(gallery24(US))) && 
+    gallery21(US) == 3 && gallery22(US) == 255 && gallery23(US) == 255 && gallery24(US) == 255 && PointCheat(US) && StoryCheat(US)
+    || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    __ornext(gallery21(EU) > prev(gallery21(EU)) || gallery22(EU) > prev(gallery22(EU)) || 
+    gallery23(EU) > prev(gallery23(EU)) || gallery24(EU) > prev(gallery24(EU))) && 
+    gallery21(EU) == 3 && gallery22(EU) == 255 && gallery23(EU) == 255 && gallery24(EU) == 255 && PointCheat(EU) && StoryCheat(EU))
+)
 
 leaderboard(
     title = "Point Cheater",
@@ -992,7 +1412,7 @@ leaderboard(
              (storePoints(EU) - (prev(storePoints(EU)))) == 90000),
     cancel = always_false(),
     submit = always_true(),
-    value  = 0,
+    value  = measured(0),
     format = "VALUE"
 )
 
@@ -1003,7 +1423,7 @@ leaderboard(
     (EUHash() && Guards(EU) && storeCheat(EU) == 255),
     cancel = always_false(),
     submit = always_true(),
-    value  = 0,
+    value  = measured(0),
     format = "VALUE"
 )
 
@@ -1013,20 +1433,20 @@ leaderboard(
     start  = always_true() && (USHash() && Guards(US) && OutgameCheck(US) &&
              MainMenu(US) && (storyDay(US) - (prev(storyDay(US)))) > 0) || 
              (EUHash() && Guards(EU) && OutgameCheck(EU) &&
-             MainMenu(EU) && (storyDay(EU) - (prev(storyDay(EU)))) > 0),
+             EUMainMenu(EU) && (storyDay(EU) - (prev(storyDay(EU)))) > 0),
     cancel = always_false(),
     submit = always_true(),
-    value  = 0,
+    value  = measured(0),
     format = "VALUE"
 )
 
 leaderboard(
     title = "Classic Melee",
     description = "Earn the most points in a game of Classic Melee.",
-    start  = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) &&
-             gameMode(US) == 1) && prev(p1RoundsWon(US)) == 1 && p1RoundsWon(US) == 2 || 
-             (EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) &&
-             gameMode(EU) == 1 && prev(p1RoundsWon(EU)) == 1 && p1RoundsWon(EU) == 2),
+    start  = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) &&
+             gameMode(US) == 1) && prev(p1RoundsWon(US)) == 0 && p1RoundsWon(US) == 1 || 
+             (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) &&
+             gameMode(EU) == 1 && prev(p1RoundsWon(EU)) == 0 && p1RoundsWon(EU) == 1),
     cancel = always_false(),
     submit = always_true(),
     value  = max_of(
@@ -1039,10 +1459,10 @@ leaderboard(
 leaderboard(
     title = "Classic Destruction",
     description = "Earn the most points in a game of Classic Destruction.",
-    start  = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) &&
-             gameMode(US) == 2) && prev(p1RoundsWon(US)) == 1 && p1RoundsWon(US) == 2 || 
-             (EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) &&
-             gameMode(EU) == 2 && prev(p1RoundsWon(EU)) == 1 && p1RoundsWon(EU) == 2),
+    start  = always_true() && (USHash() && BrawlGuards(US) && Cheat(US) && IngameCheck(US) &&
+             gameMode(US) == 2) && prev(p1RoundsWon(US)) == 0 && p1RoundsWon(US) == 1 || 
+             (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) &&
+             gameMode(EU) == 2 && prev(p1RoundsWon(EU)) == 0 && p1RoundsWon(EU) == 1),
     cancel = always_false(),
     submit = always_true(),
     value  = max_of(
