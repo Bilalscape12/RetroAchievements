@@ -22,7 +22,7 @@ function skillLevel() => byte(0x000160)
 function score() => word_be(0x00026A)
 
 function alts(hundredThousand) {
-    measured((score() * 10 + (hundredThousand*100000)), when=repeated(hundredThousand, prev(score()) >= 9639 &&
+    return measured((score() * 10 + (hundredThousand*100000)), when=repeated(hundredThousand, prev(score()) >= 9639 &&
                    score() <= 360 && score() != 0 && score() < prev(score())))
 }
 
