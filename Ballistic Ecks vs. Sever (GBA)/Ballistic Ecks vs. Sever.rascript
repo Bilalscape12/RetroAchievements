@@ -122,6 +122,9 @@ function cheat5Collected() => word(0x02D776)
 // $02E18A: Cheat 4 collected [16-bit]
 function cheat4Collected() => word(0x02E18A)
 
+// $031E92: Cheat 10 collected [16-bit]
+function cheat10Collected() => word(0x031E92)
+
 // $0361A2: Cheat 9 collected [16-bit]
 function cheat9Collected() => word(0x0361A2)
 
@@ -194,9 +197,9 @@ function ParTime(level, time) {
 
 function SniperBullets(level, shots) {
     return repeated(5, levelId() == level) && trigger_when((prev(enemiesRemaining()) == 1 && enemiesRemaining()
-               == 0)) && disable_when((word(playerPointer() + 0x007F2A) != 8) && dword(playerPointer() + 0x007F34) == 1,
-               until=levelTimer() == 0) && disable_when(repeated(shots + 1, (prev(dword(playerPointer() + 0x007F34)) == 0)
-               && dword(playerPointer() + 0x007F34) == 1), until=levelTimer() == 0) && never(levelId() != level) && never(mainMenu() == 193) && CheatProtection()
+               == 0)) && disable_when((word(playerPointer() + 0x007F2A) != 8) && prev(word(playerPointer() + 0x007F34)) == 0 && word(playerPointer() + 0x007F34) == 1,
+               until=levelTimer() == 0) && disable_when(repeated(shots + 1, (prev(word(playerPointer() + 0x007F34)) == 0)
+               && word(playerPointer() + 0x007F34) == 1), until=levelTimer() == 0) && never(levelId() != level) && never(mainMenu() == 193) && CheatProtection()
 }
 
 function KnifeOnly(level) {
@@ -214,145 +217,167 @@ function KillAll(level) {
 }
 
 function LimitedMissiles(level, shots) {
-    return repeated(5, levelId() == level) && trigger_when(levelComplete() == 185) && unless(repeated(shots + 1, (word(playerPointer() +
+    return repeated(5, levelId() == level) && trigger_when(levelComplete() == 185) && disable_when(repeated(shots + 1, (word(playerPointer() +
                0x007F2A) == 20) && (prev(word(playerPointer() + 0x007F34)) == 0) && word(playerPointer() + 0x007F34) ==
-               1)) && never(levelId() != level) && never(mainMenu() == 193) && CheatProtection()
+               1), until=levelTimer() == 0) && never(levelId() != level) && never(mainMenu() == 193) && CheatProtection()
 }
 
 function LBStart(level) {
-    return levelId() == level && levelTimer() > 0 && CheatProtection()
+    return levelId() == level && levelTimer() > 0 && levelComplete() != 185 && CheatProtection()
 }
 
 achievement(
     title = "Many Players Gave Up, but Not You!", points = 5,
     description = "Infiltrate the mansion",
-    trigger = Progression(0)
+    trigger = Progression(0),
+    type = "progression"
 )
 
 achievement(
     title = "Hostage Liberation", points = 5,
     description = "Rescue Agent Kaos and the three hostages",
-    trigger = Progression(1)
+    trigger = Progression(1),
+    type = "progression"
 )
 
 achievement(
     title = "Goggled Guardian", points = 5,
     description = "Rescue the ambassador",
-    trigger = Progression(2)
+    trigger = Progression(2),
+    type = "progression"
 )
 
 achievement(
     title = "Hostile Housecleaning", points = 5,
     description = "Clear the mansion of all terrorists",
-    trigger = Progression(3)
+    trigger = Progression(3),
+    type = "progression"
 )
 
 achievement(
     title = "Cameras. Everywhere.", points = 5,
     description = "Meet with Agent Kaos at the boardroom",
-    trigger = Progression(4)
+    trigger = Progression(4),
+    type = "progression"
 )
 
 achievement(
     title = "Ecks: Elevator Explorer", points = 5,
     description = "Disable the lockdown mechanisms",
-    trigger = Progression(5)
+    trigger = Progression(5),
+    type = "progression"
 )
 
 achievement(
     title = "Just Taking This Out for a Spin", points = 5,
     description = "Escape the headquarters",
-    trigger = Progression(6)
+    trigger = Progression(6),
+    type = "progression"
 )
 
 achievement(
     title = "Why Are These Stored in the Public", points = 5,
     description = "Destroy the ammo caches and board the subway",
-    trigger = Progression(7)
+    trigger = Progression(7),
+    type = "progression"
 )
 
 achievement(
     title = "After Him!", points = 5,
     description = "Chase after the terrorist leader",
-    trigger = Progression(8)
+    trigger = Progression(8),
+    type = "progression"
 )
 
 achievement(
     title = "Locked Doors Within Locked Doors", points = 5,
     description = "Defuse the bomb and exit to the roof",
-    trigger = Progression(9)
+    trigger = Progression(9),
+    type = "progression"
 )
 
 achievement(
     title = "Agent of Kaos", points = 25,
     description = "Defeat the leader of G.O.D.S.",
-    trigger = Progression(10)
+    trigger = Progression(10),
+    type = "progression"
 )
 
 achievement(
     title = "Bazaar Rescue", points = 5,
     description = "Rescue Agent Merren",
-    trigger = Progression(20)
+    trigger = Progression(20),
+    type = "progression"
 )
 
 achievement(
     title = "Too Many Grenades", points = 5,
     description = "Find the location of the inner compound",
-    trigger = Progression(21)
+    trigger = Progression(21),
+    type = "progression"
 )
 
 achievement(
     title = "Run!", points = 5,
     description = "Escape to the aqueduct",
-    trigger = Progression(22)
+    trigger = Progression(22),
+    type = "progression"
 )
 
 achievement(
     title = "Dogs and Missiles", points = 5,
     description = "Collect the information disk",
-    trigger = Progression(23)
+    trigger = Progression(23),
+    type = "progression"
 )
 
 achievement(
     title = "Missile Valley", points = 5,
     description = "Enter the cave complex",
-    trigger = Progression(24)
+    trigger = Progression(24),
+    type = "progression"
 )
 
 achievement(
     title = "Dog Pits", points = 5,
     description = "Navigate the tunnels",
-    trigger = Progression(25)
+    trigger = Progression(25),
+    type = "progression"
 )
 
 achievement(
     title = "Remote Bomber", points = 5,
     description = "Halt progress on the bio-chemical weapons",
-    trigger = Progression(26)
+    trigger = Progression(26),
+    type = "progression"
 )
 
 achievement(
     title = "One Woman Elite Squad", points = 5,
     description = "Find the location of the missile silo",
-    trigger = Progression(27)
+    trigger = Progression(27),
+    type = "progression"
 )
 
 achievement(
     title = "More Tunnels", points = 5,
     description = "Enter the nuclear bunker",
-    trigger = Progression(28)
+    trigger = Progression(28),
+    type = "progression"
 )
 
 achievement(
     title = "Tracks of Death", points = 5,
     description = "Reach the central silos",
-    trigger = Progression(29)
+    trigger = Progression(29),
+    type = "progression"
 )
 
 achievement(
     title = "Nuclear Launch Averted", points = 25,
     description = "Prevent the missile launch",
-    trigger = Progression(30)
+    trigger = Progression(30),
+    type = "progression"
 )
 
 achievement(
@@ -551,6 +576,13 @@ achievement(
 )
 
 achievement(
+    title = "Present 10", points = 3,
+    description = "Uncover cheat 10",
+    trigger = levelId() == 30 && prev(cheat10Collected()) == 1 && cheat10Collected() == 0 
+    && levelTimer() > 0 && CheatProtection()
+)
+
+achievement(
     title = "Tactical Gear", points = 2,
     description = "Reach a full armor rating",
     trigger = prev(word(playerPointer() + 0x007F22)) >= 50 && word(playerPointer() + 0x007F22) == 100 && CheatProtection()
@@ -589,8 +621,8 @@ achievement(
 
 achievement(
     title = "Missile Aficionado", points = 10,
-    description = "Complete STINGER in 8 missiles or less",
-    trigger = LimitedMissiles(26, 8)
+    description = "Complete STINGER in 6 missiles or less",
+    trigger = LimitedMissiles(26, 6)
 )
 
 achievement(
