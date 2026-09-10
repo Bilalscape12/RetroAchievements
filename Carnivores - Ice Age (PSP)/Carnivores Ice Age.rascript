@@ -58,16 +58,16 @@ function OptionProtection() {
 }
 
 function MultipleOnMap(animal, map, amount) {
-    return selectedAnimal() == animal && selectedMap() == map && measured(repeated(amount, scoreEarned() >
-               prev(scoreEarned()))) && gameState() > 7 && money() > prev(money()) && 
-              never(gameState() < 7) && never((prev(gameState()) == 8 &&
+    return measured(repeated(amount, scoreEarned() >
+               prev(scoreEarned())), when=selectedAnimal() == animal && selectedMap() == map && weapon() != 6) && gameState() > 7 && money() > prev(money()) && 
+               never(gameState() < 7) && never((prev(gameState()) == 8 &&
                gameState() == 7))
 }
 
 function CarnivoreWeapon(weapon, amount) {
     return (selectedAnimal() == 2 || selectedAnimal() == 4 || selectedAnimal() == 6 || selectedAnimal() == 8 ||
-               selectedAnimal() == 9) && selectedMap() != 0 && weapon() == weapon && measured(repeated(amount,
-               scoreEarned() > prev(scoreEarned()))) && gameState() > 7 && money() >
+               selectedAnimal() == 9) && measured(repeated(amount,
+               scoreEarned() > prev(scoreEarned())), when=selectedMap() != 0 && weapon() == weapon) && gameState() > 7 && money() >
                prev(money()) && never(gameState() < 7) && never((prev(gameState()) == 8 &&
                gameState() == 7))
 }
@@ -110,119 +110,129 @@ achievement(
 achievement(
     title = "Large-Horned Face", points = 1,
     description = "Hunt a Brontoteriy and escape",
-    trigger = EasyHunt(0)
+    trigger = EasyHunt(0),
+    type = "progression"
 )
 
 achievement(
     title = "Common Warthog", points = 2,
     description = "Hunt a Wild Boar and escape",
-    trigger = EasyHunt(1)
+    trigger = EasyHunt(1),
+    type = "progression"
 )
 
 achievement(
-    title = "Prehistoric Canine", points = 5,
+    title = "Prehistoric Canine", points = 3,
     description = "Hunt a Wolf and escape",
-    trigger = EasyHunt(2)
+    trigger = EasyHunt(2),
+    type = "progression"
 )
 
 achievement(
     title = "Griffon of Antiquity", points = 3,
     description = "Hunt a Wooly Rhinoceros and escape",
-    trigger = EasyHunt(3)
+    trigger = EasyHunt(3),
+    type = "progression"
 )
 
 achievement(
-    title = "Gaston's Bird", points = 5,
+    title = "Gaston's Bird", points = 3,
     description = "Hunt a Diatryma and escape",
-    trigger = EasyHunt(4)
+    trigger = EasyHunt(4),
+    type = "progression"
 )
 
 achievement(
-    title = "Irish Elk", points = 5,
+    title = "Irish Elk", points = 3,
     description = "Hunt a Megaloceros and escape",
-    trigger = EasyHunt(5)
+    trigger = EasyHunt(5),
+    type = "progression"
 )
 
 achievement(
-    title = "Sabre-Toothed Tiger", points = 5,
+    title = "Sabre-Toothed Tiger", points = 3,
     description = "Hunt a Smilodon and escape",
-    trigger = EasyHunt(6)
+    trigger = EasyHunt(6),
+    type = "progression"
 )
 
 achievement(
-    title = "Woolly Mammoth", points = 5,
+    title = "Woolly Mammoth", points = 3,
     description = "Hunt a Mammoth and escape",
-    trigger = EasyHunt(7)
+    trigger = EasyHunt(7),
+    type = "progression"
 )
 
 achievement(
-    title = "Prehistoric Bear", points = 5,
+    title = "Prehistoric Bear", points = 3,
     description = "Hunt a Bear and escape",
-    trigger = EasyHunt(8)
+    trigger = EasyHunt(8),
+    type = "progression"
 )
 
 achievement(
-    title = "Abominable Snowman", points = 10,
+    title = "Abominable Snowman", points = 5,
     description = "Hunt a Yeti and escape",
-    trigger = EasyHunt(9)
+    trigger = EasyHunt(9),
+    type = "win_condition"
 )
 
 achievement(
-    title = "Thunder Beast", points = 5,
+    title = "Thunder Beast", points = 3,
     description = "Hunt a Brontoteriy and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(0) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "African Molepig", points = 5,
+    title = "African Molepig", points = 3,
     description = "Hunt a Wild Boar and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(1) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Fearsome Dog", points = 10,
+    title = "Fearsome Dog", points = 5,
     description = "Hunt a Wolf and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(2) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Hollow-Tooth of Antiquity", points = 10,
+    title = "Hollow-Tooth of Antiquity", points = 5,
     description = "Hunt a Wooly Rhinoceros and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(3) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Through a Hole", points = 10,
+    title = "Through a Hole", points = 5,
     description = "Hunt a Diatryma and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(4) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Giant Horn", points = 10,
+    title = "Giant Horn", points = 5,
     description = "Hunt a Megaloceros and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(5) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Double-Edged-Knife-Tooth Who Devastates", points = 10,
+    title = "Double-Edged-Knife-Tooth Who Devastates", points = 5,
     description = "Hunt a Smilodon and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(6) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "First-Born Behemoth", points = 10,
+    title = "First-Born Behemoth", points = 5,
     description = "Hunt a Mammoth and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(7) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Cave Bear", points = 10,
+    title = "Cave Bear", points = 5,
     description = "Hunt a Bear and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(8) && OptionProtection() && weapon() != 6
 )
 
 achievement(
-    title = "Rocky Bear", points = 25,
+    title = "Rocky Bear", points = 10,
     description = "Hunt a Yeti and escape [No Player Upgrades, No Laser Rifle]",
     trigger = EasyHunt(9) && OptionProtection() && weapon() != 6
 )
@@ -230,61 +240,61 @@ achievement(
 achievement(
     title = "Bicorned Ungulate", points = 10,
     description = "Hunt 10 Brontoteriys on Mcrath Island and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(0, 0, 10) && weapon() != 6
+    trigger = MultipleOnMap(0, 0, 10)
 )
 
 achievement(
     title = "Boaring Hunt", points = 10,
     description = "Hunt 5 Wild Boars on Ravaren's Bridge and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(1, 1, 5) && weapon() != 6
+    trigger = MultipleOnMap(1, 1, 5)
 )
 
 achievement(
     title = "Misspelled Rhino", points = 10,
     description = "Hunt 5 Wooly Rhinoceroses on Ring of Infernus and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(3, 2, 5) && weapon() != 6
+    trigger = MultipleOnMap(3, 2, 5)
 )
 
 achievement(
     title = "Deer Meat for Dinner", points = 10,
     description = "Hunt 5 Megaloceroses on Dry Nodus Lake and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(5, 3, 5) && weapon() != 6
+    trigger = MultipleOnMap(5, 3, 5)
 )
 
 achievement(
     title = "King of the Ice Age Winter", points = 10,
     description = "Hunt 3 Mammoths on The Giant's Boot and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(7, 4, 3) && weapon() != 6
+    trigger = MultipleOnMap(7, 4, 3)
 )
 
 achievement(
     title = "Hunter of the Pack", points = 10,
     description = "Hunt 5 Wolves on Mcrath Island and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(2, 0, 5) && weapon() != 6
+    trigger = MultipleOnMap(2, 0, 5)
 )
 
 achievement(
     title = "The Insatiable Nut-Eater", points = 10,
     description = "Hunt 5 Diatrymas on Ravaren's Bridge and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(4, 1, 5) && weapon() != 6
+    trigger = MultipleOnMap(4, 1, 5)
 )
 
 achievement(
     title = "Happy Tiger Hunt", points = 25,
     description = "Hunt 5 Smilodons on Ring of Infernus and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(6, 2, 5) && weapon() != 6
+    trigger = MultipleOnMap(6, 2, 5)
 )
 
 achievement(
     title = "Why Are You Running?!", points = 25,
     description = "Hunt 4 Bears on Dry Nodus Lake and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(8, 3, 4) && weapon() != 6
+    trigger = MultipleOnMap(8, 3, 4)
 )
 
 achievement(
     title = "A Boot for 4 Big Feet", points = 25,
     description = "Hunt 2 Yetis on The Giant's Boot and escape [No Laser Rifle]",
-    trigger = MultipleOnMap(9, 4, 2) && weapon() != 6
+    trigger = MultipleOnMap(9, 4, 2)
 )
 
 achievement(
@@ -330,7 +340,7 @@ achievement(
 )
 
 achievement(
-    title = "Most Dangerous Game", points = 50,
+    title = "Most Dangerous Game", points = 25,
     description = "Hunt a Yeti using the Pistol and escape [No Player Upgrades]",
     trigger = AnimalWeapon(9, 0) && OptionProtection()
 )
