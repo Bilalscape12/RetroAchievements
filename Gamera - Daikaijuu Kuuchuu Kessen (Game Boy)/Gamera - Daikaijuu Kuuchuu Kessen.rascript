@@ -83,63 +83,68 @@ function battle(p1, p2)
 }
 
 achievement(
-    title = "Blastoise Can't Do This", points = 1,
+    title = "Blastoise Can't Do This", points = 0,
     description = "Fly!",
     id = 297972, badge = "331165", published = "3/11/2023 2:04:47 AM", modified = "3/12/2023 3:10:30 AM",
-    trigger = (p1Position() == 128 || p1Position() == 64) && prev(p1Flying()) < p1Flying()
+    trigger = __ornext(p1Position() == 128 || p1Position() == 64) && prev(p1Flying()) < p1Flying()
 )
 
 achievement(
     title = "Not Rodan", points = 3,
     description = "Defeat Gyaos.",
     id = 297973, badge = "331166", published = "3/11/2023 2:04:56 AM", modified = "3/12/2023 3:10:31 AM",
-    trigger = defeatBoss(0)
+    trigger = defeatBoss(0),
+    type = "progression"
 )
 
 achievement(
     title = "It Came from Outer Space!", points = 5,
     description = "Defeat Viras.",
     id = 297974, badge = "331167", published = "3/11/2023 2:05:01 AM", modified = "3/12/2023 3:10:31 AM",
-    trigger = defeatBoss(1)
+    trigger = defeatBoss(1),
+    type = "progression"
 )
 
 achievement(
     title = "The Ultimate Guard Dog", points = 5,
     description = "Defeat Guiron.",
     id = 297975, badge = "331168", published = "3/11/2023 2:05:05 AM", modified = "3/12/2023 3:10:31 AM",
-    trigger = defeatBoss(2)
+    trigger = defeatBoss(2),
+    type = "progression"
 )
 
 achievement(
     title = "The Archenemy Returns", points = 5,
     description = "Defeat Super Gyaos.",
     id = 297976, badge = "331169", published = "3/11/2023 2:05:09 AM", modified = "3/12/2023 3:10:32 AM",
-    trigger = defeatBoss(3)
+    trigger = defeatBoss(3),
+    type = "progression"
 )
 
 achievement(
     title = "At Last, a Worthy Opponent!", points = 10,
     description = "Defeat Gamera.",
     id = 297977, badge = "331170", published = "3/11/2023 2:05:13 AM", modified = "3/12/2023 3:10:32 AM",
-    trigger = defeatBoss(4)
+    trigger = defeatBoss(4),
+    type = "win_condition"
 )
 
 achievement(
-    title = "Evil Triumphs", points = 1,
+    title = "Evil Triumphs", points = 0,
     description = "[Player 1] Defeat Gamera as Gyaos in Battle mode.",
     id = 297978, badge = "331171", published = "3/11/2023 2:05:22 AM", modified = "3/14/2023 6:40:28 AM",
     trigger = battle(1, 0)
 )
 
 achievement(
-    title = "Pest Control", points = 1,
+    title = "Pest Control", points = 0,
     description = "[Player 1] Defeat Gyaos as Viras in Battle mode.",
     id = 297979, badge = "331172", published = "3/11/2023 2:05:26 AM", modified = "3/14/2023 6:40:28 AM",
     trigger = battle(2, 1)
 )
 
 achievement(
-    title = "Sliced Ika", points = 1,
+    title = "Sliced Ika", points = 0,
     description = "[Player 1] Defeat Viras as Guiron in Battle mode.",
     id = 297980, badge = "331173", published = "3/11/2023 2:05:30 AM", modified = "3/14/2023 6:40:29 AM",
     trigger = battle(3, 2)
@@ -157,7 +162,7 @@ achievement(
     title = "Guardian of the Universe", points = 10,
     description = "Win the game without losing a match.",
     id = 297982, badge = "331175", published = "3/11/2023 2:05:39 AM", modified = "3/12/2023 6:03:49 AM",
-    trigger = menuOption() == 255 && trigger_when((fightId() == 4 && p1RoundsWon() == 2)) && 
+    trigger = menuOption() == 255 && trigger_when(fightId() == 4 && prev(p1RoundsWon() == 1) && p1RoundsWon() == 2) && 
               disable_when(p2RoundsWon() == 2, until=fightId() == 0)
 )
 
