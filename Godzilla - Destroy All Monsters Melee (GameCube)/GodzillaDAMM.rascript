@@ -1,6 +1,10 @@
 // Godzilla: Destroy all Monsters Melee
 // #ID = 25444
 
+// Progression marking needs to be done manually
+// Anything with mechagodzilla needs to be manually overwritten outside of ratools
+// JP doesn't have mechagodzilla but has kiryu instead so jp logic has to be changed
+
 // $0000: Disk Serial [32-bit BE]
 //          US = 0x475a4445
 //          EU = 0x475a4450
@@ -901,9 +905,9 @@ function Gallery(Title, Points, Amount) {
         title = Title, 
         description = "Collect " + Amount + " Gallery images.", 
         points = Points,
-        trigger = always_true() && (USHash() && Demo(0) && GalleryCheats(0) && gameMode(0) == 5 && 
-        prev(galleryArtsUnlocked(0)) == Amount - 1 && galleryArtsUnlocked(0) == Amount || EUHash() && Demo(0) && GalleryCheats(0) && gameMode(0) == 5 && 
-        prev(galleryArtsUnlocked(-1081344)) == Amount - 1 && galleryArtsUnlocked(-1081344) == Amount || JPHash() && Demo(15968) && GalleryCheatsJP(15968) && gameMode(15968) == 5 && 
+        trigger = always_true() && (USHash() && Demo(0) && GalleryCheats(0) && __ornext(gameMode(0) == 5 || gameMode(0) == 6) && 
+        prev(galleryArtsUnlocked(0)) == Amount - 1 && galleryArtsUnlocked(0) == Amount || EUHash() && Demo(0) && GalleryCheats(0) && __ornext(gameMode(0) == 5 || gameMode(0) == 6) && 
+        prev(galleryArtsUnlocked(-1081344)) == Amount - 1 && galleryArtsUnlocked(-1081344) == Amount || JPHash() && Demo(15968) && GalleryCheatsJP(15968) && __ornext(gameMode(15968) == 5 || gameMode(15968) == 6) && 
         prev(galleryArtsUnlocked(32000)) == Amount - 1 && galleryArtsUnlocked(32000) == Amount)
     )
 }
