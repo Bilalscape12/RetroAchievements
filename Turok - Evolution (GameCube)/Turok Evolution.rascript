@@ -1,6 +1,8 @@
 // Turok: Evolution
 // #ID = 25484
 
+// Leaderboards were manually created
+
 // $2DE0BC: Menu/Game state [32-bit BE ASCII]
 //          Opening Acclaim logo = ashsequence\splashsequence.mtf
 //          Intro cutscene = ro\intro.mtf
@@ -423,28 +425,32 @@ function Progression(Title, Chapter, Points, Level1, Level2, NextLevel1, NextLev
 		achievement(
 			title = Title, points = Points,
 			description = "Complete Chapter " + Chapter,
-			trigger = Cheats() && prev(levelTitleInUppercaseAscii()) == Level1 && levelTitleInUppercaseAscii() == NextLevel1
+			trigger = Cheats() && prev(levelTitleInUppercaseAscii()) == Level1 && levelTitleInUppercaseAscii() == NextLevel1,
+                      type = "progression"
 		)
 	if (Level2 != "" && NextLevel2 == "")
 		achievement(
 			title = Title, points = Points,
 			description = "Complete Chapter " + Chapter,
 			trigger = Cheats() && prev(levelTitleInUppercaseAscii()) == Level1 && prev(levelSecondHalf()) == Level2 && 
-				levelTitleInUppercaseAscii() == NextLevel1
+				levelTitleInUppercaseAscii() == NextLevel1,
+                      type = "progression"
 		)
 	if (Level2 == "" && NextLevel2 != "")
 		achievement(
 			title = Title, points = Points,
 			description = "Complete Chapter " + Chapter,
 			trigger = Cheats() && prev(levelTitleInUppercaseAscii()) == Level1 && levelTitleInUppercaseAscii() == NextLevel1 && 
-				levelSecondHalf() == NextLevel2
+				levelSecondHalf() == NextLevel2,
+                      type = "progression"
 		)
 	if (Level2 != "" && NextLevel2 != "")
 		achievement(
 			title = Title, points = Points,
 			description = "Complete Chapter " + Chapter,
 			trigger = Cheats() && prev(levelTitleInUppercaseAscii()) == Level1 && prev(levelSecondHalf()) == Level2 && 
-				levelTitleInUppercaseAscii() == NextLevel1 && levelSecondHalf() == NextLevel2
+				levelTitleInUppercaseAscii() == NextLevel1 && levelSecondHalf() == NextLevel2,
+                      type = "progression"
 		)
 }
 
@@ -492,7 +498,7 @@ function LvlSpeedrun(Level1, Level2, NextLevel1, NextLevel2, frames) {
 			prev(levelTitleInUppercaseAscii()) == Level1 && prev(levelSecondHalf()) == Level2 && trigger_when(levelTitleInUppercaseAscii() == NextLevel1 && levelSecondHalf() == NextLevel2)
 }
 
-Progression("Into the Jungle", "1. Note that Auto Aim must be disabled to earn any achievements!", 5, HUNTERS[0], HUNTERS[1], AIRBORNE[0], AIRBORNE[1])
+Progression("Into the Jungle", "1. Note that Auto Aim must be set to Off to earn any achievements!", 5, HUNTERS[0], HUNTERS[1], AIRBORNE[0], AIRBORNE[1])
 Progression("Airborne", "2.", 10, ANCIENT_[0], ANCIENT_[1], MOUNTAIN[0], MOUNTAIN[1])
 Progression("Mountain Descent", "3.", 10, DESC[0], "", INFILTRA[0], INFILTRA[1])
 Progression("Infiltration", "4.", 10, ENTERING[0], ENTERING[1], THE_SLEG[0], THE_SLEG[1])
@@ -509,7 +515,8 @@ Progression("The Final Blow", "14.", 10, THE_BATT[0], THE_BATT[1], VENGEANC[0], 
 achievement(
     title = "Vengeance", points = 5,
     description = "Complete Chapter 15.",
-    trigger = WinCon()
+    trigger = WinCon(),
+    type = "win_condition"
 )
 
 achievement(
@@ -657,7 +664,7 @@ achievement(
 
 achievement(
     title = "Last Minute Resupply", points = 2,
-    description = "Pick up the hidden weapons in Hunter's Peril.",
+    description = "Pick up the hidden weapons in \"Hunter's Peril\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == HUNTERS[0] && levelSecondHalf() == HUNTERS[1] &&
               (prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x0000A4)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -671,14 +678,14 @@ achievement(
 
 achievement(
     title = "Temple Relic", points = 2,
-    description = "Pick up an Overdrive in Ancient Ruins.",
+    description = "Pick up an Overdrive in \"Ancient Ruins\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == ANCIENT_[0] && levelSecondHalf() == ANCIENT_[1] && 
 				float_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x000A44) & 0x1FFFFFF) + 0x000084) > 0.0
 )
 
 achievement(
     title = "Ledge Lookout", points = 3,
-    description = "Pick up the hidden Shotgun in Summit Battle.",
+    description = "Pick up the hidden Shotgun in \"Summit Battle\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == SUMMIT_B[0] && levelSecondHalf() == SUMMIT_B[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x0000DC)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -688,7 +695,7 @@ achievement(
 
 achievement(
     title = "It Will Tear Your Soul Apart!", points = 2,
-    description = "Pick up the hidden Dark Matter Cube in Compound Wall.",
+    description = "Pick up the hidden Dark Matter Cube in \"Compound Wall\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == COMPOUND[0] && levelSecondHalf() == COMPOUND[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000020)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -698,7 +705,7 @@ achievement(
 
 achievement(
     title = "Wait... Not Me!", points = 1,
-    description = "Release the Raptors from their cages in Entering the Base.",
+    description = "Release the Raptors from their cages in \"Entering the Base\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == ENTERING[0] && levelSecondHalf() == ENTERING[1] &&
               prev(dword_be((prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000040)) & 0x1FFFFFF) + 0x000008)) & 0x1FFFFFF) + 0x000018)) < 256 &&
@@ -708,7 +715,7 @@ achievement(
 
 achievement(
     title = "Weapon of the Ancients", points = 3,
-    description = "Pick up the hidden Plasma Cannon in Ruined City.",
+    description = "Pick up the hidden Plasma Cannon in \"Ruined City\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == RUINED_C[0] && levelSecondHalf() == RUINED_C[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000050)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -718,7 +725,7 @@ achievement(
 
 achievement(
     title = "Vulture Pellets", points = 2,
-    description = "Pick up the hidden Large Medkit in Dinosaur Graveyard.",
+    description = "Pick up the hidden Large Medkit in \"Dinosaur Graveyard\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == DINOSAUR[0] && levelSecondHalf() == DINOSAUR[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000174)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -728,7 +735,7 @@ achievement(
 
 achievement(
     title = "Sewer Safety", points = 3,
-    description = "Pick up the hidden Plasma Cannon in Street Combat.",
+    description = "Pick up the hidden Plasma Cannon in \"Street Combat\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == STREET_C[0] && levelSecondHalf() == STREET_C[1] &&
               prev(dword_be(prev(dword_be((prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x000920)) & 0x1FFFFFF) + 0x000128)) & 0x1FFFFFF)) == 1 &&
@@ -738,7 +745,7 @@ achievement(
 
 achievement(
     title = "Hurry Up!", points = 1,
-    description = "Pick up the soldier's Key in Sniper Hunting.",
+    description = "Pick up the soldier's key in \"Sniper Hunting\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == SNIPER_H[0] && levelSecondHalf() == SNIPER_H[1] &&
               prev(dword_be((dword_be((dword_be(0x3112B0) & 0x1FFFFFF) + 0x0000B4) &
               0x1FFFFFF) + 0x0004DC)) > 2147483648 &&
@@ -748,7 +755,7 @@ achievement(
 
 achievement(
     title = "Juggernaut Dissection", points = 3,
-    description = "Pick up an Overdrive in The Final Blow.",
+    description = "Pick up an Overdrive in \"The Final Blow\".",
     trigger = Cheats() && levelLoading() == 0 && levelTitleInUppercaseAscii() == THE_FINA[0] && levelSecondHalf() == THE_FINA[1] && 
 				float_be((dword_be((playerPointer() & 0x1FFFFFF) + 0x000A44) & 0x1FFFFFF) + 0x000084) > 0.0
 )
@@ -759,16 +766,17 @@ achievement(
 	trigger = ChapSpeedrun(INTO_THE, 1, 16200)
 )
 
+// Not sure if this works, check core logic
 achievement(
 	title = "Will You Be Quiet Now?", points = 5,
-	description = "Complete Ancient Ruins in 2 minutes and 40 seconds.", 
+	description = "Complete \"Ancient Ruins\" in 2 minutes and 40 seconds.", 
 	trigger = LvlSpeedrun(ANCIENT_[0], ANCIENT_[1], MOUNTAIN[0], MOUNTAIN[1], 15960)
 )
 
 // Manually move resets into Alt 1
 achievement(
-    title = "lvl10club", points = 5,
-    description = "Complete Mountain Ascent using only the Warclub.",
+    title = "Lemur Spirit Animal", points = 5,
+    description = "Complete \"Mountain Ascent\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && 
@@ -778,8 +786,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl11club", points = 10,
-    description = "Complete Summit Battle using only the Warclub.",
+    title = "Tyrannosaurus Spirit Animal", points = 10,
+    description = "Complete \"Summit Battle\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
@@ -790,8 +798,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl12club", points = 5,
-    description = "Complete Descent using only the Warclub.",
+    title = "Sabretoothed Hunter", points = 5,
+    description = "Complete \"Descent\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(4, 0) && BanSingleAmmoWeapon(5, 0) && 
@@ -802,8 +810,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl13club", points = 3,
-    description = "Complete Infiltration using only the Warclub.",
+    title = "ALERT ALERT", points = 3,
+    description = "Complete \"Infiltration\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
@@ -814,8 +822,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl14club", points = 3,
-    description = "Complete Compound Wall using only the Warclub.",
+    title = "INTRUDER ON THE COMPOUND", points = 3,
+    description = "Complete \"Compound Wall\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
@@ -827,8 +835,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl15club", points = 5,
-    description = "Complete Blockade using only the Warclub.",
+    title = "SECURE ALL CRITICAL AREAS", points = 5,
+    description = "Complete \"Blockade\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSingleAmmoWeapon(5, 0) && 
@@ -840,8 +848,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl16club", points = 3,
-    description = "Complete Entering the Base using only the Warclub.",
+    title = "MAINTAIN SEAL", points = 3,
+    description = "Complete \"Entering the Base\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && BanSecondAmmoWeapon(3, 0) && 
@@ -852,8 +860,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl17club", points = 10,
-    description = "Complete The Sleg Fortress using only the Warclub and 1 Grenade.",
+    title = "Fine, You Get One Grenade", points = 10,
+    description = "Complete \"The Sleg Fortress\" using only the Warclub and 1 grenade.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 1) && 
@@ -867,8 +875,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl18club", points = 3,
-    description = "Complete Sweep the Halls using only the Warclub.",
+    title = "Cobra Sniper", points = 3,
+    description = "Complete \"Sweep the Halls\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -882,8 +890,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl19club", points = 10,
-    description = "Complete The Search Continues using only the Warclub.",
+    title = "Melee Combat", points = 10,
+    description = "Complete \"The Search Continues\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -897,8 +905,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl20club", points = 10,
-    description = "Complete The Bowels of the Base using only the Warclub.",
+    title = "Booby-Trapped Dungeon", points = 10,
+    description = "Complete \"The Bowels of the Base\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -912,8 +920,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl21club", points = 5,
-    description = "Complete Reactor Core using only the Warclub.",
+    title = "Rigging the Core", points = 5,
+    description = "Complete \"Reactor Core\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -927,8 +935,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl22club", points = 5,
-    description = "Complete Meltdown using only the Warclub.",
+    title = "Teleporter Defuser", points = 5,
+    description = "Complete \"Meltdown\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -942,8 +950,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl23club", points = 5,
-    description = "Complete Interrogation using only the Warclub.",
+    title = "Giant Alien Hunter", points = 5,
+    description = "Complete \"Interrogation\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -957,8 +965,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl24club", points = 10,
-    description = "Complete Rescue the Wise Father using only the Warclub.",
+    title = "Prison Break", points = 10,
+    description = "Complete \"Rescue the Wise Father\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -972,8 +980,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl25club", points = 3,
-    description = "Complete Escape (Chapter 5) using only the Warclub.",
+    title = "Brawling Escorter", points = 3,
+    description = "Complete \"Escape\" (Chapter 5) using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -987,8 +995,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl26club", points = 3,
-    description = "Complete Shadowed Lands using only the Warclub.",
+    title = "Land of the Chimps", points = 3,
+    description = "Complete \"Shadowed Lands\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1002,8 +1010,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl27club", points = 5,
-    description = "Complete Ruined City using only the Warclub.",
+    title = "Temple Trekking", points = 5,
+    description = "Complete \"Ruined City\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1017,8 +1025,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl28club", points = 3,
-    description = "Complete Sentinels using only the Warclub.",
+    title = "Dueling Guardians", points = 3,
+    description = "Complete \"Sentinels\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1032,8 +1040,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl29club", points = 10,
-    description = "Complete Death from the Deep using only the Warclub.",
+    title = "Snipers From Above, Club From Below", points = 10,
+    description = "Complete \"Death from the Deep\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1047,8 +1055,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl30club", points = 3,
-    description = "Complete Dinosaur Graveyard using only the Warclub.",
+    title = "Terror Bird Feeding Ground", points = 3,
+    description = "Complete \"Dinosaur Graveyard\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1062,8 +1070,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl31club", points = 3,
-    description = "Complete The Bridge using only the Warclub.",
+    title = "Raptor Pit", points = 3,
+    description = "Complete \"The Bridge\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1077,8 +1085,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl35club", points = 3,
-    description = "Complete Assault using only the Warclub and 10 Missiles.",
+    title = "Don't Bring a Club to a Gunfight", points = 3,
+    description = "Complete \"Assault\" using only the Warclub and 10 missiles.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1092,8 +1100,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl36club", points = 3,
-    description = "Complete City Breach using only the Warclub and 9 Missiles.",
+    title = "Storming the Gates", points = 3,
+    description = "Complete \"City Breach\" using only the Warclub and 9 missiles.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1107,8 +1115,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl37club", points = 5,
-    description = "Complete Enter the City using only the Warclub and 2 Grenades.",
+    title = "The Guy with the Club Is Our Leader", points = 5,
+    description = "Complete \"Enter the City\" using only the Warclub and 2 grenades.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 2) && 
@@ -1122,8 +1130,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl39club", points = 10,
-    description = "Complete Sniper Hunting using only the Warclub.",
+    title = "Sniper Assassin", points = 10,
+    description = "Complete \"Sniper Hunting\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1137,8 +1145,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl40club", points = 10,
-    description = "Complete Arena using only the Warclub and 30 Flechettes.",
+    title = "Club vs. Living Battering Ram", points = 10,
+    description = "Complete \"Arena\" using only the Warclub and 30 flechettes.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1152,8 +1160,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl41club", points = 10,
-    description = "Complete Vertigo using only the Warclub.",
+    title = "Catwalk Clubber", points = 10,
+    description = "Complete \"Vertigo\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1167,8 +1175,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl42club", points = 10,
-    description = "Complete Beneath the Streets using only the Warclub.",
+    title = "No Brain, Only Club", points = 10,
+    description = "Complete \"Beneath the Streets\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1182,8 +1190,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl43club", points = 5,
-    description = "Complete Maintenance Tunnels using only the Warclub.",
+    title = "Maintaining the Population", points = 5,
+    description = "Complete \"Maintenance Tunnels\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1197,8 +1205,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl44club", points = 5,
-    description = "Complete The Library using only the Warclub.",
+    title = "Tales of Turok", points = 5,
+    description = "Complete \"The Library\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1212,8 +1220,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl46club", points = 10,
-    description = "Complete Halls of Battle using only the Warclub and 9 Missiles.",
+    title = "Halls of Blood", points = 10,
+    description = "Complete \"Halls of Battle\" using only the Warclub and 9 missiles.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1227,8 +1235,8 @@ achievement(
 )
 
 achievement(
-    title = "lvl47club", points = 10,
-    description = "Complete The Senate Chambers using only the Warclub.",
+    title = "Turok, Son of Club", points = 10,
+    description = "Complete \"The Senate Chambers\" using only the Warclub.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSecondAmmoWeapon(1, 0) && BanThirdAmmoWeapon(1, 0) && 
 			  BanSingleAmmoWeapon(2, 0) && BanSingleAmmoWeapon(3, 0) && 
@@ -1240,7 +1248,7 @@ achievement(
 
 achievement(
     title = "Excellence in the Field of Crapulence", points = 10,
-    description = "Complete Vengeance using only the Warclub and 3 or less Grenades.",
+    description = "Complete \"Vengeance\" using only the Warclub and 3 grenades.",
     trigger = ChapCheats() && 
               BanSingleAmmoWeapon(1, 0) && BanSingleAmmoWeapon(2, 3) && 
 			  BanSingleAmmoWeapon(3, 0) && BanSecondAmmoWeapon(3, 0) && 
