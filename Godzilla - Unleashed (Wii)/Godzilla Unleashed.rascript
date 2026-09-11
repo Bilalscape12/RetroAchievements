@@ -971,7 +971,7 @@ function Progression(Title, ID) {
         trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && IngameCheck(US) && 
         __ornext(storyMission(US) == 17 || storyMission(US) == 55) && missionComplete(US) > prev(missionComplete(US)) && 
         storyCharacter(US) == ID && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && IngameCheck(EU) && 
-        __ornext(storyMission(EU) == 17 || storyMission(US) == 55) && missionComplete(EU) > prev(missionComplete(EU)) && 
+        __ornext(storyMission(EU) == 17 || storyMission(EU) == 55) && missionComplete(EU) > prev(missionComplete(EU)) && 
         storyCharacter(EU) == ID && PointCheat(EU) && EUStoryCheat(EU)),
         type = "win_condition"
     )
@@ -1146,7 +1146,7 @@ achievement(
     custom1PowerupSpawnRate(EU) == 10 && custom1PowerSurgeTypes(EU) == 127 && custom1PowerSurgeSpawnRate(EU) == 20 && 
     custom1CriticalMassAccumulation(EU) == 20 && custom1Teams(EU) == 0 && 
     custom1HealthRegenerate(EU) == 10 && custom1EnergyRegenerate(EU) == 10 && custom1MonsterSpeed(EU) == 0 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 5 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
     custom2GameMode(EU) == 0 && custom2NumberOfRespawns(EU) == 0 && 
@@ -1155,7 +1155,7 @@ achievement(
     custom2PowerupSpawnRate(EU) == 10 && custom2PowerSurgeTypes(EU) == 127 && custom2PowerSurgeSpawnRate(EU) == 20 && 
     custom2CriticalMassAccumulation(EU) == 20 && custom2Teams(EU) == 0 && 
     custom2HealthRegenerate(EU) == 10 && custom2EnergyRegenerate(EU) == 10 && custom2MonsterSpeed(EU) == 0 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 6 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
     custom3GameMode(EU) == 0 && custom3NumberOfRespawns(EU) == 0 && 
@@ -1164,7 +1164,7 @@ achievement(
     custom3PowerupSpawnRate(EU) == 10 && custom3PowerSurgeTypes(EU) == 127 && custom3PowerSurgeSpawnRate(EU) == 20 && 
     custom3CriticalMassAccumulation(EU) == 20 && custom3Teams(EU) == 0 && 
     custom3HealthRegenerate(EU) == 10 && custom3EnergyRegenerate(EU) == 10 && custom3MonsterSpeed(EU) == 0 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 7 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 25 && p2Char(EU) == 19 && p3Char(EU) == 14 && p4Char(EU) == 17 && 
     custom4GameMode(EU) == 0 && custom4NumberOfRespawns(EU) == 0 && 
@@ -1173,7 +1173,7 @@ achievement(
     custom4PowerupSpawnRate(EU) == 10 && custom4PowerSurgeTypes(EU) == 127 && custom4PowerSurgeSpawnRate(EU) == 20 && 
     custom4CriticalMassAccumulation(EU) == 20 && custom4Teams(EU) == 0 && 
     custom4HealthRegenerate(EU) == 10 && custom4EnergyRegenerate(EU) == 10 && custom4MonsterSpeed(EU) == 0 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU))
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1224,7 +1224,7 @@ achievement(
     custom1PowerupSpawnRate(EU) == 10 && custom1PowerSurgeTypes(EU) == 0 && custom1PowerSurgeSpawnRate(EU) == 0 && 
     custom1CriticalMassAccumulation(EU) == 10 && custom1Teams(EU) == 1 && custom1TeamSelection(EU) == 14 && 
     custom1HealthRegenerate(EU) == 10 && custom1EnergyRegenerate(EU) == 10 && custom1MonsterSpeed(EU) == 1 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 5 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
     custom2GameMode(EU) == 0 && custom2NumberOfRespawns(EU) == 0 && 
@@ -1233,7 +1233,7 @@ achievement(
     custom2PowerupSpawnRate(EU) == 10 && custom2PowerSurgeTypes(EU) == 0 && custom2PowerSurgeSpawnRate(EU) == 0 && 
     custom2CriticalMassAccumulation(EU) == 10 && custom2Teams(EU) == 1 && custom2TeamSelection(EU) == 14 && 
     custom2HealthRegenerate(EU) == 10 && custom2EnergyRegenerate(EU) == 10 && custom2MonsterSpeed(EU) == 1 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 6 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
     custom3GameMode(EU) == 0 && custom3NumberOfRespawns(EU) == 0 && 
@@ -1242,7 +1242,7 @@ achievement(
     custom3PowerupSpawnRate(EU) == 10 && custom3PowerSurgeTypes(EU) == 0 && custom3PowerSurgeSpawnRate(EU) == 0 && 
     custom3CriticalMassAccumulation(EU) == 10 && custom3Teams(EU) == 1 && custom3TeamSelection(EU) == 14 && 
     custom3HealthRegenerate(EU) == 10 && custom3EnergyRegenerate(EU) == 10 && custom3MonsterSpeed(EU) == 1 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU)) || 
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU)) || 
     (EUHash() && BrawlGuards(EU) && Cheat(EU) && IngameCheck(EU) && 
     gameMode(EU) == 7 && difficulty(EU) == 2 && numOfPlayers(EU) == 4 && p1Char(EU) == 0 && p2Char(EU) == 6 && p3Char(EU) == 5 && p4Char(EU) == 1 && 
     custom4GameMode(EU) == 0 && custom4NumberOfRespawns(EU) == 0 && 
@@ -1251,7 +1251,7 @@ achievement(
     custom4PowerupSpawnRate(EU) == 10 && custom4PowerSurgeTypes(EU) == 0 && custom4PowerSurgeSpawnRate(EU) == 0 && 
     custom4CriticalMassAccumulation(EU) == 10 && custom4Teams(EU) == 1 && custom4TeamSelection(EU) == 14 && 
     custom4HealthRegenerate(EU) == 10 && custom4EnergyRegenerate(EU) == 10 && custom4MonsterSpeed(EU) == 1 && 
-    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && StoryCheat(EU))
+    p1RoundsWon(EU) == 2 && p1RoundsWon(EU) > prev(p1RoundsWon(EU)) && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1280,7 +1280,7 @@ achievement(
     monstersUnlocked3(bit5, EU) == 1 && 
     monstersAvailable1(bit0, EU) == 1 && monstersAvailable1(bit1, EU) == 1 && 
     monstersAvailable2(bit1, EU) == 1 && monstersAvailable3(bit4, EU) == 1 && 
-    monstersAvailable3(bit5, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+    monstersAvailable3(bit5, EU) == 1 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1304,7 +1304,7 @@ achievement(
     monstersUnlocked2(bit6, EU) == 1 && monstersUnlocked3(bit0, EU) == 1 && 
     monstersUnlocked3(bit1, EU) == 1 && monstersUnlocked3(bit2, EU) == 1 && 
     monstersAvailable2(bit6, EU) == 1 && monstersAvailable3(bit0, EU) == 1 && 
-    monstersAvailable3(bit1, EU) == 1 && monstersAvailable3(bit2, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+    monstersAvailable3(bit1, EU) == 1 && monstersAvailable3(bit2, EU) == 1 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1320,7 +1320,7 @@ achievement(
     __ornext(monstersUnlocked3(bit3, EU) > prev(monstersUnlocked3(bit3, EU)) || 
     monstersUnlocked3(bit6, EU) > prev(monstersUnlocked3(bit6, EU))) && 
     monstersUnlocked3(bit3, EU) == 1 && monstersUnlocked3(bit6, EU) == 1 && 
-    monstersAvailable3(bit3, EU) == 1 && monstersAvailable3(bit3, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+    monstersAvailable3(bit3, EU) == 1 && monstersAvailable3(bit3, EU) == 1 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1352,7 +1352,7 @@ achievement(
     monstersUnlocked2(bit5, EU) == 1 && monstersUnlocked2(bit7, EU) == 1 && 
     monstersAvailable2(bit0, EU) == 1 && monstersAvailable2(bit2, EU) == 1 && 
     monstersAvailable2(bit3, EU) == 1 && monstersAvailable2(bit4, EU) == 1 && 
-    monstersAvailable2(bit5, EU) == 1 && monstersAvailable2(bit7, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+    monstersAvailable2(bit5, EU) == 1 && monstersAvailable2(bit7, EU) == 1 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1361,9 +1361,9 @@ achievement(
     points = 25,
     trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
     monstersUnlocked3(bit7, US) > prev(monstersUnlocked3(bit7, US)) && 
-    monstersUnlocked3(bit7, US) == 1 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
-    monstersAvailable3(bit7, EU) > prev(monstersAvailable3(bit7, EU)) && 
-    monstersAvailable3(bit7, EU) == 1 && PointCheat(EU) && StoryCheat(EU))
+    monstersUnlocked3(bit7, US) == 1 && monstersAvailable3(bit7, US) == 1 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
+    monstersUnlocked3(bit7, EU) > prev(monstersUnlocked3(bit7, EU)) && 
+    monstersUnlocked3(bit7, EU) == 1 && monstersAvailable3(bit7, EU) == 1 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1372,7 +1372,7 @@ achievement(
     points = 10,
     trigger = always_true() && (USHash() && Guards(US) && Cheat(US) && OutgameCheck(US) && 
     environments(US) > prev(environments(US)) && environments(US) == 127 && PointCheat(US) && StoryCheat(US) || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
-    environments(EU) > prev(environments(EU)) && environments(EU) == 127 && PointCheat(EU) && StoryCheat(EU))
+    environments(EU) > prev(environments(EU)) && environments(EU) == 127 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1386,7 +1386,7 @@ achievement(
     || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
     __ornext(gallery11(EU) > prev(gallery11(EU)) || gallery12(EU) > prev(gallery12(EU)) || 
     gallery13(EU) > prev(gallery13(EU)) || gallery14(EU) > prev(gallery14(EU))) && 
-    gallery11(EU) == 7 && gallery12(EU) == 255 && gallery13(EU) == 255 && gallery14(EU) == 255 && PointCheat(EU) && StoryCheat(EU))
+    gallery11(EU) == 7 && gallery12(EU) == 255 && gallery13(EU) == 255 && gallery14(EU) == 255 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 achievement(
@@ -1400,7 +1400,7 @@ achievement(
     || EUHash() && Guards(EU) && Cheat(EU) && OutgameCheck(EU) && 
     __ornext(gallery21(EU) > prev(gallery21(EU)) || gallery22(EU) > prev(gallery22(EU)) || 
     gallery23(EU) > prev(gallery23(EU)) || gallery24(EU) > prev(gallery24(EU))) && 
-    gallery21(EU) == 3 && gallery22(EU) == 255 && gallery23(EU) == 255 && gallery24(EU) == 255 && PointCheat(EU) && StoryCheat(EU))
+    gallery21(EU) == 3 && gallery22(EU) == 255 && gallery23(EU) == 255 && gallery24(EU) == 255 && PointCheat(EU) && EUStoryCheat(EU))
 )
 
 leaderboard(
