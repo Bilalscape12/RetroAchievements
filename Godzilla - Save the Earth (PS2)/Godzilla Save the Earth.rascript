@@ -1,6 +1,11 @@
 // Godzilla: Save the Earth
 // #ID = 20849
 
+// Mothra in action mode uses 10/11/13 rounds instead of the usual 9/12/14
+// this affects mothra cheevos/lbs and vortaak vanquisher
+// Survival mode cheevos need a hp check with a hitcount for dying
+// ASCII checks can be optimized by checking the 32 bit address instead of using stringcompare
+
 // $696D34: Game type [32-bit]
 //          1 = Versus
 //          2 = Team battle
@@ -705,6 +710,7 @@ function ProgressionWin(CharId) {
 	return Demo() && Cheats() && gameType() == 5 && 
 		actionModeScore() > prev(actionModeScore()) && 
 		StringCompare(p1CharacterAscii(), CharId) && 
+  // 10/11/13 for mothra
 		((actionDifficulty() == 0 && actionSurvivalRounds() == 9) || 
 		(actionDifficulty() == 1 && actionSurvivalRounds() == 12) || 
 		(actionDifficulty() == 2 && actionSurvivalRounds() == 14))
@@ -748,6 +754,7 @@ function ActionWinDifficulty(CharId, Difficulty) {
 		if (Difficulty == 1)
 			trigger = trigger && actionSurvivalRounds() == 12
 		if (Difficulty == 2)
+  // 13 for mothra
 			trigger = trigger && actionSurvivalRounds() == 14
 	return trigger
 }
@@ -1000,7 +1007,8 @@ achievement(
 
 function SurvivalWin() {
 	return Demo() && Cheats() && gameType() == 6 && 
-		survivalRounds() == 14 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore())
+		meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore()) && 
+		__ornext(survivalRounds() == 14 || actionSurvivalRounds() == 15)
 }
 
 function Survival(Title, Points) {
@@ -1015,40 +1023,41 @@ function Survival(Title, Points) {
 // Beat Survival
 Survival("Survivor", 5)
 
-function SurvivalWinDifficulty(CharId, Difficulty) {
+function SurvivalWinDifficulty(CharId, EnemyCharId, Difficulty) {
 	return Demo() && Cheats() && gameType() == 6 && survivalDifficulty() == Difficulty && 
-		survivalRounds() == 14 && meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore()) && 
-		StringCompare(p1CharacterAscii(), CharId)
+		meleeSurvivalP1CurrentScore() > prev(meleeSurvivalP1CurrentScore()) && 
+		StringCompare(p1CharacterAscii(), CharId) && 
+		ascii_string_equals(0x6C5A28, EnemyCharId)
 }
 
-function SurvivalHard(Title, Name, Points, CharId) {
+function SurvivalHard(Title, Name, Points, CharId, EnemyCharId) {
 	achievement(
 		title = Title, 
 		description = "Complete Survival Mode using " + Name + " on Hard difficulty",
 		points = Points,  
-		trigger = SurvivalWinDifficulty(CharId, 2)
+		trigger = SurvivalWinDifficulty(CharId, EnemyCharId, 2)
 	)
 }
 
 // Beat Survival on Hard
-SurvivalHard("For the People", "Godzilla 2000", 10, Godzilla2000Id)
-SurvivalHard("For the Planet", "Godzilla 90's", 10, Godzilla90Id)
-SurvivalHard("I Am a MONSTER", "Gigan", 10, GiganId)
-SurvivalHard("Bark Bark Woof Woof", "Anguirus", 10, AnguirusId)
-SurvivalHard("Drilling Deep for Survival", "Megalon", 10, MegalonId)
-SurvivalHard("Here Comes Rodan, Giant Pterosaur", "Rodan", 10, RodanId)
-SurvivalHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId)
-SurvivalHard("Metallic Endurance", "Mechagodzilla 2", 10, Mechagodzilla2Id)
-SurvivalHard("Large, Enormous, Sinister, Big, Intelligent and Nasty Superbeing", "Destoroyah", 10, DestoroyahId)
-SurvivalHard("Black Hole Survivor", "Megaguirus", 10, MegaguirusId)
-SurvivalHard("Head-Sized Knuckles", "Orga", 10, OrgaId)
-SurvivalHard("Cybernetic Reign", "Mecha-King Ghidorah", 10, MechaghidorahId)
-SurvivalHard("A Little Soft in the Tummy Area", "Baragon", 10, BaragonId)
-SurvivalHard("Wings of Resilience", "Mothra", 10, MothraId)
-SurvivalHard("Tokyo S.O.S.", "Mechagodzilla 3", 10, Mechagodzilla3Id)
-SurvivalHard("Friend of Justice", "Jet Jaguar", 10, JetjaguarId)
-SurvivalHard("Monster Expert Robot, Hello", "Moguera 2", 10, Moguera2Id)
-SurvivalHard("Kyber Crystal Wielder", "Space Godzilla", 10, SpacegodzillaId)
+SurvivalHard("For the People", "Godzilla 2000", 10, Godzilla2000Id, "spacegodzilla")
+SurvivalHard("For the Planet", "Godzilla 90's", 10, Godzilla90Id, "mechagodzilla3")
+SurvivalHard("I Am a MONSTER", "Gigan", 10, GiganId, "spacegodzilla")
+SurvivalHard("Bark Bark Woof Woof", "Anguirus", 10, AnguirusId, "mechagodzilla3")
+SurvivalHard("Drilling Deep for Survival", "Megalon", 10, MegalonId, "mechagodzilla3")
+SurvivalHard("Here Comes Rodan, Giant Pterosaur", "Rodan", 10, RodanId, "mechagodzilla3")
+SurvivalHard("Three Throbbing Heads", "King Ghidorah", 10, GhidorahId, "mechagodzilla3")
+SurvivalHard("Metallic Endurance", "Mechagodzilla 2", 10, Mechagodzilla2Id, "mechagodzilla3")
+SurvivalHard("Large, Enormous, Sinister, Big, Intelligent and Nasty Superbeing", "Destoroyah", 10, DestoroyahId, "mechagodzilla3")
+SurvivalHard("Black Hole Survivor", "Megaguirus", 10, MegaguirusId, "mechagodzilla3")
+SurvivalHard("Head-Sized Knuckles", "Orga", 10, OrgaId, "mechagodzilla3")
+SurvivalHard("Cybernetic Reign", "Mecha-King Ghidorah", 10, MechaghidorahId, "mechagodzilla3")
+SurvivalHard("A Little Soft in the Tummy Area", "Baragon", 10, BaragonId, "mechagodzilla3")
+SurvivalHard("Wings of Resilience", "Mothra", 10, MothraId, "mechagodzilla3")
+SurvivalHard("Tokyo S.O.S.", "Mechagodzilla 3", 10, Mechagodzilla3Id, "spacegodzilla")
+SurvivalHard("Friend of Justice", "Jet Jaguar", 10, JetjaguarId, "mechagodzilla3")
+SurvivalHard("Monster Expert Robot, Hello", "Moguera 2", 10, Moguera2Id, "mechagodzilla3")
+SurvivalHard("Kyber Crystal Wielder", "Space Godzilla", 10, SpacegodzillaId, "mechagodzilla3")
 
 function SurvivalName(Name, Difficulty) {
 	trigger = "Survival: "
@@ -1061,12 +1070,13 @@ function SurvivalName(Name, Difficulty) {
 	return trigger
 }
 
-function SurvivalScoreLB(Name, CharId, Difficulty) {
+function SurvivalScoreLB(Name, CharId, EnemyCharId, Difficulty) {
 	leaderboard(
 		SurvivalName(Name, Difficulty), 
 		"Earn the highest score", 
-		mainMenuState() < prev(mainMenuState()) && Cheats() && gameType() == 6 && survivalDifficulty() == Difficulty && 
-		StringCompare(p1CharacterAscii(), CharId), 
+		prev(dword(0x6af86c)) == 1 && dword(0x6af86c) == 0 && Cheats() && gameType() == 6 && survivalDifficulty() == Difficulty && 
+		StringCompare(p1CharacterAscii(), CharId) && 
+		ascii_string_equals(0x6C5A28, EnemyCharId), 
 		always_false(), 
 		always_true(), 
 		meleeSurvivalP1CurrentScore(), 
@@ -1075,60 +1085,60 @@ function SurvivalScoreLB(Name, CharId, Difficulty) {
 	)
 }
 
-SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, 0)
-SurvivalScoreLB("Godzilla 90's", Godzilla90Id, 0)
-SurvivalScoreLB("Gigan", GiganId, 0)
-SurvivalScoreLB("Anguirus", AnguirusId, 0)
-SurvivalScoreLB("Megalon", MegalonId, 0)
-SurvivalScoreLB("Rodan", RodanId, 0)
-SurvivalScoreLB("King Ghidorah", GhidorahId, 0)
-SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, 0)
-SurvivalScoreLB("Destoroyah", DestoroyahId, 0)
-SurvivalScoreLB("Megaguirus", MegaguirusId, 0)
-SurvivalScoreLB("Orga", OrgaId, 0)
-SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, 0)
-SurvivalScoreLB("Baragon", BaragonId, 0)
-SurvivalScoreLB("Mothra", MothraId, 0)
-SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, 0)
-SurvivalScoreLB("Jet Jaguar", JetjaguarId, 0)
-SurvivalScoreLB("Moguera 2", Moguera2Id, 0)
-SurvivalScoreLB("Space Godzilla", SpacegodzillaId, 0)
-SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, 1)
-SurvivalScoreLB("Godzilla 90's", Godzilla90Id, 1)
-SurvivalScoreLB("Gigan", GiganId, 1)
-SurvivalScoreLB("Anguirus", AnguirusId, 1)
-SurvivalScoreLB("Megalon", MegalonId, 1)
-SurvivalScoreLB("Rodan", RodanId, 1)
-SurvivalScoreLB("King Ghidorah", GhidorahId, 1)
-SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, 1)
-SurvivalScoreLB("Destoroyah", DestoroyahId, 1)
-SurvivalScoreLB("Megaguirus", MegaguirusId, 1)
-SurvivalScoreLB("Orga", OrgaId, 1)
-SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, 1)
-SurvivalScoreLB("Baragon", BaragonId, 1)
-SurvivalScoreLB("Mothra", MothraId, 1)
-SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, 1)
-SurvivalScoreLB("Jet Jaguar", JetjaguarId, 1)
-SurvivalScoreLB("Moguera 2", Moguera2Id, 1)
-SurvivalScoreLB("Space Godzilla", SpacegodzillaId, 1)
-SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, 2)
-SurvivalScoreLB("Godzilla 90's", Godzilla90Id, 2)
-SurvivalScoreLB("Gigan", GiganId, 2)
-SurvivalScoreLB("Anguirus", AnguirusId, 2)
-SurvivalScoreLB("Megalon", MegalonId, 2)
-SurvivalScoreLB("Rodan", RodanId, 2)
-SurvivalScoreLB("King Ghidorah", GhidorahId, 2)
-SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, 2)
-SurvivalScoreLB("Destoroyah", DestoroyahId, 2)
-SurvivalScoreLB("Megaguirus", MegaguirusId, 2)
-SurvivalScoreLB("Orga", OrgaId, 2)
-SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, 2)
-SurvivalScoreLB("Baragon", BaragonId, 2)
-SurvivalScoreLB("Mothra", MothraId, 2)
-SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, 2)
-SurvivalScoreLB("Jet Jaguar", JetjaguarId, 2)
-SurvivalScoreLB("Moguera 2", Moguera2Id, 2)
-SurvivalScoreLB("Space Godzilla", SpacegodzillaId, 2)
+SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, "spacegodzilla", 0)
+SurvivalScoreLB("Godzilla 90's", Godzilla90Id, "mechagodzilla3", 0)
+SurvivalScoreLB("Gigan", GiganId, "spacegodzilla", 0)
+SurvivalScoreLB("Anguirus", AnguirusId, "mechagodzilla3", 0)
+SurvivalScoreLB("Megalon", MegalonId, "mechagodzilla3", 0)
+SurvivalScoreLB("Rodan", RodanId, "mechagodzilla3", 0)
+SurvivalScoreLB("King Ghidorah", GhidorahId, "mechagodzilla3", 0)
+SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, "mechagodzilla3", 0)
+SurvivalScoreLB("Destoroyah", DestoroyahId, "mechagodzilla3", 0)
+SurvivalScoreLB("Megaguirus", MegaguirusId, "mechagodzilla3", 0)
+SurvivalScoreLB("Orga", OrgaId, "mechagodzilla3", 0)
+SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, "mechagodzilla3", 0)
+SurvivalScoreLB("Baragon", BaragonId, "mechagodzilla3", 0)
+SurvivalScoreLB("Mothra", MothraId, "mechagodzilla3", 0)
+SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, "spacegodzilla", 0)
+SurvivalScoreLB("Jet Jaguar", JetjaguarId, "mechagodzilla3", 0)
+SurvivalScoreLB("Moguera 2", Moguera2Id, "mechagodzilla3", 0)
+SurvivalScoreLB("Space Godzilla", SpacegodzillaId, "mechagodzilla3", 0)
+SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, "spacegodzilla", 1)
+SurvivalScoreLB("Godzilla 90's", Godzilla90Id, "mechagodzilla3", 1)
+SurvivalScoreLB("Gigan", GiganId, "spacegodzilla", 1)
+SurvivalScoreLB("Anguirus", AnguirusId, "mechagodzilla3", 1)
+SurvivalScoreLB("Megalon", MegalonId, "mechagodzilla3", 1)
+SurvivalScoreLB("Rodan", RodanId, "mechagodzilla3", 1)
+SurvivalScoreLB("King Ghidorah", GhidorahId, "mechagodzilla3", 1)
+SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, "mechagodzilla3", 1)
+SurvivalScoreLB("Destoroyah", DestoroyahId, "mechagodzilla3", 1)
+SurvivalScoreLB("Megaguirus", MegaguirusId, "mechagodzilla3", 1)
+SurvivalScoreLB("Orga", OrgaId, "mechagodzilla3", 1)
+SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, "mechagodzilla3", 1)
+SurvivalScoreLB("Baragon", BaragonId, "mechagodzilla3", 1)
+SurvivalScoreLB("Mothra", MothraId, "mechagodzilla3", 1)
+SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, "spacegodzilla", 1)
+SurvivalScoreLB("Jet Jaguar", JetjaguarId, "mechagodzilla3", 1)
+SurvivalScoreLB("Moguera 2", Moguera2Id, "mechagodzilla3", 1)
+SurvivalScoreLB("Space Godzilla", SpacegodzillaId, "mechagodzilla3", 1)
+SurvivalScoreLB("Godzilla 2000", Godzilla2000Id, "spacegodzilla", 2)
+SurvivalScoreLB("Godzilla 90's", Godzilla90Id, "mechagodzilla3", 2)
+SurvivalScoreLB("Gigan", GiganId, "spacegodzilla", 2)
+SurvivalScoreLB("Anguirus", AnguirusId, "mechagodzilla3", 2)
+SurvivalScoreLB("Megalon", MegalonId, "mechagodzilla3", 2)
+SurvivalScoreLB("Rodan", RodanId, "mechagodzilla3", 2)
+SurvivalScoreLB("King Ghidorah", GhidorahId, "mechagodzilla3", 2)
+SurvivalScoreLB("Mechagodzilla 2", Mechagodzilla2Id, "mechagodzilla3", 2)
+SurvivalScoreLB("Destoroyah", DestoroyahId, "mechagodzilla3", 2)
+SurvivalScoreLB("Megaguirus", MegaguirusId, "mechagodzilla3", 2)
+SurvivalScoreLB("Orga", OrgaId, "mechagodzilla3", 2)
+SurvivalScoreLB("Mecha-King Ghidorah", MechaghidorahId, "mechagodzilla3", 2)
+SurvivalScoreLB("Baragon", BaragonId, "mechagodzilla3", 2)
+SurvivalScoreLB("Mothra", MothraId, "mechagodzilla3", 2)
+SurvivalScoreLB("Mechagodzilla 3", Mechagodzilla3Id, "spacegodzilla", 2)
+SurvivalScoreLB("Jet Jaguar", JetjaguarId, "mechagodzilla3", 2)
+SurvivalScoreLB("Moguera 2", Moguera2Id, "mechagodzilla3", 2)
+SurvivalScoreLB("Space Godzilla", SpacegodzillaId, "mechagodzilla3", 2)
 
 // Versus/Melee
 function TwovTwo(P1, P2, P3, P4) {
